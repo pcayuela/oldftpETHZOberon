@@ -1,0 +1,24 @@
+From:	ryser@inf.ethz.ch
+Subject:	Net driver for PCI based NE2000 clones
+Date:	Tue, 11 Jan 2000 11:09:57 +0100
+To:	muller@inf.ethz.ch
+
+This network driver for PCI based NE2000 clones supports
+	"RealTek RTL-8029";
+	"Winbond 89C940";
+	"Compex RL2000";
+	 "KTI ET32P2";
+	"NetVin NV5000SC";
+	"Via 86C926";
+	"SureCom NE34";
+	"Winbond";
+	"Holtek HT80232";
+	"Holtek HT80229";
+
+Tested only for the RealTek card in a 10Base-2 network.
+
+It shouldn't be too difficult to include support for ISA based cards.
+If I can get such a card I will do it (perhaps).
+
+- Peter
+

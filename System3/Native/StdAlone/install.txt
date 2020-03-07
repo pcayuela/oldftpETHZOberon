@@ -1,0 +1,480 @@
+ETH Native Oberon System 3 Release 2.3.6 (Stand-alone)
+
+
+Native Oberon is a self-contained operating system for Intel-based
+personal computers. The latest information about the system is
+available at http://www.oberon.ethz.ch/native/
+
+This text describes how to install stand-alone Native Oberon. We
+recommend printing it for reference during installation. The
+stand-alone version is best installed in a separate partition on
+the hard disk. A DOS-based version of Native Oberon is also
+available, which boots from DOS or Windows 95. Refer to the
+separate installation documentation on installing the DOS-based
+version.
+
+
+1. HARDWARE REQUIREMENTS
+
+The system runs on the bare PC in 32-bit mode, and does not use the
+16-bit drivers in the PC BIOS, or drivers from other operating
+systems.
+
+The *minimum* hardware requirements are:
+  Processor: 80386, Pentium or compatible
+  Bus: ISA, EISA or PCI
+  Memory: 4Mb
+  Disk space: 3Mb
+  Disk controller: IDE, EIDE (ATA), ESDI, Adaptec AIC 7xxx (beta),
+Adaptec 1520 or NCR 810 SCSI
+  Display controller: VGA (SVGA recommended)
+  Diskette: Drive supporting 720k/1.44Mb media
+  Mouse: PS/2 or serial mouse (3-button recommended)
+  Keyboard: US, UK, Swiss German, German, Canadian, Norwegian,
+Turkish, Polish, French or Dvorak
+
+The following optional hardware are supported:
+  NIC: 3Com 3C509 Etherlink III or 3C905B FastEtherLink
+  Dialup: Standard modem (not WinModem) with SLIP or PPP internet
+service provider
+  Sound: Soundblaster
+
+
+2. INSTALLATION DISKETTE
+
+To install the system, an installation diskette must be available.
+This diskette can be created by writing the installation diskette
+image file (oberon0.dsk) to a formatted 1.44Mb diskette. This is
+done using the DOS rawrite.exe program provided or the Unix dd
+tool. Note that the install diskette is a bootable diskette that
+can not be read by DOS.
+
+2.1 Creating the diskette on DOS
+
+Run rawrite.exe and enter the image name (oberon0.dsk) when
+prompted for a source file name. Assuming that a: is a diskette
+drive containing a 1.44Mb formatted diskette, enter "a" when
+prompted for a destination drive. The diskette image is written to
+the diskette and verified.
+
+The same procedure can be used on Windows 95/NT or OS/2. (On OS/2
+the loaddskf utility can also be used instead of rawrite.exe. Use:
+"loaddskf oberon0.dsk a:").
+
+2.2 Creating the diskette on Unix
+
+Place a 1.44Mb formatted diskette in the drive (say /dev/fd0) and
+enter the command "dd bs=512 if=oberon0.dsk of=/dev/fd0" to write
+the image to the diskette.
+
+
+3. INSTALLING NATIVE OBERON
+
+The installation diskette contains Oberon-0. This is a small
+ramdisk-based Native Oberon system which is used to install the
+basic Native Oberon system on a hard disk.
+
+Standalone Native Oberon can co-exist with other operating systems
+on the same hard disk in at least three ways:
+
+o Separate bootable partition with boot manager. A boot manager
+  (not supplied) allows booting of Oberon or other operating
+  systems.
+o Separate bootable partition without boot manager. Oberon boots
+  directly from the hard disk. The other operating system is booted
+  from a diskette.
+o Separate non-bootable partition. The Oberon kernel is booted from
+  a diskette and then proceeds to load from the hard disk.
+
+3.1 Booting the installation diskette
+
+Insert the installation diskette and switch on the machine. It will
+display "OBERON System 3" and then display the "OBL>" prompt. Here
+configuration strings can be entered before continuing the boot
+process. In the normal case, no additional configuration strings
+are required, so simply enter "c" to continue. The screen will go
+blank, and the diskette will become active again while the ramdisk
+is initialized. In less than a minute the Oberon screen will appear
+with a colorful pattern, and then the mouse configuration program
+will appear. You must configure the mouse by following the
+on-screen instructions before continuing. If the Oberon screen does
+not appear, see the troubleshooting section of this document.
+
+Important: If the QNX operating system is installed on your system,
+the default partition type of Native Oberon must be changed to
+avoid conflicts by entering "PartType=80" at the OBL prompt. (The
+Technical section of the Native Oberon web site documents more
+configuration options).
+
+3.2 First-time Oberon users
+
+If you have never used Oberon before, you will have to get used to
+its novel user interface. A small tuturial is included in the
+Oberon-0 system. To open the tutorial text, move the mouse cursor
+to the first blue-colored "Edit.Open" command in the Install.Tool
+text, and press the middle mouse button on a three-button mouse. If
+you only have a two-button mouse, the keyboard Ctrl key is used
+instead of the middle mouse button. (Oberon uses all combinations
+of the three mouse buttons heavily, so a three-button mouse is
+highly recommended).
+
+The "Edit.Open" command described above will open a text called
+Introduction.Text, which introduces the concepts of the Oberon user
+interface necessary to continue the installation process.
+
+3.3 Using Oberon-0 to install Oberon
+
+The Install.Tool text contains instructions for installing Oberon.
+Only the first page is relevant when installing the system the
+first time. The rest of the text contains "appendices" on various
+topics.
+
+1. Select the appropriate disk driver from one of the options
+provided. Do this by executing the relevant blue command by
+clicking the middle button on it. The command will display your
+selection in the system log. It might take a couple of seconds for
+the driver to initialize.
+
+2. Install the Oberon system files on your hard disk. Open the tool
+provided and follow the instructions there. The tool presents
+several options, of which you have to choose one. Take a few
+minutes to understand the different options presented. (If you need
+to free up partition space for Oberon, a product like
+PartitionMagic or the freely available FIPS can be used).
+
+3. Configure the system by specifying the display and keyboard
+driver and, if required, modifying the customization options. Then
+write the configuration using at least one of the options
+presented. That's it!
+
+Note that you can use Oberon-0 at any time to reconfigure your
+existing system. Boot the installation diskette and go to step 3 in
+Install.Tool.
+
+If at any time during installation a trap viewer or an error
+message appears that can not be explained, contact the author at
+the address mentioned below. Please note exactly what happened, and
+if possible follow the instructions in Appendix C of Install.Tool.
+
+3.4 Optional packages
+
+The basic Oberon system that has been installed above is a fully
+functional Oberon programming environment containing text and
+documentation editors, networking (Telnet and Mail) and an Oberon
+compiler.
+
+In addition, the following optional packages are available. They
+are installed from within Oberon (not Oberon-0).
+
+Gadgets: Graphical user interface & WWW tools
+Documentation: Guides, examples & book (requires Gadgets)
+Applications: Additional applications (requires Gadgets)
+Tutorials: Old hypertext tutorials for Gadgets (requires Gadgets)
+Pr3Fonts: 300 dpi Oberon Fonts for printing
+Pr6Fonts: 600 dpi Oberon Fonts (for PostScript printer only)
+Source code: Full sources of the system, excluding the Kernel and
+some beta code
+
+The Gadgets package contains the Gadgets graphical user interface
+framework and some standard Gadgets-based applications. Rembrandt
+is used to edit bitmaps and Leonardo is used for complex line-based
+illustrations. All standard applications are reachable via
+hyperlinks from the System3.Tool text. The Gadgets framework
+supports window tiling (useful for programming or text editing) and
+a desktop interface with arbitrary window overlapping. The Gadgets
+package also contains additional Internet tools: a simple WWW
+browser, a Mail tool with Oberon document support, an FTP tool and
+Gopher, News and Finger clients. All the additional tools are
+reachable from the Network.Tool text. The Gadgets package is a
+prerequisite.
+
+The Documentation package contains extensive documentation and
+examples about Oberon System 3 and the Gadgets framework and
+applications, as well as an electronic copy of the Oberon Companion
+book. The SamplePrograms.Tool lists the examples and the
+Documentation.Tool contains links to all the documentation.
+
+The Applications package has several additional applications and
+games contributed by ETH students and other Oberon users. The
+Applications.Tool has links to all the applications. Most of the
+applications require the Gadgets package, and some require
+networking support.
+
+The Tutorials package contains hypertext-based tuturials (now
+slightly out of date) for the Oberon system. The Gadget packages is
+required.
+
+The Pr3Fonts (300dpi) and Pr6Fonts (600dpi) printer font packages
+are only necessary when a printer driver is configured. Currently
+only the PostScript and LPR printer drivers support 600dpi
+printing.
+
+The sources are only required if you want to study or modify the
+system.
+
+3.5 Installing packages
+
+The packages are distributed as Oberon-compressed .arc files. These
+files must reside on a DOS-format hard disk or diskette drive
+during package installation. This means they have to be copied from
+the Internet or distribution CD to a local hard disk or to
+DOS-formatted diskettes. The following table lists the package file
+names and approximate installed size (Mb compressed and Mb
+uncompressed) and shows how the files could be distributed on 7
+diskettes (plus one for Oberon-0) for further installation.
+
+PACKAGE        FILENAME        SIZE   DSK 
+------------------------------------------
+Oberon-0       oberon0.dsk             0
+Gadgets        gadgets.arc   1.4  2.9  1
+Documentation  docu.arc      1.3  2.5  2
+Applications   apps.arc      1.3  2.8  3
+Tutorials      tutorial.arc  0.3  0.8  4
+Pr3Fonts       pr3fonts.arc  0.3  0.6  4
+Pr6Fonts       pr6fonts.arc  0.5  1.8  4
+Source1        source1.arc   0.9  2.5  5
+Source2        source2.arc   1.2  3.5  6
+Source3        source3.arc   0.6  1.7  7
+
+During installation some temporary disk space is required.
+Therefore you will need about 30% more disk space than indicated
+above (30Mb is enough for all packages).
+
+To install one or more packages from within Native Oberon, open the
+System.Text with the Script.Open command provided at the top of the
+System.Tool and follow the instructions in the section "Installing
+the optional packages".
+
+
+4. ADDITIONAL INSTALLATION INFORMATION
+
+4.1 Appendices in Install.Tool
+
+The Install.Tool in Oberon-0 contains appendices with additional
+commands that may be useful for recovery purposes. Appendix A
+describes how to reactivate the previous operating system if the PC
+does not boot any more. Appendix B describes how to recover a
+Native Oberon file system with a damaged directory. Appendix C
+suggests how to send an error report to the author. Appendix D
+contains commands for advanced users.
+
+4.2 Disk drivers
+
+The new "Standard ATA/EIDE" driver is recommended for all IDE and
+EIDE drives, and should detect most modern drives (>100 Mb)
+automatically. The new driver is incompatible with the old Atapi CD
+driver. Symptom: When a button on the CDAudio.Panel is pressed, a
+TRAP 8 occurs in Kernel.InstallIP. Workaround: Set config string
+IDE1=0 at the OBL> prompt when installing the system, or at a later
+time. This disables access to the secondary controller and allows
+the old Atapi CD driver to control the CD connected to the
+secondary controller.
+
+For older IDE drives (e.g. WD93044-A), the "Standard IDE (old)"
+driver is recommended. This driver supports only one controller and
+assumes it is at the standard primary addresses IRQ 14, IO base
+1F0H & 3F6H. If your controller is not located at this address, or
+if your hard disk for Oberon is on the secondary IDE controller,
+you can configure the correct values at the initial OBL> prompt.
+For example, if the secondary controller is at IRQ 15 and IO base
+170H & 376H, enter: "IDE=15,170H,376H". You also have to specify
+the disk size manually using a string like "Disk0=1200Mb" (example
+for 1.2Gb disk). It is safe to specify a value smaller than the
+actual disk size.
+
+The "Adaptec 1520 SCSI" driver parameters can also be configured at
+the OBL> prompt. For example, if the controller is at IRQ 12, port
+140H and host id 5, enter: "AHA1520=12,140H,5". The default values
+are IRQ 11, port 340H and host id 7.
+
+The "NCR 810 SCSI" driver supports NCR PCI cards and configures
+itself automatically.
+
+The new "Adaptec AIC7xxx" driver also supports PCI cards only and
+configures itself automatically. It should work on most modern
+Adaptec SCSI cards, e.g. the 2940 family.
+
+Important: If any of the disk drivers produce a "trap" during
+installation, please make detailed notes on the trap information
+and report it to Oberon help (address below). It is wise to switch
+the machine off completely after such a trap, to ensure the
+controller is reset completely.
+
+4.3 Linux LILO boot manager
+
+The Linux LILO boot manager can be used to load Native Oberon.
+Install Native Oberon as described above. Then boot Linux, log in
+as root and run "fdisk -l". Look for a partition of type 0x4f (the
+Oberon partition), say /dev/hda2. Edit /etc/lilo.conf, adding a
+section like the following:
+
+other=/dev/hda2
+  label=Oberon
+  loader=/boot/chain.b
+
+Execute "lilo" to initialize the boot manager. It will say "Adding
+Oberon" (among other things). Oberon will now appear in the LILO
+menu when you boot.
+
+You can also boot Native Oberon from a logical drive using LILO. To
+do this you must create the Oberon partition using Linux fdisk, and
+then use OPTION 3 (overwrite a partition or logical drive) in step
+2 of the installation process.
+
+Native Oberon has been tested successfully with the OS/2,
+PartitionMagic and Windows NT boot managers. Read the documentation
+supplied with those products for installation information. For
+Windows NT, the freely available Bootpart utility can be useful.
+
+
+5. TROUBLESHOOTING
+
+5.1 Oberon-0 does not boot
+
+If the "OBERON System 3" message does not appear, or only the first
+few characters appear, it is very likely that the install diskette
+contains bad sectors. Use another diskette, or reformat it (not
+quick-format) and try again.
+
+If the screen goes blank, and the Oberon display does not appear,
+there might be compatibility problems between the Native Oberon
+drivers and your PC. To help us track down these problems, please
+do the following:
+
+o Boot with the install diskette.
+o At the "OBL>" prompt, enter the following command: "Init=9090".
+o Enter "c" to continue booting.
+
+Some trace information will appear in red on the screen. If a
+run-time error occurs, TRAP xx will be displayed and at the end
+will be a list of module names with PC = nnn values. It might be
+possible to infer from this what is causing the problem. If not,
+please send the first few lines of the module name information, as
+well as the number of the TRAP to us. This will help us pinpoint
+the error in the source code.
+
+If no trace messages appear, it could mean that the CPU type
+detection is not functioning on your processor. Override the
+detection by entering a command of the form "CPU=n" at the "OBL>"
+prompt, where n is 3 for a 386, 4 for a 486 and 5 for a Pentium or
+compatible processor.
+
+5.2 Black screen when booting Oberon
+
+If the screen stays black when booting a successfully installed
+system for the first time, there could be device driver conflicts.
+Boot Oberon-0 again and try with some other display device drivers
+(e.g. the standard VGA driver, or the VESA 2.0 driver, if your
+display is VESA 2.0 compliant). You may skip step 2 (installing the
+files).
+
+If this still does not work, try the following:
+
+o While booting the installed Oberon system (from boot diskette or
+  partition), hold down a shift key or activate ScrollLock. The
+  "OBL>" prompt will appear, allowing you to edit the configuration
+  strings.
+o Continue as described in the previous section (Oberon-0 does not
+  boot). Some trace information will appear on the screen, which
+  will help to locate the problem.
+
+If the "black screen" symptom occurs after the system has
+functioned correctly for some time, the file system might have been
+corrupted, or a system module may have been overwritten or deleted.
+Boot the install diskette (Oberon-0). Then execute
+Install.Directory to see if the directory is accessible. If no trap
+occurs, the file system is probably intact, and you can re-install
+the basic system modules using the "update" option in step 2. If
+Install.Directory causes a trap, the file directory is corrupt.
+Reboot Oberon-0 again and use the Scavenger commands in Appendix B
+to rebuild the directory, as explained below.
+
+Execute Scavenger.Scan to scan through the whole file system for
+file headers and build a new directory in memory (this takes long).
+Scavenger.Display can optionally be used to display the list of
+files found. Then use Scavenger.WriteDirectory to write the new
+directory. In case multiple versions of a file is found, the
+Scavenger recovers the one with the latest time and date. It should
+therefore only be used as a last resort, and only if the real-time
+clock of the PC functions correctly.
+
+5.3 Grey screen when booting Oberon
+
+If the installed system seems to boot correctly, but displays a
+grey screen instead of the default viewers, there is probably
+something wrong in Oberon.Text. Press Ctrl-Break to get a trap
+viewer to type commands. Type the command Edit.Open Oberon.Text (or
+ET.Open) and middle click on it to open the configuration text.
+Check if the braces and quotes in recently-edited parts of the text
+occur in matching pairs.
+
+5.4 NetSystem configuration problems
+
+To help trace network configuration problems, the NetSystem module
+has a command NetSystem.Show, which displays the current network
+parameters. Other network modules contain some global counter
+variables that can be viewed with System.State ^. The most useful
+counters are in the Net3Com509 module (the 3Com EtherNet driver).
+Nsent counts the number of EtherNet packets sent and Nreceived
+counts the number of packets received. There are also Nsent and
+Nreceived counters in modules NetIP, NetUDP, NetTCP and NetDNS.
+
+
+6. LEGAL INFORMATION
+
+ETH Native Oberon System 3 Release 2.3.x
+Copyright (C) 1990-1999 by Institut fuer Computersysteme ETH
+Zuerich
+
+Permission to use, copy, modify or distribute this software and its
+documentation for any purpose is hereby granted without fee,
+provided that the above copyright notice appear in all copies and
+that both that copyright notice and this permission notice appear
+in supporting documentation, and that the name of ETH not be used
+in advertising or publicity pertaining to distribution of the
+software without specific, written prior permission.
+
+ETH disclaims all warranties with regard to this software,
+including all implied special, indirect or consequential damages or
+any damages whatsoever resulting from loss of use, data or profits,
+whether in an action of contract, negligence or other tortious
+action, arising out of or in connection with the use or performance
+of this software.
+
+Oberon, Native Oberon and Oberon System 3 are trademarks of the
+Swiss Federal Institute of Technology Zurich.
+PartitionMagic is a trademark of PowerQuest Corporation.
+Linux is a trademark of Linus Torvalds.
+Microsoft, MS, Windows and MS-DOS are trademarks of Microsoft
+Corporation.
+IBM and OS/2 are trademarks of IBM Corporation.
+Intel and Pentium are trademarks of Intel Corporation.
+
+
+7. CONTACT ADDRESSES
+
+http://www.oberon.ethz.ch/native/ - The Native Oberon web site,
+with information about projects, releases, technical aspects, and
+general Native Oberon news. It also provides a module name registry
+to avoid naming conflicts when you distribute your Oberon software.
+
+http://www.oberon.ethz.ch/faq.html - The Oberon System 3 FAQ
+answers many common questions and is updated frequently.
+
+mailto:native-oberon@inf.ethz.ch - This mailing list is a forum for
+Native Oberon users. To subscribe, mail a message with any subject
+and "subscribe native-oberon Your Name" in the body, to
+listproc@inf.ethz.ch.
+
+mailto:oberon@inf.ethz.ch - Oberon help. Manned by volunteer Andrê
+Fischer at the ETH.
+
+news:comp.lang.oberon - Oberon users all over the world.
+
+Postal address: Oberon System 3 Team, Institute for Computer
+Systems, ETH Zentrum, CH-8092 Zurich, SWITZERLAND. Fax: +41 1 632
+1307.
+
+Pieter Muller
+May 1999
+

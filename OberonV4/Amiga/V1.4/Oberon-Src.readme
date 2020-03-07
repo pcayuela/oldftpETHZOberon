@@ -1,0 +1,30 @@
+Short:    Source of Oberon System V4-V1.4
+Author:   ludwig@inf.ethz.ch (Stefan Ludwig, Claudio Nieder, Ralf Degner)
+Uploader: degner@pallas.amp.uni-hannover.de (Ralf Degner)
+Type:     dev/obero
+
+This is the V1.4 release of the full source of "Oberon System V4 for Amiga"
+(O4A) of ETH Zurich.
+ 
+All Files in this archive are (C)opyright 1990-97 by Claudio Nieder,
+Stefan Ludwig, Ralf Degner and the Institute for Computer Systems ETH Zurich.
+
+Oberon-Source.lha is freeware. You can use it in any way you like but you
+must not include a part of it in a commercial product.
+
+Read the History file to see what`s changed.
+
+NOTE: If you change the symbol files of a module every module that imports it
+      has to be recompiled. Therefor you only should change a symbol file if
+      it is REALLY necessary. Before you change something make a copy of your
+      system. Use the 'verifyall' scipt to check if everything is
+      allright and to find the module making trouble. If you decide to make
+      changes the 'Make.Tool' will help you to compile depending modules in
+      the right order.
+
+Please mail any bugs encountered to degner@pallas.amp.uni-hannover.de, to
+which you can also direct questions.
+
+
+                          Ralf Degner    29-January-1997
+

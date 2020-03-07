@@ -1,0 +1,1086 @@
+%!PS-Adobe- minimal conforming
+%%Creator: Oberon
+%%DocumentFonts: Helvetica Helvetica-Bold Helvetica-Oblique Courier Courier-Bold Times Times-Bold Times-Oblique
+% 
+% J. Templ, 1990, 1991, 1992
+% m  moveto  x y -> -
+% s  String  s -> -
+% d  dieresis  ch -> -
+% l  Line  x y w h -> -
+% x  XLine  x y dx dy -> -
+% c  scaled Circle  x y a b -> -
+% b  shaded box  x y w h col -> -
+% i  pattern image  x y w h mode  -> -
+% p  Page  n -> -
+% f  font mapping  fnt -> -
+% z Bezier cubic section  x1 y1 x2 y2 x3 y3 x0 y0 -> -
+% k char  x y w h dx -> -
+
+/bdef {bind def} bind def
+
+/m {moveto} bdef
+
+/s {show} bdef
+
+/d  % obsolete
+  { /s2 exch def
+        /ch0 s2 0 1 getinterval def
+        /ch1 s2 1 1 getinterval def
+    currentpoint /y0 exch def /x0 exch def
+    ch0 show
+    currentpoint /y1 exch def /x1 exch def
+    ch1 stringwidth /wy exch def /wx exch def
+    x1 x0 add wx sub 2 div y0 moveto
+    ch0 (Z) le {0 wx 2 div rmoveto} if
+    ch1 show
+    x1 y1 moveto
+  } bdef
+
+/l
+  { /ph exch def
+    /pw exch def
+    newpath
+    moveto
+    pw 0 rlineto
+    0 ph rlineto
+    pw neg 0 rlineto
+    closepath
+    0 setgray
+    fill
+  } bdef
+
+/x
+  { /dy exch def
+    /dx exch def
+    newpath
+    moveto
+    dx dy rlineto
+    0 setlinewidth
+    stroke
+  } bdef
+
+/c
+  { /pb exch def
+    /pa exch def
+    newpath
+    gsave
+    translate
+    1 pb pa div scale
+    0 0 pa 0 360 arc
+    0 setlinewidth
+    stroke
+    grestore
+  } bdef
+
+/maxwh
+  { pw ph gt {/max pw def} {/max ph def} ifelse
+  } bdef
+
+/shade
+  { gsave
+    col 0 eq {1 setgray} if
+    col 1 eq {0.99 setgray} if
+    col 2 eq {0.9 setgray} if
+    col 3 eq {0.65 setgray} if
+    col 4 eq {0.35 setgray} if
+    col 5 eq {0 setgray} if
+    fill
+    grestore
+  } bdef
+
+/texture
+  { gsave
+    clip
+    newpath
+    col 6 eq
+      { px py ph add moveto
+        maxwh
+        max 10 idiv 1 add
+          { max max rlineto
+            max neg dup 20 sub rmoveto
+          } repeat
+      } if
+    col 7 eq
+      { px py moveto
+        maxwh
+        max 10 idiv 1 add
+          { max neg max rlineto
+            max 20 add max neg rmoveto
+          } repeat
+      } if
+    col 8 eq
+      { px py moveto
+        pw 15 idiv 1 add
+          { 0 ph rlineto
+            15 ph neg rmoveto
+          } repeat
+     } if
+    col 9 eq
+      { px py moveto
+        ph 15 idiv 1 add
+          { pw 0 rlineto
+            pw neg 15 rmoveto
+          } repeat
+     } if
+    0 setlinewidth
+    stroke
+    grestore
+  } bdef
+
+/b
+  { /col exch def
+    /ph exch def
+    /pw exch def
+    /py exch def
+    /px exch def
+    newpath
+    px py moveto
+    pw 0 rlineto
+    0 ph rlineto
+    pw neg 0 rlineto
+    closepath
+    col 6 lt {shade} {texture} ifelse
+  } bdef
+
+/i % pattern image follows procedure i immediately
+  { /mode exch def
+    /ph exch def
+    /pw exch def
+    /py exch def
+    /px exch def
+    /picstr 256 string def
+    /nofbytes pw 7 add 8 idiv ph mul def
+    gsave
+    px py translate
+    pw mode 1 add mul ph mode 1 add mul scale
+    pw ph 1 [pw 0 0 ph 0 0]
+      {nofbytes 256 ge
+        { currentfile picstr readhexstring pop
+          /nofbytes nofbytes 256 sub def }
+        { /picstr nofbytes string def
+          currentfile picstr readhexstring pop
+          /nofbytes 0 def
+        } ifelse
+      } image
+    grestore
+  } bdef
+
+/k % char image follows procedure k immediately
+  { /pdx exch def
+    /ph exch def
+    /pw exch def
+    /py exch def
+    /px exch def
+    /picstr 256 string def
+    /nofbytes pw 7 add 8 idiv ph mul def
+    gsave
+        currentpoint translate
+    px py translate
+    pw ph scale
+    pw ph true [pw 0 0 ph 0 0]
+      { nofbytes 256 ge
+        { currentfile picstr readhexstring pop
+          /nofbytes nofbytes 256 sub def }
+        { /picstr nofbytes string def
+          currentfile picstr readhexstring pop
+          /nofbytes 0 def
+        } ifelse
+      } imagemask
+    grestore
+    pdx 0 rmoveto
+  } bdef
+
+
+/OberonEncoding
+  [ 128 /Adieresis
+    129 /Odieresis
+    130 /Udieresis
+    131 /adieresis
+    132 /odieresis
+    133 /udieresis
+    134 /acircumflex
+    135 /ecircumflex
+    136 /icircumflex
+    137 /ocircumflex
+    138 /ucircumflex
+    139 /agrave
+    140 /egrave
+    141 /igrave
+    142 /ograve
+    143 /ugrave
+    144 /eacute
+    145 /edieresis
+    146 /idieresis
+    147 /ccedilla
+    148 /aacute
+    149 /ntilde
+  ] def
+
+% font reencoding taken from P. Vollenweider, PostScript, Hanser Verlag 1988
+% encoding vector is /OberonEncoding
+% newfontdict basefontdict recode -
+
+/recode
+  { findfont /basefontdict exch def
+    /OberonFont basefontdict maxlength dict def
+    basefontdict
+      { exch dup /FID ne
+        { dup /Encoding eq
+          { exch dup length array copy OberonFont 3 1 roll put }
+          { exch OberonFont 3 1 roll put }
+          ifelse
+        }
+        { pop pop }
+        ifelse
+      } forall
+    OberonEncoding aload pop
+    OberonEncoding length 2 idiv {OberonFont /Encoding get 3 1 roll put} repeat
+    dup OberonFont exch /FontName exch put
+    OberonFont definefont pop
+  } bdef
+
+% font setup.  Recode the basic fonts first
+
+  /ObHelv /Helvetica recode
+  /ObHelvBold /Helvetica-Bold recode
+  /ObHelvOblique /Helvetica-Oblique recode
+  /ObCourier /Courier recode
+  /ObCourierBold /Courier-Bold recode
+  /ObTimes /Times-Roman recode
+  /ObTimesBold /Times-Bold recode
+  /ObTimesItalic /Times-Italic recode
+
+% now define the scaled versions
+
+  /Syntax8.Scn.Fnt   /ObHelv findfont 30 scalefont def
+  /Syntax8i.Scn.Fnt  /ObHelvOblique findfont 30 scalefont def
+  /Syntax8b.Scn.Fnt  /ObHelvBold findfont 30 scalefont def
+  /Syntax8m.Scn.Fnt  /ObHelvBold findfont 30 scalefont def
+  /Syntax9m.Scn.Fnt  /ObHelvBold findfont 33 scalefont def
+  /Syntax10.Scn.Fnt  /ObHelv findfont 37 scalefont def
+  /Syntax10i.Scn.Fnt /ObHelvOblique  findfont 37 scalefont def
+  /Syntax10b.Scn.Fnt /ObHelvBold findfont 37 scalefont def
+  /Syntax10m.Scn.Fnt /ObHelvBold findfont 37 scalefont def
+  /Syntax10w.Scn.Fnt /ObHelv findfont 37 scalefont def
+  /Syntax12.Scn.Fnt /ObHelv findfont 44 scalefont def
+  /Syntax12i.Scn.Fnt /ObHelvOblique findfont 44 scalefont def
+  /Syntax12b.Scn.Fnt /ObHelvBold findfont 44 scalefont def
+  /Syntax12m.Scn.Fnt /ObHelvBold findfont 44 scalefont def
+  /Syntax14.Scn.Fnt /ObHelv findfont 50 scalefont def
+  /Syntax14i.Scn.Fnt /ObHelvOblique findfont 50 scalefont def
+  /Syntax14b.Scn.Fnt /ObHelvBold findfont 50 scalefont def
+  /Syntax14m.Scn.Fnt /ObHelvBold findfont 50 scalefont def
+  /Syntax16.Scn.Fnt /ObHelv findfont 59 scalefont def
+  /Syntax16i.Scn.Fnt /ObHelvOblique findfont 59 scalefont def
+  /Syntax16b.Scn.Fnt /ObHelvBold findfont 59 scalefont def
+  /Syntax16m.Scn.Fnt /ObHelvBold findfont 59 scalefont def
+  /Syntax20.Scn.Fnt /ObHelv findfont 74 scalefont def
+  /Syntax20i.Scn.Fnt /ObHelvOblique findfont 74 scalefont def
+  /Syntax20b.Scn.Fnt /ObHelvBold findfont 74 scalefont def
+  /Syntax20m.Scn.Fnt /ObHelvBold findfont 74 scalefont def
+  /Syntax24.Scn.Fnt /ObHelv findfont 88 scalefont def
+  /Syntax24i.Scn.Fnt /ObHelvOblique findfont 88 scalefont def
+  /Syntax24b.Scn.Fnt /ObHelvBold findfont 88 scalefont def
+  /Syntax24m.Scn.Fnt  /ObHelvBold findfont 88 scalefont def
+
+  /Gacha10l /ObCourier findfont 30 scalefont def
+
+  /Courier8.Scn.Fnt /ObCourier findfont 30 scalefont def
+  /Courier10.Scn.Fnt /ObCourier findfont 37 scalefont def
+  /Courier12.Scn.Fnt  /ObCourierBold findfont 44 scalefont def
+
+  /Times8.Scn.Fnt  /ObTimes findfont 32 scalefont def
+  /Times8i.Scn.Fnt /ObTimesItalic  findfont 32 scalefont def
+  /Times8b.Scn.Fnt /ObTimesBold findfont 32 scalefont def
+  /Times10.Scn.Fnt  /ObTimes findfont 40 scalefont def
+  /Times10i.Scn.Fnt /ObTimesItalic  findfont 40 scalefont def
+  /Times10b.Scn.Fnt /ObTimesBold findfont 40 scalefont def
+  /Times12.Scn.Fnt /ObTimes findfont 48 scalefont def
+  /Times12i.Scn.Fnt /ObTimesItalic findfont 48 scalefont def
+  /Times12b.Scn.Fnt /ObTimesBold findfont 48 scalefont def
+  /Times14.Scn.Fnt /ObTimes findfont 56 scalefont def
+  /Times14i.Scn.Fnt /ObTimesItalic findfont 56 scalefont def
+  /Times14b.Scn.Fnt /ObTimesBold findfont 56 scalefont def
+  /Times16.Scn.Fnt /ObTimes findfont 64 scalefont def
+  /Times16i.Scn.Fnt /ObTimesItalic findfont 64 scalefont def
+  /Times16b.Scn.Fnt /ObTimesBold findfont 64 scalefont def
+  /Times20.Scn.Fnt /ObTimes findfont 80 scalefont def
+  /Times20i.Scn.Fnt /ObTimesItalic findfont 80 scalefont def
+  /Times20b.Scn.Fnt /ObTimesBold findfont 80 scalefont def
+  /Times24.Scn.Fnt /ObTimes findfont 96 scalefont def
+  /Times24i.Scn.Fnt /ObTimesItalic findfont 96 scalefont def
+  /Times24b.Scn.Fnt /ObTimesBold findfont 96 scalefont def
+
+
+/f {
+   cvn currentdict exch get setfont
+   } bdef
+
+/z % Bezier cubic section
+  { newpath moveto curveto 0 setlinewidth stroke } bdef
+
+/p % show page
+  { /#copies exch def
+    showpage
+    restore save
+  } bdef
+
+.24 .24 scale
+(Syntax10.Scn.Fnt) f
+save
+%%EndProlog
+%%Page: 0 1
+777 3113 m (Syntax16m.Scn.Fnt) f (DECoberon) s
+1102 3142 m (Syntax8m.Scn.Fnt) f (TM) s
+1145 3113 m (Syntax16m.Scn.Fnt) f ( User's Guide) s
+905 2993 m (Syntax12.Scn.Fnt) f (Release 4.2 \(8 March 94\)) s
+1024 2873 m (R\220gis Crelier) s
+838 2753 m (Copyright 1991\261 94, ETH Z\205rich) s
+177 2646 m (Syntax12m.Scn.Fnt) f (Introduction) s
+177 2558 m (Syntax12.Scn.Fnt) f (DECoberon) s
+405 2574 m (Syntax8.Scn.Fnt) f (TM) s
+462 2558 m (Syntax12.Scn.Fnt) f (is) s
+508 2558 m (an) s
+570 2558 m (implementation) s
+879 2558 m (of) s
+928 2558 m (Oberon) s
+1073 2574 m (Syntax8.Scn.Fnt) f (TM) s
+1129 2558 m (Syntax12.Scn.Fnt) f (for) s
+1193 2558 m (Digital) s
+1328 2558 m (Equipment) s
+1549 2558 m (Corporation) s
+1790 2558 m (DECstation.) s
+2036 2558 m (Both) s
+177 2516 m (the) s
+263 2516 m (programming) s
+547 2516 m (language) s
+751 2516 m (Oberon) s
+(Syntax10.Scn.Fnt) f (-) s
+(Syntax12.Scn.Fnt) f (2) s
+958 2516 m (and) s
+1056 2516 m (the) s
+1142 2516 m (Oberon) s
+1312 2516 m (System) s
+1483 2516 m (have) s
+1602 2516 m (been) s
+1723 2516 m (implemented.) s
+2010 2516 m (For) s
+2101 2516 m (a) s
+177 2474 m (complete description of the Language and of the System, one should read the following books:) s
+247 2359 m (Syntax10i.Scn.Fnt) f (N. Wirth and M. Reiser: Programming in Oberon. Steps beyond Pascal and Modula-2.) s
+247 2299 m (Addison Wesley, 1992, ISBN 0) s
+(Syntax10.Scn.Fnt) f (-) s
+(Syntax10i.Scn.Fnt) f (201) s
+(Syntax10.Scn.Fnt) f (-) s
+(Syntax10i.Scn.Fnt) f (56543) s
+(Syntax10.Scn.Fnt) f (-) s
+(Syntax10i.Scn.Fnt) f (9.) s
+247 2239 m (Syntax10.Scn.Fnt) f (Tutorial for the Oberon programming language and concise language reference.) s
+247 2119 m (Syntax10i.Scn.Fnt) f (M. Reiser: The Oberon System. User Guide and Programmer's Manual.) s
+247 2059 m (Addison Wesley, 1991, ISBN 0) s
+(Syntax10.Scn.Fnt) f (-) s
+(Syntax10i.Scn.Fnt) f (201) s
+(Syntax10.Scn.Fnt) f (-) s
+(Syntax10i.Scn.Fnt) f (54422) s
+(Syntax10.Scn.Fnt) f (-) s
+(Syntax10i.Scn.Fnt) f (9.) s
+247 1999 m (Syntax10.Scn.Fnt) f (User manual for the programming environment and reference for the standard module library.) s
+247 1879 m (Syntax10i.Scn.Fnt) f (N. Wirth and J. Gutknecht: Project Oberon. The Design of an Operating System and Compiler.) s
+247 1819 m (Addison Wesley, 1992, ISBN 0) s
+(Syntax10.Scn.Fnt) f (-) s
+(Syntax10i.Scn.Fnt) f (201) s
+(Syntax10.Scn.Fnt) f (-) s
+(Syntax10i.Scn.Fnt) f (54428) s
+(Syntax10.Scn.Fnt) f (-) s
+(Syntax10i.Scn.Fnt) f (8.) s
+247 1759 m (Syntax10.Scn.Fnt) f (Program listings with explanations for the whole Oberon system, including the compiler for NS32000.) s
+247 1639 m (Syntax10i.Scn.Fnt) f (H. M\204ssenb\204ck: Object-Oriented Programming in Oberon-2) s
+247 1579 m (Springer-Verlag, 1993, ISBN 0-387-56411-X.) s
+247 1519 m (Syntax10.Scn.Fnt) f (Principles and applications of object-oriented programming with examples in Oberon-2.) s
+177 1399 m (Syntax12.Scn.Fnt) f (The) s
+277 1399 m (technical) s
+474 1399 m (report) s
+613 1399 m (160) s
+710 1399 m (by) s
+781 1399 m (H.) s
+850 1399 m (M\204ssenb\204ck,) s
+1132 1399 m (Syntax12i.Scn.Fnt) f (Differences) s
+1378 1399 m (between) s
+1567 1399 m (Oberon) s
+1737 1399 m (and) s
+1833 1399 m (Oberon) s
+(Syntax10.Scn.Fnt) f (-) s
+(Syntax12i.Scn.Fnt) f (2,) s
+2050 1399 m (The) s
+177 1339 m (Programming Language Oberon) s
+(Syntax10.Scn.Fnt) f (-) s
+(Syntax12i.Scn.Fnt) f (2) s
+(Syntax12.Scn.Fnt) f (, is recommended too. It is present as on-line documentation:) s
+224 1279 m (Syntax10.Scn.Fnt) f (Edit.Open Oberon2.Differences.Text) s
+224 1219 m (Edit.Open Oberon2.Report.Text) s
+177 1099 m (Syntax12.Scn.Fnt) f (The) s
+272 1099 m (following) s
+462 1099 m (short) s
+579 1099 m (tutorial) s
+730 1099 m (describes) s
+937 1099 m (the) s
+1017 1099 m (differences) s
+1249 1099 m (to) s
+1304 1099 m (the) s
+1383 1099 m (original) s
+1543 1099 m (implementation) s
+1858 1099 m (from) s
+1965 1099 m (a) s
+2008 1099 m (user's) s
+177 1039 m (point of view.) s
+177 919 m (DECoberon) s
+420 919 m (runs) s
+520 919 m (as) s
+581 919 m (a) s
+620 919 m (single) s
+749 919 m (Ultrix) s
+865 919 m (process) s
+1033 919 m (on) s
+1096 919 m (a) s
+1135 919 m (color) s
+1245 919 m (or) s
+1299 919 m (monochrom) s
+1544 919 m (DECstation.) s
+1791 919 m (It) s
+1829 919 m (has) s
+1913 919 m (the) s
+1987 919 m (form) s
+2089 919 m (of) s
+177 859 m (an) s
+240 859 m (X) s
+283 859 m (Windows) s
+475 859 m (application) s
+697 859 m (using) s
+815 859 m (only) s
+909 859 m (one) s
+995 859 m (X) s
+1038 859 m (window) s
+1198 859 m (covering) s
+1377 859 m (the) s
+1451 859 m (whole) s
+1579 859 m (screen.) s
+1736 859 m (This) s
+1833 859 m (window) s
+1993 859 m (can) s
+2077 859 m (be) s
+177 799 m (controlled) s
+383 799 m (by) s
+446 799 m (the) s
+523 799 m (Window) s
+696 799 m (Manager,) s
+897 799 m (i.e.) s
+972 799 m (it) s
+1011 799 m (can) s
+1098 799 m (be) s
+1163 799 m (pushed,) s
+1334 799 m (moved,) s
+1494 799 m (resized) s
+1651 799 m (or) s
+1706 799 m (iconized,) s
+1894 799 m (but) s
+1970 799 m (the) s
+2046 799 m (WM) s
+177 739 m (has) s
+265 739 m (no) s
+331 739 m (control) s
+480 739 m (on) s
+546 739 m (the) s
+624 739 m (internal) s
+785 739 m (layout) s
+937 739 m (of) s
+991 739 m (the) s
+1068 739 m (window) s
+1231 739 m (\(tracks) s
+1380 739 m (and) s
+1469 739 m (viewers) s
+1635 739 m (are) s
+1715 739 m (not) s
+1792 739 m (X) s
+1838 739 m (windows\).) s
+2050 739 m (The) s
+177 679 m (dimensions) s
+415 679 m (of) s
+468 679 m (the) s
+545 679 m (user) s
+646 679 m (and) s
+734 679 m (system) s
+889 679 m (tracks) s
+1022 679 m (are) s
+1101 679 m (automatically) s
+1372 679 m (defined) s
+1530 679 m (when) s
+1650 679 m (starting) s
+1809 679 m (DECoberon) s
+2053 679 m (and) s
+177 619 m (cannot) s
+331 619 m (be) s
+403 619 m (changed) s
+593 619 m (until) s
+697 619 m (the) s
+781 619 m (Oberon) s
+950 619 m (process) s
+1127 619 m (terminates,) s
+1367 619 m (even) s
+1485 619 m (if) s
+1531 619 m (the) s
+1615 619 m (window) s
+1785 619 m (is) s
+1840 619 m (resized.) s
+2016 619 m (Since) s
+177 559 m (DECoberon is a normal X application, it can be used remotely over a network.) s
+177 439 m (Syntax12m.Scn.Fnt) f (Installation) s
+177 319 m (Syntax12.Scn.Fnt) f (DECoberon) s
+421 319 m (is) s
+469 319 m (distributed) s
+686 319 m (as) s
+748 319 m (a) s
+788 319 m (set) s
+862 319 m (of) s
+914 319 m (compressed) s
+1168 319 m (tar) s
+1235 319 m (files) s
+1329 319 m (\(see) s
+1430 319 m (the) s
+1505 319 m (accompanying) s
+1801 319 m (readme) s
+1964 319 m (file) s
+2035 319 m (for) s
+2101 319 m (a) s
+177 259 m (description) s
+408 259 m (of) s
+464 259 m (the) s
+544 259 m (contents\).) s
+755 259 m (The) s
+850 259 m (uncompressed) s
+1156 259 m (files) s
+1254 259 m (have) s
+1368 259 m (to) s
+1424 259 m (be) s
+1491 259 m (copied) s
+1638 259 m (into) s
+1727 259 m (a) s
+1770 259 m (common) s
+1957 259 m (directory) s
+177 199 m (\() s
+(Syntax12i.Scn.Fnt) f (/usr/local/Oberon) s
+539 199 m (Syntax12.Scn.Fnt) f (is) s
+586 199 m (recommended\)) s
+895 199 m (and) s
+982 199 m (hence) s
+1115 199 m (can) s
+1200 199 m (be) s
+1262 199 m (used) s
+1370 199 m (by) s
+1430 199 m (several) s
+1585 199 m (users.) s
+1718 199 m (This) s
+1815 199 m (directory) s
+1997 199 m (should) s
+1 p
+%%Page: 0 2 
+2104 3224 m (Syntax10.Scn.Fnt) f (1) s
+177 3119 m (Syntax12.Scn.Fnt) f (me) s
+251 3119 m (made) s
+373 3119 m (readonly,) s
+565 3119 m (in) s
+612 3119 m (order) s
+727 3119 m (to) s
+776 3119 m (avoid) s
+893 3119 m (accidental) s
+1102 3119 m (removal) s
+1271 3119 m (of) s
+1320 3119 m (files.) s
+1423 3119 m (DECoberon) s
+1664 3119 m (is) s
+1708 3119 m (started) s
+1853 3119 m (from) s
+1953 3119 m (a) s
+1989 3119 m (current) s
+177 3059 m (directory) s
+361 3059 m (using) s
+481 3059 m (a) s
+521 3059 m (symbolic) s
+708 3059 m (link) s
+790 3059 m (to) s
+842 3059 m (the) s
+918 3059 m (executable) s
+1143 3059 m (which) s
+1270 3059 m (name) s
+1394 3059 m (is) s
+1441 3059 m (Syntax12i.Scn.Fnt) f (oberon) s
+(Syntax12.Scn.Fnt) f (.) s
+1603 3059 m (The) s
+1693 3059 m (link) s
+1774 3059 m (can) s
+1859 3059 m (be) s
+1922 3059 m (defined) s
+2079 3059 m (as) s
+177 2999 m (follows:) s
+341 2999 m (Syntax12i.Scn.Fnt) f (ln) s
+393 2999 m (\261s) s
+457 2999 m (/usr/local/Oberon/oberon) s
+954 2999 m (oberon) s
+(Syntax12.Scn.Fnt) f (.) s
+1119 2999 m (The) s
+1212 2999 m (environment) s
+1470 2999 m (variable) s
+1641 2999 m (Syntax12i.Scn.Fnt) f (OBERON) s
+1849 2999 m (Syntax12.Scn.Fnt) f (is) s
+1898 2999 m (used,) s
+2021 2999 m (when) s
+177 2939 m (defined,) s
+352 2939 m (as) s
+419 2939 m (search) s
+571 2939 m (path) s
+676 2939 m (for) s
+748 2939 m (files.) s
+859 2939 m (Its) s
+926 2939 m (default) s
+1077 2939 m (setting) s
+1225 2939 m (is) s
+1277 2939 m (Syntax12i.Scn.Fnt) f ('.) s
+1319 2939 m (/usr/local/Oberon') s
+(Syntax12.Scn.Fnt) f (.) s
+1693 2939 m (Each) s
+1812 2939 m (user) s
+1917 2939 m (can) s
+2007 2939 m (define) s
+177 2879 m (Syntax12i.Scn.Fnt) f (OBERON) s
+(Syntax12.Scn.Fnt) f ( in his) s
+(Syntax12i.Scn.Fnt) f ( .login) s
+(Syntax12.Scn.Fnt) f ( file \(e.g. ) s
+(Syntax12i.Scn.Fnt) f (setenv OBERON '. MyLib /usr/local/Oberon') s
+(Syntax12.Scn.Fnt) f (\).) s
+177 2759 m (To) s
+245 2759 m (improve) s
+418 2759 m (the) s
+495 2759 m (character) s
+694 2759 m (drawing) s
+864 2759 m (speed) s
+999 2759 m (on) s
+1064 2759 m (the) s
+1141 2759 m (screen,) s
+1301 2759 m (the) s
+1378 2759 m (Oberon) s
+1540 2759 m (fonts) s
+1650 2759 m (should) s
+1794 2759 m (be) s
+1858 2759 m (installed) s
+2034 2759 m (as) s
+2096 2759 m (X) s
+177 2699 m (fonts.) s
+296 2699 m (This) s
+392 2699 m (installation) s
+611 2699 m (has) s
+694 2699 m (to) s
+743 2699 m (be) s
+804 2699 m (done) s
+913 2699 m (only) s
+1005 2699 m (once.) s
+1123 2699 m (An) s
+1188 2699 m (Oberon) s
+1345 2699 m (tool) s
+1427 2699 m (converts) s
+1604 2699 m (the) s
+1676 2699 m (given) s
+1792 2699 m (Oberon) s
+1949 2699 m (fonts) s
+2055 2699 m (into) s
+177 2639 m (ascii) s
+287 2639 m (files.) s
+399 2639 m (These) s
+542 2639 m (files) s
+642 2639 m (describe) s
+829 2639 m (the) s
+911 2639 m (fonts) s
+1027 2639 m (in) s
+1083 2639 m (the) s
+1165 2639 m (portable) s
+1344 2639 m (BDF) s
+1454 2639 m (format.) s
+1612 2639 m (A) s
+1663 2639 m (font) s
+1757 2639 m (compiler) s
+1944 2639 m (\() s
+(Syntax12i.Scn.Fnt) f (bdftosnf) s
+(Syntax12.Scn.Fnt) f (,) s
+177 2579 m (Syntax12i.Scn.Fnt) f (bdftopcf) s
+(Syntax12.Scn.Fnt) f (,) s
+358 2579 m (Syntax12i.Scn.Fnt) f (dxfc) s
+(Syntax12.Scn.Fnt) f (,) s
+465 2579 m (...\),) s
+543 2579 m (that) s
+630 2579 m (should) s
+773 2579 m (be) s
+836 2579 m (present) s
+996 2579 m (on) s
+1058 2579 m (each) s
+1166 2579 m (X) s
+1209 2579 m (station,) s
+1363 2579 m (then) s
+1461 2579 m (compiles) s
+1648 2579 m (these) s
+1768 2579 m (files) s
+1860 2579 m (and) s
+1946 2579 m (produces) s
+177 2519 m (machine) s
+(Syntax10.Scn.Fnt) f (-) s
+(Syntax12.Scn.Fnt) f (dependent) s
+571 2519 m (fonts) s
+678 2519 m (\(SNF) s
+794 2519 m (or) s
+846 2519 m (PCF) s
+947 2519 m (format\)) s
+1099 2519 m (that) s
+1184 2519 m (can) s
+1267 2519 m (be) s
+1328 2519 m (installed) s
+1501 2519 m (in) s
+1548 2519 m (a) s
+1585 2519 m (new) s
+1678 2519 m (directory) s
+1859 2519 m (on) s
+1919 2519 m (the) s
+1991 2519 m (server.) s
+177 2459 m (To) s
+243 2459 m (convert) s
+401 2459 m (and) s
+488 2459 m (install) s
+615 2459 m (the) s
+689 2459 m (fonts,) s
+809 2459 m (see) s
+893 2459 m (the) s
+967 2459 m (text) s
+1051 2459 m (file) s
+1121 2459 m (Syntax12i.Scn.Fnt) f (InstallXFonts.Tool) s
+1484 2459 m (Syntax12.Scn.Fnt) f (and) s
+1570 2459 m (follow) s
+1696 2459 m (the) s
+1770 2459 m (instructions) s
+2005 2459 m (in) s
+2053 2459 m (that) s
+177 2399 m (tool.) s
+177 2279 m (Syntax12m.Scn.Fnt) f (Starting DECoberon) s
+177 2159 m (Syntax12.Scn.Fnt) f (DECoberon is started from a terminal window using the executable ) s
+(Syntax12i.Scn.Fnt) f (oberon) s
+(Syntax12.Scn.Fnt) f (. The syntax is:) s
+177 2099 m (oberon ) s
+342 2099 m ([\261h heapsizeinMB] [\261x module command] [\261b bootfile]) s
+342 2039 m ([\261f fontmapfile] [\261d displayname] [\261g geometry] [\261c]) s
+177 1919 m (where) s
+247 1859 m (Syntax12i.Scn.Fnt) f (\261) s
+295 1859 m (heapsizeinMB) s
+(Syntax12.Scn.Fnt) f ( is the size of the allocated Oberon heap in MB \(default: \261h 4\)) s
+247 1799 m (\261) s
+295 1799 m (the command ) s
+(Syntax12i.Scn.Fnt) f (module.command) s
+(Syntax12.Scn.Fnt) f ( is executed \(default: \261x Oberon Loop\)) s
+247 1739 m (\261) s
+295 1739 m (Syntax12i.Scn.Fnt) f (bootfilename) s
+(Syntax12.Scn.Fnt) f ( is the name of the boot file \(default: \261b DECoberon.Boot\)) s
+247 1679 m (\261) s
+295 1679 m (Syntax12i.Scn.Fnt) f (fontmapfile) s
+(Syntax12.Scn.Fnt) f ( is the name of the font mapping file  \(default: \261f "Fonts.Map"\)) s
+247 1619 m (\261) s
+295 1619 m (Syntax12i.Scn.Fnt) f (displayname) s
+(Syntax12.Scn.Fnt) f ( is the name of the X server display used, e.g. \261d name:0.0 \(default: \261d ""\)) s
+247 1559 m (\261) s
+295 1559 m (Syntax12i.Scn.Fnt) f (geometry) s
+(Syntax12.Scn.Fnt) f ( gives the position and dimensions of the Oberon window, e.g. \261g 800x600+100+100) s
+295 1499 m (\(the default depends on the dimensions of the screen\)) s
+247 1439 m (\261) s
+295 1439 m (the option ) s
+(Syntax12i.Scn.Fnt) f (\261c) s
+(Syntax12.Scn.Fnt) f ( allocates a private colormap of 256 colors \(default: not set, 16 colors from 0 up to) s
+295 1379 m (15\)) s
+177 1259 m (As) s
+241 1259 m (in) s
+288 1259 m (all) s
+345 1259 m (X) s
+387 1259 m (applications,) s
+642 1259 m (the) s
+715 1259 m (window) s
+873 1259 m (needs) s
+1003 1259 m (to) s
+1051 1259 m (get) s
+1123 1259 m (the) s
+1195 1259 m (focus) s
+1311 1259 m (before) s
+1446 1259 m (being) s
+1564 1259 m (able) s
+1658 1259 m (to) s
+1706 1259 m (receive) s
+1859 1259 m (input) s
+1965 1259 m (from) s
+2065 1259 m (the) s
+177 1199 m (keyboard. Just click the left mouse button with the pointer in the DECoberon window.) s
+177 1079 m (If) s
+217 1079 m (DECoberon) s
+461 1079 m (gets) s
+559 1079 m (out) s
+635 1079 m (of) s
+687 1079 m (control) s
+834 1079 m (\(e.g.) s
+937 1079 m (because) s
+1116 1079 m (of) s
+1167 1079 m (a) s
+1206 1079 m (looping) s
+1361 1079 m (command\),) s
+1595 1079 m (press) s
+1717 1079 m (Ctrl) s
+(Syntax10.Scn.Fnt) f (-) s
+(Syntax12.Scn.Fnt) f (C) s
+1845 1079 m (in) s
+1894 1079 m (the) s
+1969 1079 m (terminal) s
+177 1019 m (window) s
+349 1019 m (\(do) s
+438 1019 m (not) s
+524 1019 m (forget) s
+661 1019 m (to) s
+723 1019 m (set) s
+807 1019 m (the) s
+893 1019 m (focus) s
+1023 1019 m (first\).) s
+1147 1019 m (Xlib) s
+1246 1019 m (is) s
+1303 1019 m (not) s
+1388 1019 m (reentrant,) s
+1599 1019 m (and) s
+1696 1019 m (hence) s
+1839 1019 m (should) s
+1992 1019 m (not) s
+2077 1019 m (be) s
+177 959 m (interrupted.) s
+415 959 m (To) s
+484 959 m (avoid) s
+606 959 m (this) s
+692 959 m (problem,) s
+880 959 m (the) s
+958 959 m (Ctrl) s
+(Syntax10.Scn.Fnt) f (-) s
+(Syntax12.Scn.Fnt) f (C) s
+1089 959 m (is) s
+1139 959 m (ineffective) s
+1353 959 m (if) s
+1393 959 m (pressed) s
+1566 959 m (while) s
+1684 959 m (the) s
+1761 959 m (Oberon) s
+1923 959 m (process) s
+2093 959 m (is) s
+177 899 m (executing) s
+377 899 m (outside) s
+531 899 m (an) s
+593 899 m (Oberon) s
+752 899 m (procedure,) s
+973 899 m (else) s
+1066 899 m (a) s
+1103 899 m (trap) s
+1191 899 m (viewer) s
+1331 899 m (should) s
+1472 899 m (appear) s
+1620 899 m (and) s
+1705 899 m (execution) s
+1904 899 m (will) s
+1979 899 m (resume) s
+177 839 m (in) s
+226 839 m (the) s
+301 839 m (central) s
+447 839 m (Oberon) s
+607 839 m (loop.) s
+716 839 m (If) s
+755 839 m (the) s
+830 839 m (system) s
+984 839 m (does) s
+1093 839 m (not) s
+1168 839 m (react) s
+1280 839 m (on) s
+1343 839 m (that) s
+1430 839 m (interrupt) s
+1604 839 m (after) s
+1705 839 m (several) s
+1860 839 m (tries,) s
+1969 839 m (one) s
+2055 839 m (can) s
+177 779 m (kill DECoberon by pressing Ctrl) s
+(Syntax10.Scn.Fnt) f (-) s
+(Syntax12.Scn.Fnt) f (\\ in the terminal window.) s
+177 659 m (System.Quit terminates the oberon process. It is the normal way to leave DECoberon.) s
+177 539 m (Syntax12m.Scn.Fnt) f (Differences to the Original Oberon) s
+177 419 m (Syntax12.Scn.Fnt) f (The) s
+272 419 m (differences) s
+505 419 m (are) s
+588 419 m (due) s
+680 419 m (to) s
+735 419 m (the) s
+814 419 m (underlying) s
+1034 419 m (hardware) s
+1235 419 m (and) s
+1326 419 m (software.) s
+1522 419 m (Here) s
+1636 419 m (follows) s
+1789 419 m (a) s
+1832 419 m (list) s
+1905 419 m (of) s
+1960 419 m (modules) s
+177 359 m (containing differences:) s
+1 p
+%%Page: 0 3 
+2104 3224 m (Syntax10.Scn.Fnt) f (2) s
+177 3119 m (Syntax12i.Scn.Fnt) f (System) s
+236 3059 m (Syntax12.Scn.Fnt) f (New commands:) s
+283 2999 m (Syntax12i.Scn.Fnt) f (\261 Quit) s
+(Syntax12.Scn.Fnt) f ( to leave DECoberon) s
+283 2939 m (\261 ) s
+(Syntax12i.Scn.Fnt) f (Execute) s
+(Syntax12.Scn.Fnt) f ( ) s
+(Syntax12i.Scn.Fnt) f (command) s
+(Syntax12.Scn.Fnt) f ( to execute a \(non) s
+(Syntax10.Scn.Fnt) f (-) s
+(Syntax12.Scn.Fnt) f (interactive\) shell command) s
+283 2879 m (\261 ) s
+(Syntax12i.Scn.Fnt) f (ChangeDirectory) s
+(Syntax12.Scn.Fnt) f ( ) s
+(Syntax12i.Scn.Fnt) f (newdir) s
+(Syntax12.Scn.Fnt) f ( to change the working directory) s
+177 2759 m (Syntax12i.Scn.Fnt) f (Compiler) s
+236 2699 m (Syntax12.Scn.Fnt) f (Supports the Oberon-2 language.) s
+236 2639 m (Implements fine-grained consistency checking of separately compiled) s
+236 2579 m (modules, which allows module interfaces to be extended without) s
+236 2519 m (requiring a recompilation of client modules \() s
+(Syntax12i.Scn.Fnt) f (Object Model) s
+(Syntax12.Scn.Fnt) f (\).) s
+236 2459 m (See ) s
+(Syntax12i.Scn.Fnt) f (Compiler.Tool) s
+(Syntax12.Scn.Fnt) f ( for options.) s
+177 2339 m (Syntax12i.Scn.Fnt) f (X11) s
+236 2279 m (Syntax12.Scn.Fnt) f (New module acting as interface to Xlib.) s
+177 2159 m (Syntax12i.Scn.Fnt) f (Display) s
+236 2099 m (Syntax12.Scn.Fnt) f (Imports ) s
+(Syntax12i.Scn.Fnt) f (X11) s
+(Syntax12.Scn.Fnt) f (.) s
+236 2039 m (Procedures ) s
+(Syntax12i.Scn.Fnt) f (DefCC) s
+(Syntax12.Scn.Fnt) f (, ) s
+(Syntax12i.Scn.Fnt) f (DefCP) s
+(Syntax12.Scn.Fnt) f (, ) s
+(Syntax12i.Scn.Fnt) f (DrawCX) s
+(Syntax12.Scn.Fnt) f (, ) s
+(Syntax12i.Scn.Fnt) f (FadeCX) s
+(Syntax12.Scn.Fnt) f (, ) s
+(Syntax12i.Scn.Fnt) f (InitCC) s
+(Syntax12.Scn.Fnt) f (, ) s
+(Syntax12i.Scn.Fnt) f (InitCP) s
+(Syntax12.Scn.Fnt) f (, ) s
+(Syntax12i.Scn.Fnt) f (SetCursor) s
+(Syntax12.Scn.Fnt) f ( are not implemented.) s
+236 1979 m (Procedure ) s
+(Syntax12i.Scn.Fnt) f (SetMode ) s
+(Syntax12.Scn.Fnt) f (has no effect.) s
+236 1919 m (The display bitmap is not directly accessible \() s
+(Syntax12i.Scn.Fnt) f (Map) s
+(Syntax12.Scn.Fnt) f ( returns 0\).) s
+236 1859 m (The cursor is controlled by the window manager and is still active when a command is executing.) s
+236 1799 m (Pattern format is different, use ) s
+(Syntax12i.Scn.Fnt) f (Display.NewPattern) s
+(Syntax12.Scn.Fnt) f ( to define a pattern.) s
+236 1739 m (image[1] defines the bottom line of the pattern. image[0] is not used.) s
+177 1619 m (Syntax12i.Scn.Fnt) f (Display1) s
+236 1559 m (Syntax12.Scn.Fnt) f (Module exporting additional drawing procedures.) s
+177 1439 m (Syntax12i.Scn.Fnt) f (Unix) s
+236 1379 m (Syntax12.Scn.Fnt) f (New module acting as interface to Unix \(system calls\).) s
+236 1319 m (Syntax12i.Scn.Fnt) f (Unix.Result\(\)) s
+(Syntax12.Scn.Fnt) f ( may be called immediately after a non function system call.) s
+236 1259 m (If not zero, it gives the error number.) s
+236 1199 m (Syntax12i.Scn.Fnt) f (Unix.Done\(\)) s
+(Syntax12.Scn.Fnt) f ( may be called immediately after a system call, first call ) s
+(Syntax12i.Scn.Fnt) f (Unix.Result\(\)) s
+(Syntax12.Scn.Fnt) f ( if the error) s
+236 1139 m (number is needed.) s
+236 1079 m (Do not use function system calls as parameters of calls.) s
+236 1019 m (Pointer to array in Oberon) s
+(Syntax10.Scn.Fnt) f (-) s
+(Syntax12.Scn.Fnt) f (2 is not compatible with pointer to array in C;) s
+236 959 m (if compatibility is required, use pointer to record a: array end) s
+177 839 m (Syntax12i.Scn.Fnt) f (Input) s
+236 779 m (Syntax12.Scn.Fnt) f (Input events are puffered.) s
+236 719 m (Special keys:) s
+236 659 m (F1) s
+1121 659 m (mark viewer) s
+236 599 m (Esc, F2) s
+1121 599 m (escape) s
+236 539 m (F3) s
+1121 539 m (break) s
+236 479 m (F4) s
+1121 479 m (init colors) s
+236 419 m (Select, Ctrl-J) s
+1121 419 m (line feed) s
+236 359 m (Ctrl) s
+(Syntax10.Scn.Fnt) f (-) s
+(Syntax12.Scn.Fnt) f (L) s
+1121 359 m (redraw screen) s
+236 299 m (Prior \(Page Up or PrevScreen\)) s
+1121 299 m (redraw for Draw \(also \221\)) s
+236 239 m (Ctrl) s
+(Syntax10.Scn.Fnt) f (-) s
+(Syntax12.Scn.Fnt) f (Prior) s
+1121 239 m (home for Draw \(also \223\)) s
+1 p
+%%Page: 0 4 
+2104 3224 m (Syntax10.Scn.Fnt) f (3) s
+236 3119 m (Syntax12.Scn.Fnt) f (International characters can be typed using the usual compose sequence or an international) s
+236 3059 m (keyboard. A third way of composing them is to type the letter and the diacritic in any order, and) s
+236 2999 m (then press the function key F5 \(or the key Do\) in order to combine the two symbols into a) s
+236 2939 m (diacritical character.) s
+236 2879 m (Valid diacritics are : { ' ` " ^ , ~ }) s
+236 2759 m (Syntax12i.Scn.Fnt) f (Input.Time\(\)) s
+(Syntax12.Scn.Fnt) f ( returns the real time in milliseconds since DECoberon has been started.) s
+177 2639 m (Syntax12i.Scn.Fnt) f (Files) s
+236 2579 m (Syntax12.Scn.Fnt) f (Exports ) s
+(Syntax12i.Scn.Fnt) f (ChangeDirectory.) s
+177 2459 m (Types) s
+236 2399 m (Syntax12.Scn.Fnt) f (New interface module to the type system. Necessary to implement persistent objects.) s
+177 2279 m (Syntax12i.Scn.Fnt) f (Oberon) s
+236 2219 m (Time\(\)) s
+(Syntax12.Scn.Fnt) f ( returns ) s
+(Syntax12i.Scn.Fnt) f (Input.Time\(\)) s
+177 2099 m (Printer) s
+236 2039 m (Syntax12.Scn.Fnt) f (generates a postscript file named ) s
+(Syntax12i.Scn.Fnt) f (Oberon.Printfile.ps) s
+(Syntax12.Scn.Fnt) f ( and sends it to the printer if the printer name) s
+236 1979 m (is not ) s
+(Syntax12i.Scn.Fnt) f (none) s
+(Syntax12.Scn.Fnt) f (.) s
+177 1859 m (Syntax12i.Scn.Fnt) f (Kernel) s
+236 1799 m (GC) s
+(Syntax12.Scn.Fnt) f ( may be called at any time, since local pointers \(on the stack or in registers\) are used as roots) s
+236 1739 m (during the mark phase of the garbage collection.) s
+236 1679 m (Garbage collection is done on \(open\) array elements too.) s
+177 1559 m (Syntax12i.Scn.Fnt) f (Font Mapping File) s
+236 1499 m (Syntax12.Scn.Fnt) f (Since small Oberon fonts may be difficult to read on high resolution displays, several font) s
+236 1439 m (mapping files are provided: ) s
+(Syntax12i.Scn.Fnt) f (Normal.Map, Medium.Map) s
+(Syntax12.Scn.Fnt) f ( and ) s
+(Syntax12i.Scn.Fnt) f (Big.Map) s
+(Syntax12.Scn.Fnt) f (. \(See option \261f above\).) s
+236 1379 m (Syntax12i.Scn.Fnt) f (Normal.Map) s
+(Syntax12.Scn.Fnt) f ( yields better printing results.) s
+177 1259 m (The option character is "\\" instead of "/". This allows to use "/" in file names \(Unix path names\).) s
+177 1079 m (Syntax10.Scn.Fnt) f (For further information or bug reports, please contact) s
+177 959 m (  The Secretary) s
+177 899 m (  Institut f\205r Computersysteme) s
+932 899 m (Tel: \(+41-1\) 632 7311) s
+177 839 m (  ETH Zentrum) s
+932 839 m (Fax: \(+41-1\) 261 5389) s
+177 779 m (  CH-8092 Z\205rich) s
+932 779 m (e-mail: oberon@inf.ethz.ch) s
+177 719 m (  Switzerland) s
+932 719 m (\(crelier@inf.ethz.ch for bug reports\)) s
+1 p
+%%Trailer         

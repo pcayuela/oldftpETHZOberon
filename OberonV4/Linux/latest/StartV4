@@ -1,0 +1,13 @@
+#! /bin/tcsh
+# Start ETH Oberon V4 (native Linux) environment 
+# this file is intended to be executed under the X-environment
+#
+ cp Configuration.Obj.ETH Configuration.Obj
+ cp Configuration.Sym.ETH Configuration.Sym
+alias oberon "/usr/local/ETHOberon/oberon -geometry 1200x980+0+0 &"
+# alias oberon "/usr/local/ETHOberon/oberon  &"
+xset fp default
+xset +fp /usr/local/ETHOberon/.Fonts
+xset fp rehash
+setenv OBERON ".:/usr/local/ETHOberon/.Fonts:/usr/local/ETHOberon/"
+oberon 

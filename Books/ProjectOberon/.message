@@ -1,0 +1,7 @@
++-------------------------------------------------------------
+| ProjectOberon.V4.tar.gz contains all sources from the book
+| "Project Oberon" by N. Wirth and J. Gutknect as Oberon text
+| files. 
+|
+| Use gunzip and tar to extract the files from the compressed
+| archive.

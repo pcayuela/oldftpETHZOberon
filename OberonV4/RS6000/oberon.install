@@ -1,0 +1,41 @@
+#!/bin/csh
+# POWERoberon installation script
+# mmb 2.4.92 / 2.11.93
+
+if (-e POWERoberon.4.1.tar.Z) then
+	uncompress POWERoberon.4.1.tar.Z
+	tar -xf POWERoberon.4.1.tar
+	ld -H512 -T512 -o oberon -s -bhalt:4 oberon.obj -lc -lm -lX11
+else
+	echo You have to put the files you fetched into the current directory.
+	exit
+endif
+if (-e POWERoberon.fonts.tar.Z) then
+	uncompress POWERoberon.fonts.tar.Z
+	tar -xf POWERoberon.fonts.tar
+	echo Do not forget to install the Oberon fonts as X-Windows fonts.
+	echo See FontToBDF.Tool for instructions.
+endif
+if (-e POWERoberon.4.1.Paint.tar.Z) then
+	uncompress POWERoberon.4.1.Paint.tar.Z
+	tar -xf POWERoberon.4.1.Paint.tar
+endif
+if (-e POWERoberon.4.1.Kepler.tar.Z) then
+	uncompress POWERoberon.4.1.Kepler.tar.Z
+	tar -xf POWERoberon.4.1.Kepler.tar
+endif
+echo POWERoberon is now ready to be run.
+echo Make sure that the current directory is included in your search path PATH.
+echo Then type 'oberon' to execute.
+echo ------------------------------
+echo If the installation succeded, you can remove the following files to 
+echo free up disk space:
+echo                    POWERoberon.4.1.tar
+echo                    POWERoberon.fonts.tar
+echo                    POWERoberon.4.1.Paint.tar
+echo                    POWERoberon.4.1.Kepler.tar
+echo                    README
+echo                    oberon.install
+echo                    oberon.obj
+echo
+

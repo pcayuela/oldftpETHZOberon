@@ -1,0 +1,118 @@
+Linux Native Oberon ( 27.Jan.2002 )
+
+
+Linux Native Oberon is an emulation of Native Oberon for Linux. The goal is 
+not a tight integration in the Linux environment but binary compatibility 
+with Native Oberon. For information  about Native Oberon see the homepage at
+http://www.oberon.ethz.ch/native/
+
+To install this release you need:
+- Linux with X11, of course
+- the Oberon0.Dsk file from Native Oberon (download from LinuxBased)
+- 10 Mb free disk space, or Native Oberon beta 31.07.00 running.
+  40 Mb disk space is recommended if all packages are to be installed
+
+Linux Native Oberon doesn't change the interface of any module. All driver 
+modules which are changed for LNO are statically linked in oberon.lno. 
+If you first install Native Oberon and than LNO on an own partition you
+will be able to start Oberon from both Native or Linux.
+
+Installation:
+
+1) Make a new directory, copy lno020127.tgz and Oberon0.Dsk to it and make
+it the current directory (the LNO directory).
+
+2) Uncompress lno020127.tgz with "tar xzf lno020127.tgz". This will expand to:
+ 
+install		the core for installation
+oberon		the command for libc6
+oberon.libc5	the command for libc5
+oberon.lno	the inner core of Oberon and the LNO drivers statically linked 
+oberon.cnf	the configuration file
+oberon.xpm	an icon for Oberon
+oberon.c	the source of the bootloader
+LNO.tgz		Linux Native Oberon specific files
+
+3) Get the *.zip files of the optional packages you want to install from
+the LinuxBased directory an copy them to your LNO directory.
+
+4) If you want to update a Native Oberon partition make a symbolic link to
+that partition. For example, "ln -s /dev/hda1 oberon.dsk" where /dev/hda1
+is your Oberon partition. Set read/write permissions to that partition:
+"chmod 600 /dev/hda1".  Then go to step 7 to start Oberon-0, and use options
+1, 5 and 6.
+
+5) If you want to use an existing disk file in a DOS FAT partition, make a
+symbolic link to that file. For example, "ln -s /dos/system3/native.dsk 
+oberon.dsk". Be sure to have read/write permissions to that file.
+Then go to step 7 to start Oberon-0, and use options 2, 5 and 6.
+
+6) If you want to create a new empty disk file just go to the next step,
+and create the file from within Oberon-0, using options 3, 5 and 6.
+(Note that the current beta version has a bug which does not allow
+formatting an oberon.dsk file larger than 32 Mb.)
+
+7) Be sure that the oberon0.dsk file (if any) is in the current directory
+and execute "oberon -c install". The Linux-based version of Oberon-0 will
+appear, allowing you to install the files.  Finish with option 6, System.Quit.
+
+8) Execute "oberon" to run the installed system.  Open Linux.Tool to mount
+the linux file system and install the *.arc files.
+
+To execute oberon, the oberon directory must be the current directory. If the
+current directory is not in the path you must execute "./oberon" . The oberon
+disk files must be read/write accessible. If a Native printer is used, the 
+printing device must be read/write accessible. To use the floppy, you need 
+read/write access to the floppy device /dev/fd? .
+
+Options:
+-h size	  set the heapsize to size in Mb ( default 12 Mb )
+-d file   use file as Linux Native Oberon disk file ( default oberon.dsk )
+-c file	  use file as statically linked oberon core ( default oberon.lno )
+
+oberon.log gives some hints if something goes wrong.
+
+9) To copy other files (e.g. gadgets.arc etc.) to your LNO disk, execute 
+System.Open Linux.Tool and use the Linux.cp2o command there.
+
+The following drivers are implemented: 
+Input, Disk, Display, Diskette0, Diskette, LinuxPrinter, Centronics, V24, CD
+
+Sound and Linux NetSystem are not implemented. SLIP and PPP connections work, 
+because they use the serial port.
+
+Implementation specific things:
+- Kernel.SetClock is not implemented.
+  ( only super user would be allowed to set the clock)
+- the display is buffered in the heap
+- Snapshot doesn't support 16/32 bit displays
+- the Linux Module offers Linux spezific commands. Read Linux.Tool!
+
+Configuration:
+The display size and some other things can be configured in oberon.cnf
+
+Differences from PC Native Oberon:
+- Hard break is ctrl-c from the terminal window
+- Quit is ctrl-z from the terminal window
+- System.Reboot is equal to System.Quit
+
+Known bugs:
+- LNO is terminated when the stack is full
+
+To include oberon into the menu of your desktop environment or window manager, 
+make a small script  like this:
+
+#!/bin/sh
+cd /home/pm/LinuxNative/	# the directory of Linux Native Oberon
+xterm -e ./oberon
+cd -   
+
+Name this script oberon, give it the execute permissions and put it to
+/usr/local/bin/ . Now you can include this command in the menu as
+described in the documentation of your desktop environment or window manager.
+
+Send comments to matthias@ngi.de , especially if you know how to handle
+a signal on stack overflow.
+
+Peter Matthias		October, 1999
+Pieter Muller 		January, 2002 (updated)

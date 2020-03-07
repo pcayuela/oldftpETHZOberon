@@ -1,0 +1,11 @@
+#! /bin/tcsh
+# Start Oberon System3 1.5 (native Linux) environment 
+# this file is intended to be executed under the X-environment
+# Note: do NOT start System 3 from the directory where you have a V4 System.Tool
+#       with V4 Text Elements. This will kill the environment on startup.
+#
+xset fp default
+xset +fp /usr/local/ETHOberon/.Fonts
+xset fp rehash
+setenv OBERON .:/usr/local/ETHOberon/System3
+/usr/local/ETHOberon/System3/oberon  &

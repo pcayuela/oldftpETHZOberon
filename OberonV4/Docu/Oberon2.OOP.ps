@@ -1,0 +1,1621 @@
+%!
+% Oberon 2.2
+% J. Templ, 27.4.90/20.10.91
+%
+% m  moveto  x y -> -
+% s  String  s -> -
+% d  dieresis  ch -> -
+% l  Line  x y w h -> -
+% x  XLine  x y dx dy -> -
+% c  scaled Circle  x y a b -> -
+% b  shaded box  x y w h col -> -
+% i  pattern image  x y w h mode  -> -
+% p  Page  n -> -
+% f  font mapping  fnt -> -
+% z Bezier cubic section  x1 y1 x2 y2 x3 y3 x0 y0 -> -
+% k char  x y w h dx -> -
+
+/m {moveto} def
+
+/s {show} def
+
+/d  % obsolete
+  { /s2 exch def
+        /ch0 s2 0 1 getinterval def
+        /ch1 s2 1 1 getinterval def
+    currentpoint /y0 exch def /x0 exch def
+    ch0 show
+    currentpoint /y1 exch def /x1 exch def
+    ch1 stringwidth /wy exch def /wx exch def
+    x1 x0 add wx sub 2 div y0 moveto
+    ch0 (Z) le {0 wx 2 div rmoveto} if
+    ch1 show
+    x1 y1 moveto
+  } def
+
+/l
+  { /ph exch def
+    /pw exch def
+    newpath
+    moveto
+    pw 0 rlineto
+    0 ph rlineto
+    pw neg 0 rlineto
+    closepath
+    0 setgray
+    fill
+  } def
+
+/x
+  { /dy exch def
+    /dx exch def
+    newpath
+    moveto
+    dx dy rlineto
+    0 setlinewidth
+    stroke
+  } def
+
+/c
+  { /pb exch def
+    /pa exch def
+    newpath
+    gsave
+    translate
+    1 pb pa div scale
+    0 0 pa 0 360 arc
+    0 setlinewidth
+    stroke
+    grestore
+  } def
+
+/maxwh
+  { pw ph gt {/max pw def} {/max ph def} ifelse
+  } def
+
+/shade
+  { gsave
+    col 0 eq {1 setgray} if
+    col 1 eq {0.99 setgray} if
+    col 2 eq {0.9 setgray} if
+    col 3 eq {0.65 setgray} if
+    col 4 eq {0.35 setgray} if
+    col 5 eq {0 setgray} if
+    fill
+    grestore
+  } def
+
+/texture
+  { gsave
+    clip
+    newpath
+    col 6 eq
+      { px py ph add moveto
+        maxwh
+        max 10 idiv 1 add
+          { max max rlineto
+            max neg dup 20 sub rmoveto
+          } repeat
+      } if
+    col 7 eq
+      { px py moveto
+        maxwh
+        max 10 idiv 1 add
+          { max neg max rlineto
+            max 20 add max neg rmoveto
+          } repeat
+      } if
+    col 8 eq
+      { px py moveto
+        pw 15 idiv 1 add
+          { 0 ph rlineto
+            15 ph neg rmoveto
+          } repeat
+     } if
+    col 9 eq
+      { px py moveto
+        ph 15 idiv 1 add
+          { pw 0 rlineto
+            pw neg 15 rmoveto
+          } repeat
+     } if
+    0 setlinewidth
+    stroke
+    grestore
+  } def
+
+/b
+  { /col exch def
+    /ph exch def
+    /pw exch def
+    /py exch def
+    /px exch def
+    newpath
+    px py moveto
+    pw 0 rlineto
+    0 ph rlineto
+    pw neg 0 rlineto
+    closepath
+    col 6 lt {shade} {texture} ifelse
+  } def
+
+/i % pattern image follows procedure i immediately
+  { /mode exch def
+    /ph exch def
+    /pw exch def
+    /py exch def
+    /px exch def
+    /picstr 256 string def
+    /nofbytes pw 7 add 8 idiv ph mul def
+    gsave
+    px py translate
+    pw mode 1 add mul ph mode 1 add mul scale
+    pw ph 1 [pw 0 0 ph 0 0]
+      {nofbytes 256 ge
+        { currentfile picstr readhexstring pop
+          /nofbytes nofbytes 256 sub def }
+        { /picstr nofbytes string def
+          currentfile picstr readhexstring pop
+          /nofbytes 0 def
+        } ifelse
+      } image
+    grestore
+  } def
+
+/k % char image follows procedure k immediately
+  { /pdx exch def
+    /ph exch def
+    /pw exch def
+    /py exch def
+    /px exch def
+    /picstr 256 string def
+    /nofbytes pw 7 add 8 idiv ph mul def
+    gsave
+        currentpoint translate
+    px py translate
+    pw ph scale
+    pw ph true [pw 0 0 ph 0 0]
+      { nofbytes 256 ge
+        { currentfile picstr readhexstring pop
+          /nofbytes nofbytes 256 sub def }
+        { /picstr nofbytes string def
+          currentfile picstr readhexstring pop
+          /nofbytes 0 def
+        } ifelse
+      } imagemask
+    grestore
+    pdx 0 rmoveto
+  } def
+
+
+/OberonEncoding
+  [ 128 /Adieresis
+    129 /Odieresis
+    130 /Udieresis
+    131 /adieresis
+    132 /odieresis
+    133 /udieresis
+    134 /acircumflex
+    135 /ecircumflex
+    136 /icircumflex
+    137 /ocircumflex
+    138 /ucircumflex
+    139 /agrave
+    140 /egrave
+    141 /igrave
+    142 /ograve
+    143 /ugrave
+    144 /eacute
+    145 /edieresis
+    146 /idieresis
+    147 /ccedilla
+    148 /aacute
+    149 /ntilde
+  ] def
+
+% font reencoding taken from P. Vollenweider, PostScript, Hanser Verlag 1988
+% encoding vector is /OberonEncoding
+% newfontdict basefontdict recode -
+
+/recode
+  { findfont /basefontdict exch def
+    /OberonFont basefontdict maxlength dict def
+    basefontdict
+      { exch dup /FID ne
+        { dup /Encoding eq
+          { exch dup length array copy OberonFont 3 1 roll put }
+          { exch OberonFont 3 1 roll put }
+          ifelse
+        }
+        { pop pop }
+        ifelse
+      } forall
+    OberonEncoding aload pop
+    OberonEncoding length 2 idiv {OberonFont /Encoding get 3 1 roll put} repeat
+    dup OberonFont exch /FontName exch put
+    OberonFont definefont pop
+  } def
+
+% font setup.  Recode the basic fonts first
+
+  /ObHelv /Helvetica recode
+  /ObHelvBold /Helvetica-Bold recode
+  /ObHelvOblique /Helvetica-Oblique recode
+  /ObCourier /Courier recode
+  /ObCourierBold /Courier-Bold recode
+
+% now define the scaled versions
+
+  /Syntax8.Scn.Fnt   /ObHelv findfont 30 scalefont def
+  /Syntax8i.Scn.Fnt  /ObHelvOblique findfont 30 scalefont def
+  /Syntax8b.Scn.Fnt  /ObHelvBold findfont 30 scalefont def
+  /Syntax8m.Scn.Fnt  /ObHelvBold findfont 30 scalefont def
+
+  /Syntax9m.Scn.Fnt  /ObHelvBold findfont 33 scalefont def
+
+  /Syntax10.Scn.Fnt  /ObHelv findfont 37 scalefont def
+  /Syntax10i.Scn.Fnt /ObHelvOblique  findfont 37 scalefont def
+  /Syntax10b.Scn.Fnt /ObHelvBold findfont 37 scalefont def
+  /Syntax10m.Scn.Fnt /ObHelvBold findfont 37 scalefont def
+  /Syntax10w.Scn.Fnt /ObHelv findfont 37 scalefont def
+
+  /Syntax12.Scn.Fnt /ObHelv findfont 44 scalefont def
+  /Syntax12i.Scn.Fnt /ObHelvOblique findfont 44 scalefont def
+  /Syntax12b.Scn.Fnt /ObHelvBold findfont 44 scalefont def
+  /Syntax12m.Scn.Fnt /ObHelvBold findfont 44 scalefont def
+
+  /Syntax14.Scn.Fnt /ObHelv findfont 50 scalefont def
+  /Syntax14i.Scn.Fnt /ObHelvOblique findfont 50 scalefont def
+  /Syntax14b.Scn.Fnt /ObHelvBold findfont 50 scalefont def
+  /Syntax14m.Scn.Fnt /ObHelvBold findfont 50 scalefont def
+
+  /Syntax16.Scn.Fnt /ObHelv findfont 59 scalefont def
+  /Syntax16i.Scn.Fnt /ObHelvOblique findfont 59 scalefont def
+  /Syntax16b.Scn.Fnt /ObHelvBold findfont 59 scalefont def
+  /Syntax16m.Scn.Fnt /ObHelvBold findfont 59 scalefont def
+
+  /Syntax20.Scn.Fnt /ObHelv findfont 74 scalefont def
+  /Syntax20i.Scn.Fnt /ObHelvOblique findfont 74 scalefont def
+  /Syntax20b.Scn.Fnt /ObHelvBold findfont 74 scalefont def
+  /Syntax20m.Scn.Fnt /ObHelvBold findfont 74 scalefont def
+
+  /Syntax24.Scn.Fnt /ObHelv findfont 88 scalefont def
+  /Syntax24i.Scn.Fnt /ObHelvOblique findfont 88 scalefont def
+  /Syntax24b.Scn.Fnt /ObHelvBold findfont 88 scalefont def
+  /Syntax24m.Scn.Fnt  /ObHelvBold findfont 88 scalefont def
+
+  /Gacha10l /ObCourier findfont 30 scalefont def
+  /Courier10.Scn.Fnt /ObCourier findfont 37 scalefont def
+  /Courier10b.Scn.Fnt  /ObCourierBold findfont 37 scalefont def
+  /Courier8.Scn.Fnt /ObCourier findfont 30 scalefont def
+
+
+/f {
+   cvn currentdict exch get setfont
+   } def
+
+/z % Bezier cubic section
+  { newpath moveto curveto 0 setlinewidth stroke } def
+
+/p % show page
+  { /#copies exch def
+    showpage
+    restore save
+  } def
+
+.23 .23 scale
+100 50 translate
+(Syntax10.Scn.Fnt) f
+save
+% --- end of header
+2104 3307 m (Syntax10.Scn.Fnt) f (0) s
+612 3217 m (Syntax12b.Scn.Fnt) f (OBJECT-ORIENTED PROGRAMMING IN OBERON-2) s
+956 3097 m (Syntax10.Scn.Fnt) f (Hanspeter M\204ssenb\204ck) s
+811 3057 m (ETH Z\205rich, Institut f\205r Computersysteme) s
+283 2857 m (Syntax10b.Scn.Fnt) f (ABSTRACT) s
+283 2777 m (Syntax10.Scn.Fnt) f (Oberon-2) s
+464 2777 m (is) s
+513 2777 m (a) s
+557 2777 m (refined) s
+694 2777 m (version) s
+836 2777 m (of) s
+889 2777 m (Oberon) s
+1036 2777 m (developed) s
+1231 2777 m (at) s
+1284 2777 m (ETH.) s
+1391 2777 m (It) s
+1433 2777 m (introduces) s
+1626 2777 m (type-bound) s
+1835 2777 m (procedures,) s
+283 2737 m (read-only) s
+459 2737 m (export) s
+583 2737 m (of) s
+635 2737 m (data,) s
+739 2737 m (and) s
+823 2737 m (open) s
+928 2737 m (array) s
+1033 2737 m (variables.) s
+1212 2737 m (The) s
+1298 2737 m (For) s
+1375 2737 m (statement) s
+1559 2737 m (is) s
+1606 2737 m (reintroduced.) s
+1844 2737 m (This) s
+1935 2737 m (paper) s
+283 2697 m (concentrates) s
+522 2697 m (on) s
+591 2697 m (type-bound) s
+805 2697 m (procedures) s
+1018 2697 m (which) s
+1140 2697 m (make) s
+1258 2697 m (Oberon-2) s
+1443 2697 m (an) s
+1512 2697 m (object-oriented) s
+1784 2697 m (language) s
+1965 2697 m (with) s
+283 2657 m (dynamically-bound) s
+608 2657 m (messages) s
+792 2657 m (and) s
+870 2657 m (strong) s
+988 2657 m (type) s
+1072 2657 m (checking) s
+1232 2657 m (at) s
+1277 2657 m (compile) s
+1419 2657 m (time.) s
+1513 2657 m (Messages) s
+1696 2657 m (can) s
+1770 2657 m (also) s
+1852 2657 m (be) s
+1908 2657 m (sent) s
+1992 2657 m (as) s
+283 2617 m (data) s
+369 2617 m (packets) s
+508 2617 m (\(extensible) s
+699 2617 m (records\)) s
+846 2617 m (that) s
+920 2617 m (are) s
+986 2617 m (passed) s
+1118 2617 m (to) s
+1161 2617 m (a) s
+1194 2617 m (handler) s
+1331 2617 m (procedure) s
+1511 2617 m (and) s
+1586 2617 m (are) s
+1652 2617 m (interpreted) s
+1842 2617 m (at) s
+1885 2617 m (run) s
+1951 2617 m (time.) s
+283 2577 m (This) s
+365 2577 m (is) s
+403 2577 m (as) s
+454 2577 m (flexible) s
+581 2577 m (as) s
+632 2577 m (the) s
+696 2577 m (Smalltalk) s
+858 2577 m (message) s
+1021 2577 m (dispatching) s
+1220 2577 m (mechanism.) s
+1431 2577 m (Objects) s
+1567 2577 m (carry) s
+1659 2577 m (type) s
+1740 2577 m (information) s
+1935 2577 m (at) s
+1977 2577 m (run) s
+283 2537 m (time) s
+365 2537 m (which) s
+472 2537 m (allows) s
+587 2537 m (dynamic) s
+737 2537 m (binding) s
+870 2537 m (of) s
+913 2537 m (messages,) s
+1103 2537 m (run) s
+1168 2537 m (time) s
+1249 2537 m (type) s
+1330 2537 m (tests,) s
+1428 2537 m (and) s
+1502 2537 m (the) s
+1565 2537 m (implementation) s
+1829 2537 m (of) s
+1871 2537 m (persistent) s
+283 2497 m (objects. Oberon-2 is available on various machines.) s
+177 2377 m (Syntax10b.Scn.Fnt) f (OVERVIEW) s
+177 2297 m (Syntax10.Scn.Fnt) f (In) s
+224 2297 m (1987,) s
+334 2297 m (Wirth) s
+436 2297 m (defined) s
+575 2297 m (the) s
+643 2297 m (language) s
+814 2297 m (Oberon) s
+955 2297 m ([1].) s
+1022 2297 m (Compared) s
+1213 2297 m (with) s
+1295 2297 m (its) s
+1347 2297 m (predecessor) s
+1566 2297 m (Modula-2,) s
+1747 2297 m (Oberon) s
+1887 2297 m (is) s
+1928 2297 m (smaller) s
+2062 2297 m (and) s
+177 2257 m (cleaner,) s
+320 2257 m (and) s
+394 2257 m (it) s
+423 2257 m (supports) s
+576 2257 m (type) s
+657 2257 m (extension) s
+827 2257 m (which) s
+933 2257 m (is) s
+970 2257 m (a) s
+1002 2257 m (prerequisite) s
+1207 2257 m (for) s
+1261 2257 m (object-oriented) s
+1518 2257 m (programming.) s
+1759 2257 m (Type) s
+1853 2257 m (extension) s
+2022 2257 m (allows) s
+177 2217 m (the) s
+241 2217 m (programmer) s
+456 2217 m (to) s
+499 2217 m (extend) s
+623 2217 m (an) s
+677 2217 m (existing) s
+814 2217 m (record) s
+931 2217 m (type) s
+1012 2217 m (by) s
+1062 2217 m (adding) s
+1186 2217 m (new) s
+1266 2217 m (fields) s
+1363 2217 m (while) s
+1459 2217 m (preserving) s
+1643 2217 m (the) s
+1706 2217 m (compatibility) s
+1920 2217 m (between) s
+2073 2217 m (the) s
+177 2177 m (old) s
+246 2177 m (and) s
+328 2177 m (the) s
+399 2177 m (new) s
+487 2177 m (type.) s
+586 2177 m (Operations) s
+787 2177 m (on) s
+848 2177 m (a) s
+887 2177 m (type,) s
+985 2177 m (however,) s
+1154 2177 m (have) s
+1253 2177 m (to) s
+1302 2177 m (be) s
+1362 2177 m (implemented) s
+1594 2177 m (as) s
+1651 2177 m (ordinary) s
+1803 2177 m (procedures) s
+2007 2177 m (without) s
+177 2137 m (syntactic) s
+330 2137 m (relation) s
+463 2137 m (to) s
+505 2137 m (that) s
+578 2137 m (type.) s
+669 2137 m (They) s
+763 2137 m (cannot) s
+886 2137 m (be) s
+939 2137 m (redefined) s
+1105 2137 m (for) s
+1158 2137 m (an) s
+1210 2137 m (extended) s
+1374 2137 m (type.) s
+1464 2137 m (Therefore) s
+1636 2137 m (dynamically-bound) s
+1956 2137 m (messages) s
+177 2097 m (\(which) s
+306 2097 m (are) s
+382 2097 m (vital) s
+469 2097 m (for) s
+534 2097 m (object-oriented) s
+802 2097 m (programming\)) s
+1056 2097 m (are) s
+1132 2097 m (not) s
+1206 2097 m (directly) s
+1343 2097 m (supported) s
+1530 2097 m (by) s
+1590 2097 m (Oberon,) s
+1746 2097 m (although) s
+1911 2097 m (they) s
+2002 2097 m (can) s
+2083 2097 m (be) s
+177 2057 m (implemented via message records \(see below\).) s
+177 1977 m (Compared) s
+367 1977 m (to) s
+413 1977 m (Oberon,) s
+563 1977 m (Oberon-2) s
+735 1977 m ([2]) s
+790 1977 m (provides) s
+944 1977 m (type-bound) s
+1145 1977 m (procedures) s
+1345 1977 m (\(methods\),) s
+1536 1977 m (read-only) s
+1705 1977 m (export) s
+1822 1977 m (of) s
+1867 1977 m (data,) s
+1964 1977 m (and) s
+2041 1977 m (open) s
+177 1937 m (array) s
+273 1937 m (variables.) s
+443 1937 m (The) s
+520 1937 m (For) s
+588 1937 m (statement) s
+763 1937 m (is) s
+801 1937 m (reintroduced) s
+1020 1937 m (after) s
+1106 1937 m (having) s
+1228 1937 m (been) s
+1324 1937 m (eliminated) s
+1506 1937 m (in) s
+1547 1937 m (the) s
+1611 1937 m (step) s
+1693 1937 m (from) s
+1779 1937 m (Modula-2) s
+1947 1937 m (to) s
+1990 1937 m (Oberon.) s
+177 1897 m (This) s
+262 1897 m (paper) s
+373 1897 m (concentrates) s
+600 1897 m (on) s
+657 1897 m (type-bound) s
+859 1897 m (procedures) s
+1060 1897 m (and) s
+1138 1897 m (the) s
+1205 1897 m (use) s
+1280 1897 m (of) s
+1326 1897 m (Oberon-2) s
+1499 1897 m (for) s
+1556 1897 m (object-oriented) s
+1816 1897 m (programming.) s
+2060 1897 m (The) s
+177 1857 m (other facilities are described in the Oberon-2 language report.) s
+177 1777 m (Type-bound) s
+395 1777 m (procedures) s
+599 1777 m (are) s
+671 1777 m (operations) s
+863 1777 m (applicable) s
+1049 1777 m (to) s
+1098 1777 m (variables) s
+1264 1777 m (of) s
+1313 1777 m (a) s
+1352 1777 m (record) s
+1475 1777 m (or) s
+1526 1777 m (pointer) s
+1658 1777 m (type.) s
+1756 1777 m (They) s
+1857 1777 m (are) s
+1928 1777 m (syntactically) s
+177 1737 m (associated) s
+373 1737 m (with) s
+458 1737 m (that) s
+539 1737 m (type) s
+628 1737 m (and) s
+710 1737 m (can) s
+789 1737 m (therefore) s
+957 1737 m (easily) s
+1069 1737 m (be) s
+1129 1737 m (identified) s
+1296 1737 m (as) s
+1353 1737 m (its) s
+1407 1737 m (operations.) s
+1609 1737 m (They) s
+1710 1737 m (can) s
+1788 1737 m (be) s
+1848 1737 m (redefined) s
+2022 1737 m (for) s
+2083 1737 m (an) s
+177 1697 m (extended) s
+347 1697 m (type) s
+433 1697 m (and) s
+511 1697 m (are) s
+580 1697 m (invoked) s
+723 1697 m (using) s
+827 1697 m (dynamic) s
+980 1697 m (binding.) s
+1126 1697 m (Type-bound) s
+1341 1697 m (procedures) s
+1542 1697 m (together) s
+1694 1697 m (with) s
+1775 1697 m (type) s
+1860 1697 m (extension) s
+2034 1697 m (make) s
+177 1657 m (Oberon-2) s
+352 1657 m (a) s
+390 1657 m (true) s
+471 1657 m (object-oriented) s
+734 1657 m (language) s
+906 1657 m (with) s
+989 1657 m (dynamically-bound) s
+1316 1657 m (messages) s
+1502 1657 m (and) s
+1582 1657 m (strong) s
+1702 1657 m (type) s
+1788 1657 m (checking) s
+1950 1657 m (at) s
+1997 1657 m (compile) s
+177 1617 m (time.) s
+271 1617 m (Oberon-2) s
+443 1617 m (is) s
+482 1617 m (the) s
+547 1617 m (result) s
+650 1617 m (of) s
+694 1617 m (three) s
+792 1617 m (years) s
+895 1617 m (experience) s
+1090 1617 m (of) s
+1134 1617 m (using) s
+1236 1617 m (Oberon) s
+1374 1617 m (and) s
+1450 1617 m (its) s
+1499 1617 m (experimental) s
+1725 1617 m (offspring) s
+1880 1617 m (Object) s
+2000 1617 m (Oberon) s
+177 1577 m ([3].) s
+241 1577 m (Object-oriented) s
+508 1577 m (concepts) s
+669 1577 m (were) s
+762 1577 m (integrated) s
+940 1577 m (smoothly) s
+1100 1577 m (into) s
+1172 1577 m (Oberon) s
+1309 1577 m (without) s
+1439 1577 m (sacrificing) s
+1614 1577 m (the) s
+1678 1577 m (conceptual) s
+1870 1577 m (simplicity) s
+2030 1577 m (of) s
+2073 1577 m (the) s
+177 1537 m (language.) s
+177 1457 m (Object-oriented) s
+444 1457 m (programming) s
+677 1457 m (is) s
+716 1457 m (based) s
+831 1457 m (on) s
+886 1457 m (three) s
+984 1457 m (concepts:) s
+1155 1457 m (Syntax10i.Scn.Fnt) f (data) s
+1241 1457 m (abstraction) s
+(Syntax10.Scn.Fnt) f (,) s
+1445 1457 m (Syntax10i.Scn.Fnt) f (type) s
+1528 1457 m (extension) s
+1700 1457 m (Syntax10.Scn.Fnt) f (and) s
+1776 1457 m (Syntax10i.Scn.Fnt) f (dynamic) s
+1927 1457 m (binding) s
+2061 1457 m (Syntax10.Scn.Fnt) f (of) s
+2104 1457 m (a) s
+177 1417 m (message) s
+343 1417 m (to) s
+389 1417 m (the) s
+456 1417 m (procedure) s
+639 1417 m (that) s
+716 1417 m (implements) s
+921 1417 m (it.) s
+964 1417 m (All) s
+1020 1417 m (these) s
+1126 1417 m (concepts) s
+1289 1417 m (are) s
+1358 1417 m (supported) s
+1539 1417 m (by) s
+1593 1417 m (Oberon-2.) s
+1776 1417 m (We) s
+1847 1417 m (first) s
+1919 1417 m (discuss) s
+2055 1417 m (type) s
+177 1377 m (extension) s
+347 1377 m (since) s
+444 1377 m (this) s
+512 1377 m (is) s
+549 1377 m (perhaps) s
+695 1377 m (the) s
+758 1377 m (most) s
+849 1377 m (important) s
+1015 1377 m (of) s
+1057 1377 m (the) s
+1120 1377 m (three) s
+1216 1377 m (notions,) s
+1356 1377 m (and) s
+1429 1377 m (then) s
+1512 1377 m (turn) s
+1586 1377 m (to) s
+1627 1377 m (type-bound) s
+1824 1377 m (procedures,) s
+2030 1377 m (which) s
+177 1337 m (allow data abstraction and dynamic binding.) s
+177 1217 m (Syntax10b.Scn.Fnt) f (TYPE EXTENSION) s
+177 1137 m (Syntax10.Scn.Fnt) f (Type) s
+271 1137 m (extension) s
+441 1137 m (was) s
+518 1137 m (introduced) s
+702 1137 m (by) s
+751 1137 m (Wirth) s
+847 1137 m (in) s
+886 1137 m (Oberon.) s
+1031 1137 m (It) s
+1061 1137 m (allows) s
+1174 1137 m (the) s
+1236 1137 m (programmer) s
+1449 1137 m (to) s
+1490 1137 m (derive) s
+1601 1137 m (a) s
+1632 1137 m (new) s
+1711 1137 m (type) s
+1791 1137 m (from) s
+1875 1137 m (an) s
+1927 1137 m (existing) s
+2062 1137 m (one) s
+177 1097 m (by adding data fields to it. Consider the declarations) s
+236 1017 m (TYPE) s
+295 977 m (PointDesc) s
+554 977 m (= RECORD x, y: INTEGER END;) s
+295 937 m (PointDesc3D) s
+554 937 m (= RECORD \(PointDesc\) z: INTEGER END;) s
+295 857 m (Point) s
+554 857 m (= POINTER TO PointDesc;) s
+295 817 m (Point3D) s
+554 817 m (= POINTER TO PointDesc3D;) s
+295 737 m (PointXYZ) s
+554 737 m (= POINTER TO PointDescXYZ;) s
+295 697 m (PointDescXYZ) s
+554 697 m (= RECORD x, y, z: INTEGER END;) s
+177 617 m (Syntax10i.Scn.Fnt) f (PointDesc3D) s
+(Syntax10.Scn.Fnt) f ( is an extension of ) s
+(Syntax10i.Scn.Fnt) f (PointDesc) s
+(Syntax10.Scn.Fnt) f ( \(specified by the type name in parentheses that follows the symbol) s
+177 577 m (RECORD\). It starts with the same fields as ) s
+(Syntax10i.Scn.Fnt) f (PointDesc) s
+(Syntax10.Scn.Fnt) f ( but contains an additional field ) s
+(Syntax10i.Scn.Fnt) f (z) s
+(Syntax10.Scn.Fnt) f (. Conversely, ) s
+(Syntax10i.Scn.Fnt) f (PointDesc) s
+(Syntax10.Scn.Fnt) f ( is) s
+177 537 m (called the base type of ) s
+(Syntax10i.Scn.Fnt) f (PointDesc3D) s
+(Syntax10.Scn.Fnt) f (. The notion of type extension also applies to pointers. ) s
+(Syntax10i.Scn.Fnt) f (Point3D) s
+(Syntax10.Scn.Fnt) f ( is an extension of) s
+177 497 m (Syntax10i.Scn.Fnt) f (Point) s
+(Syntax10.Scn.Fnt) f ( and ) s
+(Syntax10i.Scn.Fnt) f (Point) s
+(Syntax10.Scn.Fnt) f ( is the base type of ) s
+(Syntax10i.Scn.Fnt) f (Point3D) s
+(Syntax10.Scn.Fnt) f (. Type extension is also called inheritance because one can think of) s
+177 457 m (Syntax10i.Scn.Fnt) f (PointDesc3D) s
+(Syntax10.Scn.Fnt) f ( as "inheriting" the fields ) s
+(Syntax10i.Scn.Fnt) f (x) s
+(Syntax10.Scn.Fnt) f ( and ) s
+(Syntax10i.Scn.Fnt) f (y) s
+(Syntax10.Scn.Fnt) f ( from ) s
+(Syntax10i.Scn.Fnt) f (PointDesc) s
+(Syntax10.Scn.Fnt) f (.) s
+177 377 m (The crucial point about type extension is that ) s
+(Syntax10i.Scn.Fnt) f (Point3D) s
+(Syntax10.Scn.Fnt) f ( is compatible with ) s
+(Syntax10i.Scn.Fnt) f (Point) s
+(Syntax10.Scn.Fnt) f (, while ) s
+(Syntax10i.Scn.Fnt) f (PointXYZ) s
+(Syntax10.Scn.Fnt) f ( is not \(though it also) s
+177 337 m (points to a record with the fields ) s
+(Syntax10i.Scn.Fnt) f (x) s
+(Syntax10.Scn.Fnt) f ( and ) s
+(Syntax10i.Scn.Fnt) f (y) s
+(Syntax10.Scn.Fnt) f (\). If ) s
+(Syntax10i.Scn.Fnt) f (p) s
+(Syntax10.Scn.Fnt) f ( is of type ) s
+(Syntax10i.Scn.Fnt) f (Point) s
+(Syntax10.Scn.Fnt) f ( and ) s
+(Syntax10i.Scn.Fnt) f (p3) s
+(Syntax10.Scn.Fnt) f ( is of type ) s
+(Syntax10i.Scn.Fnt) f (Point3D) s
+(Syntax10.Scn.Fnt) f ( the assignment) s
+224 257 m (p := p3) s
+1 p
+2104 3307 m (Syntax10.Scn.Fnt) f (1) s
+177 3217 m (is legal since ) s
+(Syntax10i.Scn.Fnt) f (p3) s
+(Syntax10.Scn.Fnt) f ( is an \(extended\) ) s
+(Syntax10i.Scn.Fnt) f (Point) s
+(Syntax10.Scn.Fnt) f ( and therefore assignment compatible with ) s
+(Syntax10i.Scn.Fnt) f (p) s
+(Syntax10.Scn.Fnt) f (, which is a ) s
+(Syntax10i.Scn.Fnt) f (Point) s
+(Syntax10.Scn.Fnt) f (. The reverse) s
+177 3177 m (assignment ) s
+(Syntax10i.Scn.Fnt) f (p3 := p) s
+(Syntax10.Scn.Fnt) f ( is illegal since ) s
+(Syntax10i.Scn.Fnt) f (p) s
+(Syntax10.Scn.Fnt) f ( is only a ) s
+(Syntax10i.Scn.Fnt) f (Point) s
+(Syntax10.Scn.Fnt) f ( but not a ) s
+(Syntax10i.Scn.Fnt) f (Point3D) s
+(Syntax10.Scn.Fnt) f ( like ) s
+(Syntax10i.Scn.Fnt) f (p3) s
+(Syntax10.Scn.Fnt) f (. The same compatibility rules apply to) s
+177 3137 m (records.) s
+177 3057 m (Objects which are pointers or records have both a ) s
+(Syntax10i.Scn.Fnt) f (static type) s
+(Syntax10.Scn.Fnt) f ( and a ) s
+(Syntax10i.Scn.Fnt) f (dynamic type) s
+(Syntax10.Scn.Fnt) f (. The static type is the type which the) s
+177 3017 m (object is declared of. The dynamic type is the type which the object has at run time. It may be an extension of its static) s
+177 2977 m (type. After the assignment ) s
+(Syntax10i.Scn.Fnt) f (p := p3) s
+(Syntax10.Scn.Fnt) f ( the dynamic type of ) s
+(Syntax10i.Scn.Fnt) f (p) s
+(Syntax10.Scn.Fnt) f ( is ) s
+(Syntax10i.Scn.Fnt) f (Point3D) s
+(Syntax10.Scn.Fnt) f (, while its static type is still ) s
+(Syntax10i.Scn.Fnt) f (Point) s
+(Syntax10.Scn.Fnt) f (. That means that) s
+177 2937 m (the field ) s
+(Syntax10i.Scn.Fnt) f (p3^.z) s
+(Syntax10.Scn.Fnt) f ( is still part of the block that ) s
+(Syntax10i.Scn.Fnt) f (p) s
+(Syntax10.Scn.Fnt) f ( points to, but it cannot be accessed via ) s
+(Syntax10i.Scn.Fnt) f (p) s
+(Syntax10.Scn.Fnt) f ( since the static type of ) s
+(Syntax10i.Scn.Fnt) f (p) s
+(Syntax10.Scn.Fnt) f ( does not) s
+177 2897 m (contain a field ) s
+(Syntax10i.Scn.Fnt) f (p^.z) s
+(Syntax10.Scn.Fnt) f ( \(Figure 1\).) s
+1136 2495 m (after) s
+1121 2655 255 1 l
+1377 2655 1 127 l
+1121 2655 1 127 l
+1080 2759 m 8 6 24 20 28 k
+e00000
+f80000
+fe0000
+ffc000
+fff000
+fffe00
+ffff80
+fffff0
+fffffc
+ffffff
+ffffff
+fffffc
+fffff0
+ffff80
+fffe00
+fff000
+ffc000
+fe0000
+f80000
+e00000
+948 2763 m (p) s
+1121 2783 255 1 l
+1121 2719 31 1 l
+1345 2719 31 1 l
+1232 2739 m (x) s
+1232 2675 m (y) s
+1232 2611 m (z) s
+993 2775 111 1 l
+1244 2495 m (Syntax10i.Scn.Fnt) f (p := p3) s
+224 2763 m (Syntax10.Scn.Fnt) f (p3) s
+289 2775 111 1 l
+376 2759 m 8 6 24 20 28 k
+e00000
+f80000
+fe0000
+ffc000
+fff000
+fffe00
+ffff80
+fffff0
+fffffc
+ffffff
+ffffff
+fffffc
+fffff0
+ffff80
+fffe00
+fff000
+ffc000
+fe0000
+f80000
+e00000
+528 2611 m (z) s
+528 2675 m (y) s
+528 2739 m (x) s
+641 2655 31 1 l
+641 2719 31 1 l
+417 2655 31 1 l
+417 2719 31 1 l
+417 2591 1 191 l
+417 2591 255 1 l
+673 2591 1 191 l
+417 2783 255 1 l
+224 2413 m (Syntax10b.Scn.Fnt) f (Figure 1) s
+(Syntax10.Scn.Fnt) f (.  Assignment between the extended object and the base object) s
+177 2333 m (Objects like ) s
+(Syntax10i.Scn.Fnt) f (p) s
+(Syntax10.Scn.Fnt) f ( are polymorphic, i.e. they may assume various types at run time. The actual type an object has at run) s
+177 2293 m (time can be examined with a type test:) s
+224 2213 m (p IS Point3D) s
+177 2133 m (yields TRUE if the dynamic type of ) s
+(Syntax10i.Scn.Fnt) f (p) s
+(Syntax10.Scn.Fnt) f ( is ) s
+(Syntax10i.Scn.Fnt) f (Point3D) s
+(Syntax10.Scn.Fnt) f ( \(or an extension of it\) and FALSE otherwise. A type guard) s
+224 2053 m (p\(Point3D\)) s
+177 1973 m (asserts \(i.e., tests at run time\) that the dynamic type of ) s
+(Syntax10i.Scn.Fnt) f (p) s
+(Syntax10.Scn.Fnt) f ( is ) s
+(Syntax10i.Scn.Fnt) f (Point3D) s
+(Syntax10.Scn.Fnt) f ( \(or an extension of it\). If so, the designator) s
+177 1933 m (Syntax10i.Scn.Fnt) f (p\(Point3D\)) s
+(Syntax10.Scn.Fnt) f ( is regarded as having the static type ) s
+(Syntax10i.Scn.Fnt) f (Point3D) s
+(Syntax10.Scn.Fnt) f (. If not, the program is aborted. Type guards allow the) s
+177 1893 m (treatment of ) s
+(Syntax10i.Scn.Fnt) f (p) s
+(Syntax10.Scn.Fnt) f ( as a ) s
+(Syntax10i.Scn.Fnt) f (Point3D) s
+(Syntax10.Scn.Fnt) f ( object. Therefore the following assignments are possible: ) s
+(Syntax10i.Scn.Fnt) f (p\(Point3D\)^.z := 0; p3 :=) s
+177 1853 m (p\(Point3D\);) s
+177 1773 m (Syntax10.Scn.Fnt) f (For objects of a record type, the static and the dynamic types are usually the same. If ) s
+(Syntax10i.Scn.Fnt) f (pd) s
+(Syntax10.Scn.Fnt) f ( is of type ) s
+(Syntax10i.Scn.Fnt) f (PointDesc) s
+(Syntax10.Scn.Fnt) f ( and ) s
+(Syntax10i.Scn.Fnt) f (pd3) s
+177 1733 m (Syntax10.Scn.Fnt) f (is of type ) s
+(Syntax10i.Scn.Fnt) f (PointDesc3D) s
+(Syntax10.Scn.Fnt) f (, the assignment ) s
+(Syntax10i.Scn.Fnt) f (pd := pd3) s
+(Syntax10.Scn.Fnt) f ( does not change the dynamic type of ) s
+(Syntax10i.Scn.Fnt) f (pd) s
+(Syntax10.Scn.Fnt) f (. Only the fields ) s
+(Syntax10i.Scn.Fnt) f (pd3.x) s
+(Syntax10.Scn.Fnt) f ( and) s
+177 1693 m (Syntax10i.Scn.Fnt) f (pd3.y) s
+(Syntax10.Scn.Fnt) f ( are moved to ) s
+(Syntax10i.Scn.Fnt) f (pd) s
+(Syntax10.Scn.Fnt) f (, and the dynamic type of ) s
+(Syntax10i.Scn.Fnt) f (pd) s
+(Syntax10.Scn.Fnt) f ( remains ) s
+(Syntax10i.Scn.Fnt) f (PointDesc) s
+(Syntax10.Scn.Fnt) f (. The compatibility between records is of minor) s
+177 1653 m (importance except when ) s
+(Syntax10i.Scn.Fnt) f (pd) s
+(Syntax10.Scn.Fnt) f ( is a formal variable parameter and ) s
+(Syntax10i.Scn.Fnt) f (pd3) s
+(Syntax10.Scn.Fnt) f ( is its corresponding actual parameter. In this case) s
+177 1613 m (the dynamic type of ) s
+(Syntax10i.Scn.Fnt) f (pd) s
+(Syntax10.Scn.Fnt) f ( is ) s
+(Syntax10i.Scn.Fnt) f (Point3D) s
+(Syntax10.Scn.Fnt) f ( and the component ) s
+(Syntax10i.Scn.Fnt) f (pd3^.z) s
+(Syntax10.Scn.Fnt) f ( is not stripped off.) s
+177 1533 m (The motivation for type extension is that an algorithm which works with type ) s
+(Syntax10i.Scn.Fnt) f (Point) s
+(Syntax10.Scn.Fnt) f ( can also work with any of its) s
+177 1493 m (extensions. For example, the procedure) s
+224 1413 m (PROCEDURE ) s
+(Syntax10b.Scn.Fnt) f (Move) s
+(Syntax10.Scn.Fnt) f ( \(p: Point; dx, dy: INTEGER\);) s
+224 1373 m (BEGIN INC\(p.x, dx\); INC\(p.y, dy\)) s
+224 1333 m (END Move;) s
+177 1253 m (can be called not only as ) s
+(Syntax10i.Scn.Fnt) f (Move\(p, dx, dy\)) s
+(Syntax10.Scn.Fnt) f ( but also as ) s
+(Syntax10i.Scn.Fnt) f (Move\(p3, dx, dy\)) s
+(Syntax10.Scn.Fnt) f (.) s
+177 1133 m (Syntax10b.Scn.Fnt) f (TYPE-BOUND PROCEDURES) s
+177 1053 m (Syntax10.Scn.Fnt) f (Type-bound procedures serve to implement abstract data types with dynamically bound operations. An abstract data) s
+177 1013 m (type is a user-defined type which encapsulates private data together with a set of operations that can be used to) s
+177 973 m (manipulate this data. In Modula-2 or in Oberon an abstract data type is implemented as a record type and a set of) s
+177 933 m (procedures. The procedures, however, are syntactically unrelated to the record, which sometimes makes it hard to) s
+177 893 m (identify the data and the operations as an entity.) s
+177 813 m (In Oberon-2, procedures can be connected to a data type explicitly. Such procedures are called type-bound. The) s
+177 773 m (interface of an abstract data type for texts may look like this:) s
+224 693 m (TYPE) s
+271 653 m (Text = POINTER TO TextDesc;) s
+271 613 m (TextDesc = RECORD) s
+318 573 m (data: ... ) s
+(Syntax10i.Scn.Fnt) f (\(*\(hidden\) text data*\)) s
+318 533 m (Syntax10.Scn.Fnt) f (PROCEDURE \(t: Text\) ) s
+(Syntax10b.Scn.Fnt) f (Insert) s
+(Syntax10.Scn.Fnt) f ( \(string: ARRAY OF CHAR; pos: LONGINT\);) s
+318 493 m (PROCEDURE \(t: Text\) ) s
+(Syntax10b.Scn.Fnt) f (Delete) s
+(Syntax10.Scn.Fnt) f ( \(from, to: LONGINT\);) s
+318 453 m (PROCEDURE \(t: Text\) ) s
+(Syntax10b.Scn.Fnt) f (Length) s
+(Syntax10.Scn.Fnt) f ( \(\): LONGINT;) s
+271 413 m (END;) s
+177 333 m (This gives a nice overview showing which operations can be applied to variables of type Text. However, it would be) s
+177 293 m (unwise to implement the operations directly within the record since that would clutter up the declarations with code. In) s
+177 253 m (fact, the above view of ) s
+(Syntax10i.Scn.Fnt) f (Text) s
+(Syntax10.Scn.Fnt) f ( was extracted from the source code with a browser tool. The actual Oberon-2 program) s
+177 213 m (looks like this:) s
+1 p
+2104 3307 m (Syntax10.Scn.Fnt) f (2) s
+224 3217 m (TYPE) s
+271 3177 m (Text = POINTER TO TextDesc;) s
+271 3137 m (TextDesc = RECORD) s
+318 3097 m (data:  \(*) s
+(Syntax10i.Scn.Fnt) f (\(hidden\) text data) s
+(Syntax10.Scn.Fnt) f (*\)) s
+271 3057 m (END;) s
+224 2977 m (PROCEDURE \(t: Text\)) s
+(Syntax10b.Scn.Fnt) f ( Insert) s
+(Syntax10.Scn.Fnt) f ( \(string: ARRAY OF CHAR; pos: LONGINT\);) s
+224 2937 m (BEGIN ...) s
+224 2897 m (END Insert;) s
+224 2817 m (PROCEDURE \(t: Text\) ) s
+(Syntax10b.Scn.Fnt) f (Delete) s
+(Syntax10.Scn.Fnt) f ( \(from, to: LONGINT\);) s
+224 2777 m (BEGIN ...) s
+224 2737 m (END Delete;) s
+224 2657 m (PROCEDURE \(t: Text\) ) s
+(Syntax10b.Scn.Fnt) f (Length) s
+(Syntax10.Scn.Fnt) f ( \(\): LONGINT;) s
+224 2617 m (BEGIN ...) s
+224 2577 m (END Length;) s
+177 2497 m (This notation allows the programmer to declare the procedures in arbitrary order and after the type and variable) s
+177 2457 m (declarations, eliminating the problem of forward references. The procedures are associated with a record by the type) s
+177 2417 m (of a special formal parameter ) s
+(Syntax10i.Scn.Fnt) f (\(t: Text\)) s
+(Syntax10.Scn.Fnt) f ( written in front of the procedure name. This parameter denotes the operand to) s
+177 2377 m (which the operation is applied \(or the receiver of a message, as it is called in object-oriented terminology\). Type-bound) s
+177 2337 m (procedures are considered local to the record to which they are bound. In a call they must be qualified with an object of) s
+177 2297 m (this type, e.g.) s
+224 2217 m (txt.Insert\("Hello", 0\)) s
+177 2137 m (We say that the message ) s
+(Syntax10i.Scn.Fnt) f (Insert) s
+(Syntax10.Scn.Fnt) f ( is sent to ) s
+(Syntax10i.Scn.Fnt) f (txt) s
+(Syntax10.Scn.Fnt) f (, which is called the ) s
+(Syntax10i.Scn.Fnt) f (receiver) s
+(Syntax10.Scn.Fnt) f ( of the message. The variable ) s
+(Syntax10i.Scn.Fnt) f (txt) s
+(Syntax10.Scn.Fnt) f ( serves two) s
+177 2097 m (purposes: it is passed as an actual parameter to ) s
+(Syntax10i.Scn.Fnt) f (t) s
+(Syntax10.Scn.Fnt) f ( and it is used to select the procedure ) s
+(Syntax10i.Scn.Fnt) f (Insert) s
+(Syntax10.Scn.Fnt) f ( bound to type ) s
+(Syntax10i.Scn.Fnt) f (Text) s
+(Syntax10.Scn.Fnt) f (.) s
+177 2017 m (If ) s
+(Syntax10i.Scn.Fnt) f (Text) s
+(Syntax10.Scn.Fnt) f ( is extended, the procedures bound to it are automatically also bound to the extended type. However, they can) s
+177 1977 m (be redefined by a new procedure with the same name \(and the same parameter list\), which is explicitly bound to the) s
+177 1937 m (extended type. Let's assume that we want to have a more sophisticated type ) s
+(Syntax10i.Scn.Fnt) f (StyledText) s
+(Syntax10.Scn.Fnt) f ( which not only maintains) s
+177 1897 m (ASCII text but also style information. The operations Insert and ) s
+(Syntax10i.Scn.Fnt) f (Delete) s
+(Syntax10.Scn.Fnt) f ( have to be redefined since they now also have) s
+177 1857 m (to update the style data, whereas the operation ) s
+(Syntax10i.Scn.Fnt) f (Length) s
+(Syntax10.Scn.Fnt) f ( is not affected by styles and can be inherited from ) s
+(Syntax10i.Scn.Fnt) f (Text) s
+(Syntax10.Scn.Fnt) f ( without) s
+177 1817 m (redefinition.) s
+224 1737 m (TYPE) s
+271 1697 m (StyledText = POINTER TO StyledTextDesc;) s
+271 1657 m (StyledTextDesc = RECORD \(TextDesc\)) s
+318 1617 m (style:  ... \(*) s
+(Syntax10i.Scn.Fnt) f (\(hidden\) style data) s
+(Syntax10.Scn.Fnt) f (*\)) s
+271 1577 m (END;) s
+224 1497 m (PROCEDURE \(st: StyledText\) ) s
+(Syntax10b.Scn.Fnt) f (Insert) s
+(Syntax10.Scn.Fnt) f ( \(string: ARRAY OF CHAR; pos: LONGINT\);) s
+224 1457 m (BEGIN) s
+271 1417 m (... ) s
+(Syntax10i.Scn.Fnt) f (update style data) s
+(Syntax10.Scn.Fnt) f ( ...) s
+271 1377 m (st.Insert^ \(string, pos\)) s
+224 1337 m (END Insert;) s
+224 1257 m (PROCEDURE \(st: StyledText\) ) s
+(Syntax10b.Scn.Fnt) f (Delete) s
+(Syntax10.Scn.Fnt) f ( \(from, to: LONGINT\);) s
+224 1217 m (BEGIN) s
+271 1177 m (... ) s
+(Syntax10i.Scn.Fnt) f (update style data) s
+(Syntax10.Scn.Fnt) f ( ...) s
+271 1137 m (st.Delete^ \(from, to\)) s
+224 1097 m (END Delete;) s
+177 1017 m (We do not want to rewrite ) s
+(Syntax10i.Scn.Fnt) f (Insert) s
+(Syntax10.Scn.Fnt) f ( and ) s
+(Syntax10i.Scn.Fnt) f (Delete) s
+(Syntax10.Scn.Fnt) f ( completely but only want to update the style data and let the original) s
+177 977 m (procedures bound to ) s
+(Syntax10i.Scn.Fnt) f (Text) s
+(Syntax10.Scn.Fnt) f ( do the rest of the work. In a procedure bound to type ) s
+(Syntax10i.Scn.Fnt) f (T) s
+(Syntax10.Scn.Fnt) f (, a procedure bound to the base type) s
+177 937 m (of ) s
+(Syntax10i.Scn.Fnt) f (T) s
+(Syntax10.Scn.Fnt) f ( is called by appending the symbol ^ to the procedure name in a call \() s
+(Syntax10i.Scn.Fnt) f (st.Insert^ \(string, pos\)) s
+(Syntax10.Scn.Fnt) f (\).) s
+177 817 m (Syntax10b.Scn.Fnt) f (Dynamic binding) s
+177 737 m (Syntax10.Scn.Fnt) f (Because of the compatibility between a type and its extensions, a variable ) s
+(Syntax10i.Scn.Fnt) f (st) s
+(Syntax10.Scn.Fnt) f ( of type ) s
+(Syntax10i.Scn.Fnt) f (StyledText) s
+(Syntax10.Scn.Fnt) f ( can be assigned to a) s
+177 697 m (variable ) s
+(Syntax10i.Scn.Fnt) f (t) s
+(Syntax10.Scn.Fnt) f ( of type ) s
+(Syntax10i.Scn.Fnt) f (Text) s
+(Syntax10.Scn.Fnt) f (. The message ) s
+(Syntax10i.Scn.Fnt) f (t.Insert) s
+(Syntax10.Scn.Fnt) f ( then invokes the procedure Insert which is bound to ) s
+(Syntax10i.Scn.Fnt) f (StyledText) s
+(Syntax10.Scn.Fnt) f (, although ) s
+(Syntax10i.Scn.Fnt) f (t) s
+177 657 m (Syntax10.Scn.Fnt) f (has been declared of type ) s
+(Syntax10i.Scn.Fnt) f (Text) s
+(Syntax10.Scn.Fnt) f (. This is called dynamic binding: the called procedure is the one which is bound to the) s
+177 617 m (dynamic type of the receiver.) s
+177 537 m (Polymorphism and dynamic binding are the cornerstones of object-oriented programming. They allow viewing an) s
+177 497 m (object as an abstract entity which may assume various concrete shapes at run time. In order to apply an operation to) s
+177 457 m (such an object, one does not have to distinguish between its variants. One rather sends a message telling the object) s
+177 417 m (what to do. The object responds to the message by invoking that procedure which implements the operation for the) s
+177 377 m (dynamic type of the receiver.) s
+177 297 m (In Oberon-2, all type-bound procedures are called using dynamic binding. If static binding is desired \(which is slightly) s
+177 257 m (more efficient\), ordinary procedures can be used. However, one must be aware that statically-bound procedures) s
+177 217 m (cannot be redefined.) s
+1 p
+2104 3307 m (Syntax10.Scn.Fnt) f (3) s
+177 3217 m (Syntax10b.Scn.Fnt) f (Information hiding) s
+177 3137 m (Syntax10.Scn.Fnt) f (One important property of abstract data types is information hiding, i.e. the implementation of private data should not) s
+177 3097 m (be visible to clients. It seems as if information hiding is violated in Oberon-2 since all record components can be) s
+177 3057 m (accessed if they are qualified with an object of that record type. However, hiding components is not the business of) s
+177 3017 m (records; it is the business of modules. A module can export record fields \(and type-bound procedures\) selectively. In) s
+177 2977 m (client modules only the exported components are visible. If none of the record fields is exported the private data of the) s
+177 2937 m (record is hidden to clients. ) s
+177 2817 m (Syntax10b.Scn.Fnt) f (Notation) s
+177 2737 m (Syntax10.Scn.Fnt) f (Object-oriented languages differ in the notations they use for classes and type-bound procedures. We want to explain) s
+177 2697 m (why we chose the above notation in Oberon-2.) s
+177 2617 m (Syntax10i.Scn.Fnt) f (Classes) s
+(Syntax10.Scn.Fnt) f (. We refrained from introducing classes but rather expressed them by the well-known concept of records.) s
+177 2577 m (Classes are record types with procedures bound to them.) s
+177 2497 m (Syntax10i.Scn.Fnt) f (Methods) s
+(Syntax10.Scn.Fnt) f (. Methods are expressed by type-bound procedures. The fact that their invocation is driven by the dynamic) s
+177 2457 m (type of an object is reflected by the qualification with an explicit receiver parameter. In a call, the actual receiver is) s
+177 2417 m (written in front of the message name \() s
+(Syntax10i.Scn.Fnt) f (x.P) s
+(Syntax10.Scn.Fnt) f (\); therefore the formal receiver is also declared in front of the procedure) s
+177 2377 m (name \() s
+(Syntax10i.Scn.Fnt) f (PROCEDURE \(x: T\) P \(...\)) s
+(Syntax10.Scn.Fnt) f (\).) s
+177 2297 m (We refrained from duplicating the headers of bound procedures in record declarations as it is done in C++ [6] and) s
+177 2257 m (Object-Pascal [8]. This keeps declarations short and avoids unpleasant redundancy. Changes to a procedure header) s
+177 2217 m (would otherwise have to be made at two places and the compiler would have to check the equality of the headers. If) s
+177 2177 m (the programmer wants to see the record together with all its procedures, he uses a browser to obtain the information.) s
+177 2137 m (We believe that the working style of programmers has changed in recent years. Programs are written more) s
+177 2097 m (interactively and high performance tools can be used to collect information that had to be written down explicitly in) s
+177 2057 m (former days.) s
+177 1977 m (The procedures bound to a type can be declared in any order. They can even be mixed with procedures bound to a) s
+177 1937 m (different type. If procedures had to be declared within a type declaration, indirect recursion between procedures bound) s
+177 1897 m (to different types would make awkward forward declarations necessary for one-pass compilation.) s
+177 1817 m (Syntax10i.Scn.Fnt) f (Receiver) s
+(Syntax10.Scn.Fnt) f (. In most object-oriented languages the receiver of a message is passed as an implicit parameter that can be) s
+177 1777 m (accessed within a method by a predeclared name such as ) s
+(Syntax10i.Scn.Fnt) f (self) s
+(Syntax10.Scn.Fnt) f ( or ) s
+(Syntax10i.Scn.Fnt) f (this) s
+(Syntax10.Scn.Fnt) f (. The data of a class can be accessed in a) s
+177 1737 m (method without qualification. For example, in C++ the method ) s
+(Syntax10i.Scn.Fnt) f (Delete) s
+(Syntax10.Scn.Fnt) f ( would look like this:) s
+224 1657 m (void Text::Delete \(int from, to\) {) s
+271 1617 m (length = length - \(to-from\);) s
+747 1617 m (// field length of the receiver is accessed without qualification) s
+271 1577 m (... NotifyViews\(this\) ...) s
+672 1577 m (// receiver is accessed with the predeclared name this) s
+224 1537 m (}) s
+177 1457 m (We believe that it is better to declare the receiver explicitly, which allows the programmer to choose a meaningful) s
+177 1417 m (name for it \(not just "this"\). The implicit passing of the receiver seems to be a little bit mysterious. We also believe that it) s
+177 1377 m (contributes to the clarity of programs if fields of the receiver must always be qualified with the receiver's name. This is) s
+177 1337 m (especially helpful if fields are accessed which are declared in the receiver's base type. In Oberon-2, ) s
+(Syntax10i.Scn.Fnt) f (Delete) s
+(Syntax10.Scn.Fnt) f ( is therefore) s
+177 1297 m (written in the following way:) s
+224 1217 m (PROCEDURE \(t: Text\) ) s
+(Syntax10b.Scn.Fnt) f (Delete) s
+(Syntax10.Scn.Fnt) f ( \(from, to: LONGINT\);) s
+224 1177 m (BEGIN) s
+271 1137 m (t^.length := t^.length - \(to-from\);) s
+831 1137 m (\(* length is explicitly qualified with t *\)) s
+271 1097 m (... NotifyViews\(t\) ...) s
+625 1097 m (\(* receiver has the user-defined name t *\)) s
+224 1057 m (END Delete;) s
+177 937 m (Syntax10b.Scn.Fnt) f (MESSAGE RECORDS) s
+177 857 m (Syntax10.Scn.Fnt) f (Type-bound procedures are one way to implement messages. Another way is to take the phrase "sending a message") s
+177 817 m (literally and to view a message as a packet of data that is sent to an object. This requires message records of various) s
+177 777 m (kinds and lengths and a handler per object that accepts all these message records. Type-extension provides these two) s
+177 737 m (mechanisms. Messages are extensible records and the handler is a procedure which takes a message as a parameter) s
+177 697 m (and interprets it according to the dynamic type of the message.) s
+177 617 m (Consider a graphics editor. The objects in this application are various kinds of figures \(rectangles, circles, lines, etc.\)) s
+177 577 m (and the operations are drawing, moving, and filling the figures. For every operation a message record is declared) s
+177 537 m (which contains the arguments of the message as record fields:) s
+224 457 m (TYPE) s
+271 417 m (Message ) s
+479 417 m (= RECORD END;) s
+271 377 m (DrawMsg ) s
+485 377 m (= RECORD \(Message\) END;) s
+271 337 m (MoveMsg ) s
+489 337 m (= RECORD \(Message\) dx, dy: INTEGER END;) s
+271 297 m (FillMsg ) s
+445 297 m (= RECORD \(Message\) pat: Pattern END;) s
+177 217 m (Next, the type ) s
+(Syntax10i.Scn.Fnt) f (Figure) s
+(Syntax10.Scn.Fnt) f ( is declared, which contains the handler as a procedure variable:) s
+1 p
+2104 3307 m (Syntax10.Scn.Fnt) f (4) s
+224 3217 m (TYPE) s
+271 3177 m (Figure = POINTER TO FigureDesc;) s
+271 3137 m (FigureDesc = RECORD) s
+318 3097 m (x, y, width, height: INTEGER;) s
+318 3057 m (handle: PROCEDURE \(f: Figure; VAR m: Message\)) s
+271 3017 m (END;) s
+177 2937 m (The handler has two parameters: the receiver of the message \(which is a ) s
+(Syntax10i.Scn.Fnt) f (Figure) s
+(Syntax10.Scn.Fnt) f ( here\) and the message itself. Since ) s
+(Syntax10i.Scn.Fnt) f (m) s
+177 2897 m (Syntax10.Scn.Fnt) f (is of type ) s
+(Syntax10i.Scn.Fnt) f (Message) s
+(Syntax10.Scn.Fnt) f (, all message types that are derived from it \() s
+(Syntax10i.Scn.Fnt) f (DrawMsg) s
+(Syntax10.Scn.Fnt) f (, ) s
+(Syntax10i.Scn.Fnt) f (MoveMsg) s
+(Syntax10.Scn.Fnt) f (, etc.\) are compatible. Note, that ) s
+(Syntax10i.Scn.Fnt) f (m) s
+177 2857 m (Syntax10.Scn.Fnt) f (is a variable parameter, so it may have a dynamic type which is an extension of its static type ) s
+(Syntax10i.Scn.Fnt) f (Message) s
+(Syntax10.Scn.Fnt) f (. Every) s
+177 2817 m (extension of ) s
+(Syntax10i.Scn.Fnt) f (Figure) s
+(Syntax10.Scn.Fnt) f ( \(i.e., ) s
+(Syntax10i.Scn.Fnt) f (Rectangle) s
+(Syntax10.Scn.Fnt) f (, ) s
+(Syntax10i.Scn.Fnt) f (Circle) s
+(Syntax10.Scn.Fnt) f (, ) s
+(Syntax10i.Scn.Fnt) f (Line) s
+(Syntax10.Scn.Fnt) f (\) has its own handler that is installed in objects of this type. The) s
+177 2777 m (handler for rectangle objects might look like this:) s
+224 2697 m (PROCEDURE ) s
+(Syntax10b.Scn.Fnt) f (HandleRect) s
+(Syntax10.Scn.Fnt) f ( \(f: Figure; VAR m: Message\);) s
+224 2657 m (BEGIN) s
+271 2617 m (WITH) s
+318 2577 m (m\(DrawMsg\) DO ... ) s
+(Syntax10i.Scn.Fnt) f (draw the rectangle f) s
+(Syntax10.Scn.Fnt) f ( ...) s
+271 2537 m (|) s
+328 2537 m (m\(MoveMsg\) DO ... ) s
+(Syntax10i.Scn.Fnt) f (move the rectangle f by \(m.dx, m.dy\)) s
+(Syntax10.Scn.Fnt) f ( ...) s
+271 2497 m (|) s
+328 2497 m (m\(FillMsg\) DO ... ) s
+(Syntax10i.Scn.Fnt) f (fill the rectangle f with m.pat) s
+(Syntax10.Scn.Fnt) f ( ...) s
+271 2457 m (ELSE \(* ignore the message *\)) s
+271 2417 m (END) s
+224 2377 m (END HandleRect;) s
+177 2297 m (The With statement is a regional type guard. It has been extended in Oberon-2 to accept multiple variants. The above) s
+177 2257 m (With statement should be read as follows: if the dynamic type of ) s
+(Syntax10i.Scn.Fnt) f (m) s
+(Syntax10.Scn.Fnt) f ( is ) s
+(Syntax10i.Scn.Fnt) f (DrawMsg) s
+(Syntax10.Scn.Fnt) f (, then the statement sequence following) s
+177 2217 m (the first DO symbol is executed and a type guard ) s
+(Syntax10i.Scn.Fnt) f (m\(DrawMsg\)) s
+(Syntax10.Scn.Fnt) f ( is implicitly applied to every occurrence of ) s
+(Syntax10i.Scn.Fnt) f (m) s
+(Syntax10.Scn.Fnt) f (; else if the) s
+177 2177 m (dynamic type of ) s
+(Syntax10i.Scn.Fnt) f (m) s
+(Syntax10.Scn.Fnt) f ( is ) s
+(Syntax10i.Scn.Fnt) f (MoveMsg) s
+(Syntax10.Scn.Fnt) f (, then the statement sequence following the second DO symbol is executed where) s
+177 2137 m (every occurrence of ) s
+(Syntax10i.Scn.Fnt) f (m) s
+(Syntax10.Scn.Fnt) f ( is regarded as a ) s
+(Syntax10i.Scn.Fnt) f (MoveMsg) s
+(Syntax10.Scn.Fnt) f (; and so on. If no variant matches and if no else part is specified) s
+177 2097 m (program execution is aborted. Using objects of type ) s
+(Syntax10i.Scn.Fnt) f (Figure) s
+(Syntax10.Scn.Fnt) f ( requires the following actions:) s
+224 2017 m (VAR f: Figure; r: Rectangle; move: MoveMsg;) s
+224 1937 m (NEW\(r\); r^.handle := HandleRect;) s
+823 1937 m (\(*initialize the object by installing the rectangle handler*\)) s
+224 1897 m (... f := r ...) s
+224 1857 m (move.dx := ...; move.dy := ...;) s
+745 1857 m (\(*set up the message record*\)) s
+224 1817 m (f.handle\(f, move\);) s
+559 1817 m (\(*send the message*\)) s
+318 1777 m (\(*possibly retrieve output arguments from the message record*\)) s
+177 1697 m (The use of message records has both advantages and disadvantages.) s
+177 1577 m (Syntax10i.Scn.Fnt) f (Advantages) s
+177 1497 m (Syntax10.Scn.Fnt) f (- The message can be stored in a variable and can be sent later on.) s
+177 1457 m (- The same message can easily be distributed to more than one object \() s
+(Syntax10i.Scn.Fnt) f (message broadcast) s
+(Syntax10.Scn.Fnt) f (\). Consider the case) s
+177 1417 m (where all figures have to be moved. With type-bound procedures, the caller would have to traverse the list of figures) s
+177 1377 m (and send a ) s
+(Syntax10i.Scn.Fnt) f (Move) s
+(Syntax10.Scn.Fnt) f ( message to every figure:) s
+224 1297 m (f := firstFigure; WHILE f # NIL DO f.Move\(dx, dy\); f := f^.next END) s
+177 1217 m (The structure of the figure list must be known to the caller \(which is not always the case\) and the code for the list) s
+177 1177 m (traversal is duplicated in every client. With message records one can implement the list traversal in a procedure) s
+177 1137 m (Syntax10i.Scn.Fnt) f (Broadcast) s
+(Syntax10.Scn.Fnt) f ( to which the message is passed as a parameter:) s
+224 1057 m (PROCEDURE \(lst: List\) ) s
+(Syntax10b.Scn.Fnt) f (Broadcast) s
+(Syntax10.Scn.Fnt) f ( \(VAR m: Message\);) s
+271 1017 m (VAR f: Figure;) s
+224 977 m (BEGIN) s
+271 937 m (f := lst^.first; WHILE f # NIL DO f.handle\(f, m\); f := f^.next END) s
+224 897 m (END Broadcast;) s
+177 817 m (This allows hiding the list structure and keeping the code for the list traversal in a single place.) s
+177 777 m (- An object can be sent a message which it does not understand. It may ignore the message or delegate it to another) s
+177 737 m (object. For example, a ) s
+(Syntax10i.Scn.Fnt) f (Fill) s
+(Syntax10.Scn.Fnt) f ( message can be broadcast to all figures although only rectangles and circles understand it,) s
+177 697 m (but not lines. With type-bound procedures this is not possible because the compiler checks if a message is understood) s
+177 657 m (by the receiver.) s
+177 617 m (- The handler can be replaced at run time, changing the behaviour of an object.) s
+177 577 m (- Message records can be declared in different modules. This allows adding new messages to a type when a new) s
+177 537 m (module is written.) s
+177 417 m (Syntax10i.Scn.Fnt) f (Disadvantages) s
+177 337 m (Syntax10.Scn.Fnt) f (- It is not immediately clear which operations belong to a type, i.e. which messages an object understands. To find that) s
+177 297 m (out, one has to know which handler is installed at run time and how this handler is implemented.) s
+177 257 m (- The compiler cannot check if a message is understood by an object. Faulty messages can be detected only at run) s
+177 217 m (time and may go undetected for months.) s
+1 p
+2104 3307 m (Syntax10.Scn.Fnt) f (5) s
+177 3217 m (- Messages are interpreted by the handler at run time and in sequential order. This is much slower than the dynamic) s
+177 3177 m (binding mechanism of type-bound procedures, which requires only a table lookup with a constant offset. Message) s
+177 3137 m (records are much like messages in Smalltalk [7], which are also interpreted at run time.) s
+177 3097 m (- Sending a message \(i.e., filling and unfilling message records\) is somewhat clumsy.) s
+177 3017 m (In general, type-bound procedures are clearer and type-safe, while message records are more flexible. One should) s
+177 2977 m (use type-bound procedures whenever possible. Message records should only be used where special flexibility is) s
+177 2937 m (needed, e.g., for broadcasting a message or for cases where it is important to add new messages to a type later) s
+177 2897 m (without changing the module that declares the type.) s
+177 2777 m (Syntax10b.Scn.Fnt) f (PERSISTENT OBJECTS) s
+177 2697 m (Syntax10.Scn.Fnt) f (Our implementation of Oberon-2 allows persistent objects. An object is called persistent if it outlives the program which) s
+177 2657 m (created it. To make an object persistent, it must be possible to write it to a file and to reconstruct it from that external) s
+177 2617 m (format. In Oberon-2, every record object carries a descriptor of its dynamic type. Among other things this descriptor) s
+177 2577 m (contains the type name as a pair \(module name, type name\). It is possible to implement a procedure ) s
+(Syntax10i.Scn.Fnt) f (GetName) s
+(Syntax10.Scn.Fnt) f ( which) s
+177 2537 m (returns the type name of a given object, and a procedure ) s
+(Syntax10i.Scn.Fnt) f (New) s
+(Syntax10.Scn.Fnt) f ( which creates and returns an object of a type specified) s
+177 2497 m (by a type name.) s
+224 2417 m (DEFINITION Objects;) s
+271 2377 m (PROCEDURE ) s
+(Syntax10b.Scn.Fnt) f (GetName) s
+(Syntax10.Scn.Fnt) f (\(object: Object; VAR typeName: ARRAY OF CHAR\);) s
+271 2337 m (PROCEDURE ) s
+(Syntax10b.Scn.Fnt) f (New) s
+(Syntax10.Scn.Fnt) f (\(typeName: ARRAY OF CHAR; VAR object: Object\);) s
+224 2297 m (END Objects.) s
+177 2217 m (If ) s
+(Syntax10i.Scn.Fnt) f (x) s
+(Syntax10.Scn.Fnt) f ( is an extension of ) s
+(Syntax10i.Scn.Fnt) f (Object) s
+(Syntax10.Scn.Fnt) f ( and understands a ) s
+(Syntax10i.Scn.Fnt) f (Load) s
+(Syntax10.Scn.Fnt) f ( and a ) s
+(Syntax10i.Scn.Fnt) f (Store) s
+(Syntax10.Scn.Fnt) f ( message, procedures to externalize and internalize) s
+177 2177 m (Syntax10i.Scn.Fnt) f (x) s
+(Syntax10.Scn.Fnt) f ( are \(a ) s
+(Syntax10i.Scn.Fnt) f (Rider) s
+(Syntax10.Scn.Fnt) f ( is a position in a file and is used to read and write data\)) s
+224 2097 m (PROCEDURE ) s
+(Syntax10b.Scn.Fnt) f (WriteObject) s
+(Syntax10.Scn.Fnt) f (\(VAR r: Files.Rider; x: Object\);) s
+271 2057 m (VAR name: ARRAY 64 OF CHAR;) s
+224 2017 m (BEGIN) s
+271 1977 m (Objects.GetName\(x, name\);) s
+271 1937 m (i := -1; REPEAT INC\(i\); Files.Write\(r, name[i]\) UNTIL name[i] = 0X;) s
+271 1897 m (IF x # NIL THEN x.Store\(r\) END  \(* store fields of x to r *\)) s
+224 1857 m (END WriteObject;) s
+224 1777 m (PROCEDURE ) s
+(Syntax10b.Scn.Fnt) f (ReadObject) s
+(Syntax10.Scn.Fnt) f (\(VAR r: Files.Rider; VAR x: Object\);) s
+271 1737 m (VAR name: ARRAY 64 OF CHAR;) s
+224 1697 m (BEGIN) s
+271 1657 m (i := -1; REPEAT INC\(i\); Files.Read\(r, name[i]\) UNTIL name[i] = 0X;) s
+271 1617 m (Objects.New\(name, x\);) s
+271 1577 m (IF x # NIL THEN x.Load\(r\) END  \(* read fields of x from r *\)) s
+224 1537 m (END ReadObject;) s
+177 1457 m (More details on persistent objects as well as on optimization aspects can be found in [5].) s
+177 1337 m (Syntax10b.Scn.Fnt) f (IMPLEMENTATION) s
+177 1257 m (Syntax10.Scn.Fnt) f (In order to support object-oriented programming certain information about objects must be available at run time: The) s
+177 1217 m (dynamic type of an object is needed for type tests and type guards. A table with the addresses of the type-bound) s
+177 1177 m (procedures is needed for calling them using dynamic binding. Finally, the Oberon system has a garbage collector) s
+177 1137 m (which needs to know the locations of pointers in dynamically allocated records. All this information is stored in) s
+177 1097 m (so-called type descriptors of which there is one for every record type at run time.) s
+177 1017 m (The dynamic type of a record corresponds to the address of its type descriptor. For dynamically allocated records this) s
+177 977 m (address is stored in a so-called type tag which precedes the actual data and which is invisible for the programmer. If ) s
+(Syntax10i.Scn.Fnt) f (f) s
+177 937 m (Syntax10.Scn.Fnt) f (is of dynamic type ) s
+(Syntax10i.Scn.Fnt) f (Rectangle) s
+(Syntax10.Scn.Fnt) f ( \(an extension of ) s
+(Syntax10i.Scn.Fnt) f (Figure) s
+(Syntax10.Scn.Fnt) f (\), the run-time data structures are shown in Figure 2.) s
+1 p
+2104 3307 m (Syntax10.Scn.Fnt) f (6) s
+767 3051 m (f^) s
+655 2419 m (One per object) s
+1103 2419 m (One per type) s
+912 2995 191 1 l
+1071 2979 m 8 6 24 20 28 k
+e00000
+f80000
+fe0000
+ffc000
+fff000
+fffe00
+ffff80
+fffff0
+fffffc
+ffffff
+ffffff
+fffffc
+fffff0
+ffff80
+fffe00
+fff000
+ffc000
+fe0000
+f80000
+e00000
+1423 2579 m (PtrOffsets) s
+1423 2707 m (TypeName) s
+1423 2963 m (BaseTypes) s
+1423 3155 m (ProcTab) s
+1087 3211 m (Type Descriptor) s
+1135 2755 m (NIL) s
+1135 2819 m (NIL) s
+1135 2883 m (Rectangle) s
+1135 2947 m (Figure) s
+1135 3011 m (Draw) s
+1135 3075 m (Move) s
+1135 3139 m (Fill) s
+1328 2803 31 1 l
+1328 2867 31 1 l
+1328 2931 31 1 l
+1328 3059 31 1 l
+1328 3123 31 1 l
+1104 2803 31 1 l
+1104 2867 31 1 l
+1104 2931 31 1 l
+1104 3059 31 1 l
+1104 3123 31 1 l
+1104 2611 255 1 l
+1104 2739 255 1 l
+1104 2995 255 1 l
+1104 2483 255 1 l
+1360 2483 1 703 l
+1104 3187 255 1 l
+1104 2483 1 703 l
+351 2595 m (type Rectangle) s
+351 2643 m (fields of) s
+351 2819 m (type Figure) s
+351 2867 m (fields of) s
+335 3011 m (f) s
+272 2995 1 63 l
+272 2995 127 1 l
+400 2995 1 63 l
+272 3059 127 1 l
+400 3027 239 1 l
+615 3011 m 8 6 24 20 28 k
+e00000
+f80000
+fe0000
+ffc000
+fff000
+fffe00
+ffff80
+fffff0
+fffffc
+ffffff
+ffffff
+fffffc
+fffff0
+ffff80
+fffe00
+fff000
+ffc000
+fe0000
+f80000
+e00000
+687 2595 m (pattern) s
+687 2659 m (border) s
+687 2723 m (height) s
+687 2787 m (width) s
+687 2851 m (y) s
+687 2915 m (x) s
+687 2979 m (tag) s
+880 2643 31 1 l
+880 2771 31 1 l
+880 2835 31 1 l
+880 2899 31 1 l
+656 2643 31 1 l
+656 2771 31 1 l
+656 2835 31 1 l
+656 2899 31 1 l
+656 2707 255 1 l
+656 2963 255 1 l
+656 2579 255 1 l
+912 2579 1 447 l
+656 3027 255 1 l
+656 2579 1 447 l
+224 2337 m (Syntax10b.Scn.Fnt) f (Figure 2) s
+(Syntax10.Scn.Fnt) f (.  A variable ) s
+(Syntax10i.Scn.Fnt) f (f) s
+(Syntax10.Scn.Fnt) f ( of dynamic type ) s
+(Syntax10i.Scn.Fnt) f (Rectangle) s
+(Syntax10.Scn.Fnt) f (, the record ) s
+(Syntax10i.Scn.Fnt) f (f) s
+(Syntax10.Scn.Fnt) f ( points to, and its type descriptor) s
+177 2257 m (Since both the table of procedure addresses and the table of pointer offsets must have a fixed offset from the type) s
+177 2217 m (descriptor address, and since both may grow when the type is extended and further procedures or pointers are added,) s
+177 2177 m (the tables are located at the opposite ends of the type descriptor and grow in different directions.) s
+177 2097 m (A message ) s
+(Syntax10i.Scn.Fnt) f (v.P) s
+(Syntax10.Scn.Fnt) f ( is implemented as ) s
+(Syntax10i.Scn.Fnt) f (v^.tag^.ProcTab[Index-of-P]) s
+(Syntax10.Scn.Fnt) f (. The procedure table index ) s
+(Syntax10i.Scn.Fnt) f (Indexp) s
+(Syntax10.Scn.Fnt) f ( is known for every) s
+177 2057 m (type-bound procedure ) s
+(Syntax10i.Scn.Fnt) f (P) s
+(Syntax10.Scn.Fnt) f ( at compile time. A type test of the form ) s
+(Syntax10i.Scn.Fnt) f (v IS T) s
+(Syntax10.Scn.Fnt) f ( is translated into) s
+177 2017 m (Syntax10i.Scn.Fnt) f (v^.tag^.BaseTypes[ExtensionLevel-of-T] = TypDescAdrT) s
+(Syntax10.Scn.Fnt) f (. Both the extension level of a record type and the address of) s
+177 1977 m (its type descriptor are known at compile time. For example, the extension level of ) s
+(Syntax10i.Scn.Fnt) f (Figure) s
+(Syntax10.Scn.Fnt) f ( is 0 \(it has no base type\), and) s
+177 1937 m (the extension level of ) s
+(Syntax10i.Scn.Fnt) f (Rectangle) s
+(Syntax10.Scn.Fnt) f ( is 1.) s
+177 1857 m (Type-bound procedures cause no memory overhead in objects \(the type tag was already needed in Oberon-1\). They) s
+177 1817 m (cause only minimal run-time overhead compared to ordinary procedures. On a Ceres computer \(NS32532 processor\)) s
+177 1777 m (a dynamically-bound procedure call is less than 10 % slower than a statically-bound call [3]. Measured over a whole) s
+177 1737 m (program this difference is insignificant.) s
+177 1657 m (More details on the implementation of Oberon, particularly on the garbage collector, can be found in [4] and [5].) s
+177 1537 m (Syntax10b.Scn.Fnt) f (AVAILABILITY) s
+177 1457 m (Syntax10.Scn.Fnt) f (Oberon-2 was developed on the Ceres computer and has been ported to several other machines. Currently it is) s
+177 1417 m (available on Sun's SparcStation, on Digital's DECstation, and on IBM's RS/6000. The compiler and the whole Oberon) s
+177 1377 m (system \(garbage collection, command activation, dynamic loading, etc.\) is available from ETH without charge. It can) s
+177 1337 m (be obtained via anonymous internet file transfer ftp \(hostname: neptune.inf.ethz.ch, internet address: 129.132.101.33,) s
+177 1297 m (directory: Oberon\).) s
+177 1177 m (Syntax10b.Scn.Fnt) f (ACKNOWLEDGEMENTS) s
+177 1097 m (Syntax10.Scn.Fnt) f (Oberon-2 is the result of many discussions among the members of our institute. It was particularly influenced by the) s
+177 1057 m (ideas of N.Wirth, J.Gutknecht, and J.Templ. The compiler and the system were ported to other machines by R.Crelier,) s
+177 1017 m (J.Templ, M.Franz, and M.Brandis.) s
+177 897 m (Syntax10b.Scn.Fnt) f (REFERENCES) s
+177 817 m (Syntax10.Scn.Fnt) f (1.  Wirth, N "The Programming Language Oberon" Software Practice and Experience, Vol 18, No 7,) s
+224 777 m (\(July 1988\), pp 671-690.) s
+177 737 m (2.  M\204ssenb\204ck, H "The Programming Language Oberon-2" Computer Science Report 160, ETH Z\205rich \(May 1991\).) s
+177 697 m (3.  M\204ssenb\204ck, H and Templ, J "Object Oberon - A Modest Object-Oriented Language" Structured Programming,) s
+224 657 m (Vol 10, No 4 \(1989\), pp 199-207.) s
+177 617 m (4.  Wirth, N and Gutknecht, J "The Oberon System" Computer Science Report 88, ETH Z\205rich \(1988\).) s
+177 577 m (5.  Pfister, C and Heeb, B and Templ, J "Oberon Technical Notes" Computer Science Report 156, ETH Z\205rich \(March) s
+177 537 m (1991\).) s
+177 497 m (6.  Stroustrup, B "The C++ Programming Language" Addison-Wesley \(1986\).) s
+177 457 m (7.  Goldberg, A and Robson, D "Smalltalk-80, The Language and its Implementation", Addison-Wesley \(1983\).) s
+177 417 m (8.  Tesler, L "Object-Pascal" Structured Language World, Vol 9, No 3, \(1985\).) s
+1 p

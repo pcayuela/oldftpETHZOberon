@@ -1,0 +1,206 @@
+From:	"Michael A. McGaw" <testexpress@compuserve.com>
+Subject:	Re: News
+Date:	Mon, 11 Sep 2000 08:19:02 -0400
+To:	"INTERNET:muller@inf.ethz.ch" <muller@inf.ethz.ch>
+
+Pieter:
+
+I will give you the latest on the evolution of the System 7 - like changes
+I've made:
+
+I have revised the PC timer frequency down considerably (I am using
+frequencies between 40 and 100 Hz, although I have used 1 Khz).  Basically,
+to make the changes, I introduced a parallel set of variables to the timer,
+ticks and TimeInterval vars/const's.  I associated these with the PC timer,
+and moved the existing vars/const's to the RTC interrupt handler.  The RTC
+interrupt frequency is 1.024Khz; I have tried to set this into the
+TimeInterval const (instead of 1000, as PC timer took it to be), however,
+the inner core fails to boot (beeping) when I alter the TimeInterval from
+1000 to 1024.  At this time, I am keeping it as 1000, but the reality is
+that the interrupt handler is running at 1024 Hz.
+
+I have introduced a tasking facility for the background tasks that is
+directly analogous to the tasking facility formerly used in Oberon.Loop. 
+In Wirth's System 7, he has Real Time tasks (bound to interrupts),
+Interactive tasks (those in the Oberon.Tick procedure, formerly the Loop),
+and Background tasks (in a new Loop proc).  Thus, another set of Install,
+Remove procs were created, and a user starts background and interactive
+tasks just as they do for usual Oberon.  Wirth used a more advanced
+approach, but the route I've taken satisfies my needs at this time, and
+presents the same programming interface with which one is familiar.  There
+are a couple of matters on which I am still deliberating: handling
+protection during NEW and GC, and dealing with concurrent file access
+(prohibiting the latter).  At this point, I have a guard in Oberon.Tick to
+preclude the procedure's execution if in GC, and I have removed the GC task
+from running automatically, and have instead given control over when this
+runs to the user.
+
+At this point, the changes required to do this were really very little; for
+example, I have been able to run the DAV software with this new system
+(uses NetSystem).   However, I am still experiencing some difficulties here
+and there; at this point, the main trouble I'm having is getting the
+Backup.ReadFiles command to work properly.  This command hangs the system,
+whereas WriteFiles and Directory work fine.  I suspect that some type of
+subtle timing issue is at work.
+
+The bottom line is, one really cannot tell this modified system from a
+standard Native system, and yet, the increase in flexibility for real-time
+purposes is remarkable.
+
+-Mike
+
+
+From:	"Michael A. McGaw" <testexpress@compuserve.com>
+Subject:	System 7
+Date:	Mon, 25 Sep 2000 10:27:49 -0400
+To:	Pieter Muller <muller@inf.ethz.ch>
+
+[ text/plain ] [ text/plain ] [ Kernela.mod ] [ Libbtask.mod ] [ Libitask.mod ] [ Oberona.mod ] 
+
+
+This is a MIME-encapsulated message
+
+Content-Type: text/plain;
+	 charset=ISO-8859-1
+Content-Transfer-Encoding: quoted-printable
+Content-Disposition: inline
+
+
+Pieter:
+
+I have enclosed a set of files that implements the changes I have been
+corresponding with you about, in the context of Wirth's Tasks vs. Threads...
+paper.
+
+The modules attached are:
+
+KernalA.Mod
+OberonA.Mod
+LibITask.Mod
+LibBTask.Mod
+
+KernelA.Mod is a modified 2.3.7.b Kernel (this was the kernel version in
+the native system source release you emailed me some time ago).  The
+changes are along these lines:
+
+- the RTC is now used to implement the functionality formerly handled by
+the PC timer.  To do this, I introduced an analogous set of identifiers,
+timerPC, TimeUnitPC, ticksPC, etc.  Those identifiers with the PC suffix
+were used in the PC timer routines, and the original identifiers were used
+in the RTC routines.  Note in particular the changes made to InitClock,
+ClockHandler, InitTimer and TimerHandler.  I also added a routine,
+GetTimerPC, to retrieve the tickPC count.  The RTC has somewhat less
+flexibility with regard to programming an interrupt rate, but, it is close
+enough.  I have chosen the 1.024 KHz rate.  I have noted that altering the
+TimeUnit away from 1000 (to, say, 1024), causes boot problems, and I do not
+know why.  Keeping it at 1000 leaves everyone happy.  Note that the RTC
+time keeping function remains intact.  A possible improvement may be to
+include configuration constants to permit various interrupt rates for the
+RTC.  Finally, note that I have elected to set the PC timer rate to 25 Hz,
+although I have successfully used a great many rates (to 1 KHz).
+
+- The body of Kernel is augmented to include a statement sequence to
+reprogram the priorities of the 8259 PIC.  The line used essentially
+inverts the priorites of the primary PIC, thus, where IRQ0 was highest, it
+is now lowest.
+This permits one to program interrupt handlers that will be assured of high
+priority servicing, and in particular, allows one to gain access to the
+timer handler facility to implement a variety of schemes (see below, the
+two different Oberon.Mod approaches).
+
+This kernel appears to be stable with the rest of the oberon release; I
+have been able to do everything without noticing any differences in
+performance.
+
+OberonA.Mod:
+
+This is the Oberon.Mod in 2.3.6 Native, as modified to implement something
+similar to Wirth's System 7.  Note that the body of the old Loop is renamed
+Tick (and has been modified slightly).  Task access is identical to the
+usual Oberon system.  The Loop now consists of a background task handler,
+with access facilities similar to those used in the usual Oberon task
+approach.  I have added routines to start the system with GC off, as GC can
+wreak havoc with many real-time needs; in this approach, the user has total
+control over where and when GC comes into play; this can be dangerous, as
+you are well aware.
+
+The key advantage to this approach (in my opinion) is that a background
+task loop is set up where one can conceivably use a procedure which is
+nested and recursive, retaining its context even as the rest of the system
+runs (e.g., the Tick handler and any user interrupt tasks).  Since I have
+not been brave enough to attempt a coroutine implementation that deals with
+preemption (which would otherwise be needed for such applications), this
+may prove to be a suitable scheme.
+
+However:  Not everything works with this OberonA.Mod: My systems hang when
+I attempt to do a Backup.ReadFiles. I strongly suspect that diskette driver
+code is the issue, and, given a bit more time, I could ferret the problem
+out.  Everything else seems to hold together, though, including network
+support (I have successfully used Edgar Schwartz's DAV components under
+this system, for example).
+
+Another way to use this new kernel is as follows:  program real-time
+(interrupt handler) tasks as one normally would.  Use the timerPC facility
+to program tasks which must be run on a reasonably strict timing basis (not
+necessarily hard real-time, but harder that the usual Native Loop would
+allow).  Since the PIC has inverted priorities, such tasks would never
+pre-empt the user's interrupt handlers (as they would with Native as-is). 
+Then, treat the tasks submitted to Loop as background tasks.  This approach
+provides a nice, easy way to gain many advantages.  However, its chief
+disadvantage is that one no longer has a background task facility where one
+can run a task that must be always in process (like a recursive task whose
+context must be preserved).  A task of this nature would render the user
+interface (as well as any other tasks installed in the Loop) inoperative, a
+clearly unacceptable situation.
+
+The other two modules, LibBTask and LibITask are from Frank Hrebrabetsky;
+LibITask is essentially his, pretty much as is.  They are interesting
+facilities for installing tasks into the Loop.  LibITask will work for the
+usual Oberon installations, and is intended to install the 'Interactive'
+(Wirth's term) tasks for the Oberon.Tick task handler.  LibBTask is the
+same thing, but directed to use the 'Backgound' (Wirth's term) tasking
+facility of OberonA.Mod.  I have run procedures using both, singly and
+concurrently.
+
+
+So, there you have it: two approaches to using the kernel mods enclosed,
+each with advantages and disadvantages.  I will continue to search out the
+problem with Backup.ReadFiles, and I will forward such findings to you when
+I have found same.
+
+Thanks again for your help!
+
+-Mike
+
+
+From:	"Michael A. McGaw" <testexpress@compuserve.com>
+Subject:	update comments
+Date:	Mon, 2 Oct 2000 09:19:30 -0400
+To:	Pieter Muller <muller@inf.ethz.ch>
+
+Pieter:
+
+I have tried the modified kernel on another system without success
+recently, and thought I should pass this along.  I have had it run fine on
+a Cyrix 166, and on a  Cyrix 233, one with an IDE drive, the other with the
+ATA drive interface.  The latest try was with an AMD K6-500, on an ATX
+motherboard.  The curious thing here, is, I am using a solid state drive
+(IDE) for this system, and I am not sure if the problem is related to this,
+or the CPU (speed, probably)/MB.  Anyway, I am continuing to review this,
+and will pass along any info I come into.
+
+Also, I wanted to mention that the kernel and Oberon modules I passed along
+DO NOT have modifications to the NEW and GC procedures to ensure that
+interactive and background tasks are well behaved.  What is needed here (I
+am still pondering this...) is for these procedures to either a) turn off
+interrupts while running (not acceptable), or, have a monitor-like access. 
+For this, I am probably going to mask off the 8259 PIC to prevent
+interactive task interrupts, but allow all others in.  The Files modules
+will also need protections against simultaneous file access.  I will pass
+this along as I have it as well.
+
+Thanks!
+
+Mike
+
+

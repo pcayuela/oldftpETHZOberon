@@ -1,0 +1,21 @@
+From:	fld@informatik.uni-bremen.de
+Subject:	Oberon SSH 1.0
+Date:	Mon, 15 Jul 2002 16:24:59 +0200 (MEST)
+
+Hi Pieter
+
+  I finally got Oberon SSH finished. Appended you will find the release 1.0 
+archive. The remote copy functions (SSH.Receive and SSH.Send) are now
+implemented but the remote host key checking is still left out (needs
+additional crypt stuff).
+
+  I followed your advice and renamed all files with a common prefix
+('crypt' for the crypt stuff and 'SSH' for the SSH related modules). Most
+of the modules got reworked in order to make them more readable.
+The crypt modules are independent of the SSH stuff and could be used
+for an SSL implementation as well.
+
+  The SSH package has been tested to work with all the compilers 
+used in the Unix ports of ETH Oberon (x86,  SPARC,  PowerPC).
+
+--  Guenter

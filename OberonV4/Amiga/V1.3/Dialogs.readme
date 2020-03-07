@@ -1,0 +1,37 @@
+Short:    Advanced Graphical User Interface for Oberon V4
+Author:   oberon@ssw.uni-linz.ac.at (Markus Knasmueller)
+Uploader: degner@pallas.amp.uni-hannover.de (Ralf Degner)
+Type:     dev/obero
+
+Dialogs.lha is an additional archive to use with "Oberon System V4
+for Amiga V1.3". You need the main archive Oberon.lha to run this.
+Extract this archive into the same directory where you extracted
+Oberon.lha .
+
+The files in this archive are fixed a bit to run Dialogs at O4A
+without problems.
+
+                                Ralf Degner
+
+
+------------------------------------------------------------------------------
+
+Welcome to Oberon Dialogs V1.11
+A Graphical User Interface for Oberon V4
+
+(c) Oberon Dialogs by Institute for Computer Science 
+Johannes Kepler University (JKU) of Linz 13. April 1995  
+
+With Oberon Dialogs you have a complete example of using Oberon 
+and object oriented programming. Using the Oberon command 
+System.Open Dialogs.Tool allows you to work with this example.
+
+The Postscript file report1.ps contains an extensive description of Oberon
+Dialogs. A shorter version of this description is contained by the Oberon
+file Dialogs.Text.
+
+Email: oberon@ssw.uni-linz.ac.at 
+
+
+Permission to use, copy, modify and distribute this software and its
+documentation for any purpose is hereby granted without fee, provided that the above copyright notice appear in all copies and that both that copyright notice and this permission notice appear in supporting documentation, and that the name of JKU not be used in advertising or publicity pertaining to distribution of the software without specific, written prior permission. JKU makes no representations about the suitability of this software for any purpose. It is provided "as is" without express or implied warranty.

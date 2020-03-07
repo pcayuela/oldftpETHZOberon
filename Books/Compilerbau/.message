@@ -1,0 +1,12 @@
++------------------------------------------------------------------
+| This directory provides the source code of the Oberon-O compiler
+| in various text formats.
+|
+|   Oberon      ETH-Oberon text files
+|   ASCII-DOS   DOS/Windows ascii files
+|   ASCII-Unix  Unix ascii files
+|
+| Implementations of the ETH-Oberon systems may be obtained
+| via anonymous Internet file transfer from
+|
+|   ftp://ftp.inf.ethz.ch/pub/Oberon

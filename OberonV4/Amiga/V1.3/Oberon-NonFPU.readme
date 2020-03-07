@@ -1,0 +1,18 @@
+Short:    Use Oberon V4-V1.3 without FPU
+Author:   degner@pallas.amp.uni-hannover.de (Stefan Ludwig, Claudio Nieder, Ralf Degner)
+Uploader: degner@pallas.amp.uni-hannover.de (Ralf Degner)
+Type:     dev/obero
+
+Oberon-NonFPU.lha is an additional archive to use "Oberon System V4 for
+Amiga V1.3" without a floating point unit. You need the main archive
+Oberon.lha to extract the rest of the system.
+
+Extract this archive into the same directory where you extracted
+Oberon.lha . Now click to the Oberon Icon to start. O4A will use the
+Non-FPU files automatically if necessary.
+
+The compiler still generates FPU code, therefore you can not use 
+REALs in your own programs. Everything else should work.
+
+
+			claudio / stefan / ralf   31-May-1996

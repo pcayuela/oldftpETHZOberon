@@ -1,0 +1,9 @@
+Message Tracer
+
+Messages.Mod is a display message tracer for ETH Oberon.  It can be useful 
+when developing handler procedures.  Simply insert a Messages.Log(m) call at 
+the relevant place in your message handler.  When the module is loaded, a 
+message log text will appear.  The log can be re-opened with the
+Messages.OpenLog call.
+
+Pieter Muller - mailto:muller@inf.ethz.ch

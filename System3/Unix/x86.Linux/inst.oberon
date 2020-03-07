@@ -1,0 +1,29 @@
+#!/bin/sh
+if [ $# \!= 3 ] ; then
+	echo usage: install archivefile installdirectory oberon_startcmd 
+	exit
+fi
+if [ -d $2 ] ; then
+	:
+else
+	echo \"$2\" does not exist or is not a directory
+	exit
+fi
+
+echo "  "
+echo "may I remove the old contents of '$2'? [y/n]"
+read a
+if [ "$a" \!= "y" ] ; then exit ; fi
+
+rm -r $2/*
+cat $1 | gunzip | (cd $2; tar xvf -)	
+
+chown -R root $2
+chgrp -R sys $2
+
+chmod  711 $2/*.oberon
+
+cat $2/utils/oberon.templ | sed -e "s.OBERON_HOME.$2." >$3
+chmod +x $3
+
+# <EOF>

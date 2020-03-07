@@ -1,0 +1,19 @@
+SGIoberon in the directory above (Oberon/SiliconGraphics)
+has been compiled under IRIX 4 and can run under IRIX 4
+or IRIX 5. However, this version of SGIoberon does not
+support IRIX 5 shared objects.
+
+If you have IRIX 5 running and you would like to use shared
+objects from within SGIoberon, you may want to install the
+IRIX 5 version of SGIoberon, which provides support for shared
+objects. To do this, you have first to install (uncompress
+and tar xf) the IRIX 4 version in /usr/local/Oberon. You have
+then to copy IRIX4to5.tar.Z to /usr/local/Oberon, uncompress,
+and tar xf it. This will overwrite a few oberon files.
+
+You also have to recompile your Oberon sources if they were
+compiled with a version older than 4.2.
+
+SharedObjects.Mod is an example of how to use shared objects.
+
+Regis Crelier

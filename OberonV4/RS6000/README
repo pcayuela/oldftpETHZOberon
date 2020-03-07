@@ -1,0 +1,348 @@
+POWERoberon (TM) Installation Notes 
+4.1 (27 July 1994)
+
+Marc-Michael Brandis 
+Institut fuer Computersysteme 
+ETH Zentrum 
+CH-8092 Zuerich
+
+Copyright 1991-94, ETH Zuerich
+
+Introduction
+
+POWERoberon is an implementation of Oberon for the IBM RISC System/6000 (also 
+known as POWERstations and POWERservers). Both the programming language Oberon-2
+and the Oberon System have been implemented. For a complete description of the
+Oberon System, one should read the book by M. Reiser,  The Oberon System, User
+Guide and Programmer's Manual (Addison Wesley, 1991, ISBN 0-201-54422-9). See 
+below for a list of additional publications on Oberon. The following short 
+tutorial describes how to run POWERoberon on your RISC System/6000.
+
+POWERoberon runs as a single AIX process on a color or monochrome workstation. 
+It has the form of an X Windows application using only one X window covering 
+the whole screen. This window can be controlled by the Window Manager, i.e. it 
+can be pushed, moved, resized or iconized, but the WM has no control on the 
+internal layout of the window (tracks and viewers are not X windows). The 
+dimensions of the user track and the system track are automatically defined 
+when starting POWERoberon and cannot be changed until the Oberon process 
+terminates, even if the window is resized. Since POWERoberon is a normal X 
+application, it can be used remotely over a network.
+
+Installation
+
+POWERoberon is distributed as a set of compressed tar files (see below for a 
+description of the contents). The uncompressed files should be installed in a 
+common directory so that they can be accessed by several users. To install 
+POWERoberon on your machine, just create the directory you want to install it 
+under (/usr/local/Oberon is recommended), make this directory the current 
+directory and extract the files of the diskette using tar. If you got 
+POWERoberon from our server using ftp, put the files you received into this 
+directory. Then run oberon.install. Note that you may have to make this file
+exectutable. If it does not run, execute 'chmod +x oberon.install' before.  You
+will find a set of files in your directory which contain everything that  is
+needed to run Oberon on your IBM RISC System/6000. This directory should be 
+made readonly in order to avoid accidental removal of files.
+
+POWERoberon uses the environment variable OBERON specifying the path to search 
+for Oberon files. The default is '. /usr/local/Oberon'. If you have not 
+installed POWERoberon under /usr/local/Oberon or you want POWERoberon to search
+additional directories, you have to set the variable using the setenv command. 
+You can also make the variable be set automatically at login time by adding 
+this command to your .login file.
+
+To improve the character drawing speed on the screen, the Oberon fonts should 
+be installed as X-Windows fonts. This installation has to be done only once. A
+tool converts the given Oberon fonts into ASCII files. These files  describe the
+fonts in the portable BDF format. A font compiler (dxfc), that  should be
+present on each X-Windows station, then compiles these files and  produces
+machine-dependent fonts (SNF or PCF format) that can be installed in a new
+directory on the server. To convert and install the fonts, first run font2bdf to
+generate the portable BDF format files and then install them using the
+installation scripts installfontsSNF or installfontsPCF, respectively. Both
+scripts translate all BDF files in the current directory to the native format
+used by the server and put the generated files in the directory specified. You
+will need 'xset' or a similar tool on your RS/6000 to change the font path so
+that the X server will find the Oberon fonts (unless you install them in one of
+your default font directories). If you do not have it, you can obtain the
+executable xset from neptune too. You just have to make it executable by the
+command 'chmod +x xset'.
+
+The following are the steps you have to perform for a standard installation on
+your IBM RISC System/6000.  Text after a '%' prompt or a 'ftp>' prompt
+corresponds to commands you have to type in a shell window (commands follow
+C-shell syntax).
+
+If you got POWERoberon on diskette, put the diskette into your diskette drive.
+Execute the following commands.
+
+	% cd /usr/local/Oberon 
+	% tar -xf /dev/fd0
+
+If you want to fetch POWERoberon using anonymous ftp, perform the following
+steps.
+
+	% cd /usr/local/Oberon  
+	% ftp neptune.inf.ethz.ch 
+	Connected to neptune.ethz.ch. 
+	220 neptune.inf.ethz.ch FTP server (SunOS 4.1) ready. 
+	Name (neptune:yourname): anonymous 
+	331 Guest login ok, send ident as password. 
+	Password: your_email_address 
+	230 Guest login ok, access restrictions apply. 
+	ftp> cd Oberon/RS6000 
+	250 CWD command successful. 
+	ftp> binary 
+	200 Type set to I. 
+	ftp> mget README POWERoberon.4.1.tar.Z POWERoberon.fonts.tar.Z oberon.in
+	stall
+	mget README? y 
+	200 PORT command successful. 
+	150 Binary data connection for README (129.132.134.3,1088) (9898 bytes). 
+	226 Binary Transfer complete. 
+	9898 bytes received in 0.004693 seconds (2060 Kbytes/s) 
+	mget POWERoberon.4.1.tar.Z? y 
+	200 PORT command successful. 
+	150 Binary data connection for POWERoberon.4.1.tar.Z (129.132.134.3,1089
+	)
+	(886339 bytes). 
+	226 Binary Transfer complete. 
+	886339 bytes received in 1.983 seconds (436.5 Kbytes/s) 
+	mget POWERoberon.fonts.tar.Z? y 
+	200 PORT command successful. 
+	150 Binary data connection for POWERoberon.fonts.tar.Z (129.132.134.3,10
+	90)
+	(102371 bytes). 
+	226 Binary Transfer complete. 
+	102371 bytes received in 0.3368 seconds (296.8 Kbytes/s) 
+	mget oberon.install? y 
+	200 PORT command successful. 
+	150 Binary data connection for oberon.install (129.132.134.3,1091)
+	(1254 bytes).
+	226 Binary Transfer complete. 
+	1254 bytes received in 0.001501 seconds (815.9 Kbytes/s) 
+	ftp> bye 
+	221 Goodbye. 
+	% chmod +x oberon.install
+
+Now you have all files required to install POWERoberon on your machine.  Run the
+following commands.
+
+	% oberon.install 
+	POWERoberon is now ready to be run. 
+	Make sure that the current directory is included in your search path PATH. 
+	Then type 'oberon' to execute.
+	------------------------------ 
+	If the installation succeded, you can remove the following files to 
+	free up disk space:
+                   POWERoberon.4.1.tar
+                   POWERoberon.fonts.tar
+                   POWERoberon.Paint.tar
+                   POWERoberon.Kepler.tar
+                   README
+                   oberon.install
+                   oberon.obj
+
+	% font2bdf *.Scn.Fnt 
+	Courier10.Scn.Fnt converting to Oberon.Courier10.Scn.bdf 
+	... 
+	% mkdir Xfonts 
+	% installfontsSNF Xfonts/
+
+This completes the installation. In order not to accidentally loose files from
+the original distribution, you should make this directory read-only by the
+following command.
+
+	% chmod 555 .
+
+Finally, you should go back to your home directory and create a directory there
+to hold your private Oberon files. After setting the fontpath of the X server to
+include your Oberon font directory, you are ready to run POWERoberon.
+
+	% cd 
+	% mkdir Oberon 
+	% cd Oberon 
+	% xset +fp /usr/local/Oberon/Xfonts 
+	% /usr/local/Oberon/oberon
+
+Starting POWERoberon
+
+POWERoberon is started from a terminal window using the executable oberon. The 
+syntax is:
+
+	oberon [-execute module.command] [-display displayname] 
+		[-geometry geometry] [-font defaultfont] [-colormap]
+
+where
+	- the command module.command is executed (default: -execute Oberon.Loop)
+	- displayname is the name of the X server display used, 
+	  e.g. -display name:0.0 (default: -display "")
+	- geometry gives the position and dimensions of the Oberon window, 
+	  e.g. -geometry 800x600+100+100 (the default depends on the dimensions
+	  of the screen)
+	- defaultfont specifies the default font to be used
+		(default: Syntax10.Scn.Fnt)
+	- the option -colormap allocates a private colormap of 256 colors
+	  (default: not set, 16 colors from 0 up to 15)
+
+Each of these options can be abbreviated as long as it remains unambigous,  e.g.
+-d myterm is a shortcut for -display myterm.
+
+As in all X-Windows applications, the window needs to get the focus before 
+being able to receive input from the keyboard. Just click the left mouse button
+with the pointer in the POWERoberon window.
+
+If POWERoberon gets out of control (e.g. because of a looping command), press 
+Ctrl-C in the terminal window (do not forget to set the focus first). A trap 
+viewer should appear and execution will resume in the central Oberon loop. If 
+the system does not react on that interrupt after several tries, one can kill 
+POWERoberon by pressing Ctrl-\ in the terminal window.
+
+System.Quit terminates the oberon process. It is the normal way to leave 
+POWERoberon.
+
+Literature on Oberon
+
+There are four books on Oberon and Oberon-2. The sources to the book 'The 
+Oberon System' are included in this package. The sources to the other books i
+can be obtained using anonymous ftp from our server neptune.inf.ethz.ch 
+[129.132.101.33], directory Oberon/Examples. 
+
+  N. Wirth and M. Reiser: Programming in Oberon. Steps beyond Pascal and Modula.
+  Addison Wesley, 1992, ISBN 0-201-56543-9.
+  Tutorial for the Oberon programming language and concise language reference.
+
+  M. Reiser: The Oberon System. User Guide and Programmer's Manual.
+  Addison Wesley, 1991, ISBN 0-201-54422-9.
+  User manual for the programming environment and reference for the standard 
+  module library.
+
+  N. Wirth and J. Gutknecht: Project Oberon. The Design of an Operating System 
+  and Compiler.
+  Addison Wesley, 1992, ISBN 0-201-54428-8.
+  Program listings with explanations for the whole system, including the 
+  compiler for the NS32000.
+
+  H. Moessenboeck: Object-Oriented Programming in Oberon-2.
+  Springer, 1993, to be published.
+  Principles and applications of object-oriented programming with examples in
+  Oberon-2.
+
+There are several published papers on Oberon and related topics. Some of these
+articles as well as some technical reports from our institute are available 
+from our server neptune.inf.ethz.ch [129.132.101.33], directory Oberon/Docu.
+
+  N. Wirth. An extensible system and a programming tool for workstation 
+  computers.  Proc. IVth South African Computer Science Symposium. 
+  Pretoria, South Africa.
+
+  N. Wirth. Type Extensions. ACM Trans. on Prog. Languages and Systems, 10, 2
+  (April 1988), 204-214
+
+  N. Wirth. From Modula to Oberon. Software - Practice and Experience, 18, 7
+  (July 1988), 661-670
+
+  N. Wirth. The Programming Language Oberon. Software - Practice and 
+  Experience, 18, 7 (July 1988), 671-690
+
+  N. Wirth. Oberon: An Extensible Operating System for Workstations,
+  Proc. Euromicro Conf., Zuerich, 29.8-1.9.1988
+
+  N. Wirth and J. Gutknecht. The Oberon System. Software - Practice and 
+  Experience, 19, 9 (Sept 1989), 857-893
+
+  N. Wirth. Designing a System from Scratch. Structured Programming, 10, 1
+  (Jan 1989), 10-18
+
+  H. Moessenboeck and N. Wirth. The Programming Language Oberon-2. Structured
+  Programming, 12, 170-195 (1991).
+
+  J. Templ. Design and Implementation of SPARC-Oberon. Structured Programming,
+  12, 197-205 (1991).
+
+  R. Crelier. OP2 - A Portable Oberon-2 Compiler. Proc. Second International
+  Modula-2 Conference, 58-67 (1991).
+
+
+Contents of the package
+
+Oberon Base System (POWERoberon.2.7.tar.Z):
+  (* executables *)
+  oberon.obj, Kernel.Obj, X11.Obj, Input.Obj, Display.Obj, Files.Obj, Fonts.Obj,
+  Viewers.Obj, Reals.Obj, Texts.Obj,MenuViewers.Obj, TextFrames.Obj,
+  Oberon.Obj, System.Obj, Edit.Obj, EdiT.Obj, Miscellaneous.Obj, FontToBDF.Obj,
+  Display1.Obj, Printer.Obj, Types.Obj
+
+  (* required symbol files *)
+  X11.Sym, Input.Sym, Display.Sym, Files.Sym, Fonts.Sym, Viewers.Sym, Reals.Sym,
+  Texts.Sym, MenuViewers.Sym, TextFrames.Sym, Oberon.Sym, Modules.Sym, Clib.Sym,
+  Math.Sym, MathL.Sym, Display1.Sym, Printer.Sym, Types.Sym, EdiT.Sym,
+  Console.Sym
+
+  (* compiler and tools *)
+  POPM.Obj, POPS.Obj, POPT.Obj, POPB.Obj, POPP.Obj, POPL.Obj, POPC.Obj,
+  POPV.Obj, Compiler.Obj, Browser.Obj, Decoder.Obj, AIXglue.Obj
+
+  (* tool texts *)
+  System.Tool, Backup.Tool, Colors.Tool, Compiler.Tool, Draw.Tool, Edit.Tool,
+  FoldElems.Tool, FontToBDF.Tool, Hex.Tool, Log.Tool, Mailer.Tool,
+  Miscellaneous.Tool, Super.Tool, RX.Tool, Terminal.Tool, Swarm.Tool, Write.Tool
+
+  (* documentation *)
+  AIX.Linkage.Text, Draw.Text, Rectangles.Mod, Elem.Guide.Text,
+  Oberon2.Report.Text, OberonEBNF.Text, OberonErrors.Text, OberonGuide.Text,
+  POWERoberon.Guide.Text, Welcome.Text, Edit.Guide.Text, Edit.Interfaces.Text,
+
+  (* Write (Document Editor) *)
+  TextPrinter.Obj, ParcElems.Obj, EditTools.Obj,
+  TextPrinter.Sym, ParcElems.Sym, EditTools.Sym
+
+  (* Write elements *)
+  ChartElems.Obj, ClockElems.Obj, ErrorElems.Obj, FoldElems.Obj,
+  GraphicElems.Obj, LineElems.Obj, PopupElems.Obj, StyleElems.Obj,
+  TableElems.Obj, IconElems.Icon, IconElems.Obj, Globe.Icon, Sisiphus.Icon,
+  StampElems.Obj
+
+  (* Draw (Drawing Package) *)
+  Graphics.Obj, GraphicFrames.Obj, Curves.Obj, Splines.Obj, Buttons.Obj,
+  Rectangles.Obj, Draw.Obj, Graphics.Sym, GraphicFrames.Sym, DrawTool.Obj,
+  COP.Graph, Counters.Graph, Elektra.Graph, TTL0.Graph, TTL0.Lib, TTL1.Graph,
+  TTL1.Lib
+
+  (* System Extensions *)
+  In.Obj, Out.Obj, In.Sym, Out.Sym, Colors.Obj, Shell.Obj, Sockets.Obj,
+  Sessions.Obj, Terminals.Obj, Terminal.Obj, TerminalFrames.Obj, Hex.Obj,
+  Log.Obj, Log.Sym, Mailer.Obj, RXA.Obj, RX.Obj, Swarm.Obj, User.Obj
+
+  (* example code *)
+  Boards.Mod, BoardFrames.Mod, PostIt.Mod, EdiT.Mod, Mailer.Mod, User.Mod,
+  hello.Mod
+
+  (* auxiliary files *)
+  Modules.h, POP2limits.h, OberonTypes.h, Oberon.Header.ps, installfontsPCF,
+  installfontsSNF, font2bdf, Palette, README
+
+Font Library (POWERoberon.fonts.tar.Z):
+  Courier8.Scn.Fnt, Courier10.Scn.Fnt, Courier12.Scn.Fnt,  Courier24.Scn.Fnt,
+  Syntax8.Scn.Fnt, Syntax8i.Scn.Fnt, Syntax8m.Scn.Fnt, Syntax8b.Scn.Fnt,
+  Syntax10.Scn.Fnt, Syntax10i.Scn.Fnt, Syntax10m.Scn.Fnt,  Syntax10b.Scn.Fnt,
+  Syntax12.Scn.Fnt, Syntax12i.Scn.Fnt, Syntax12m.Scn.Fnt,  Syntax12b.Scn.Fnt,
+  Syntax14.Scn.Fnt, Syntax14i.Scn.Fnt, Syntax14m.Scn.Fnt,  Syntax14b.Scn.Fnt,
+  Syntax16.Scn.Fnt, Syntax16i.Scn.Fnt, Syntax16m.Scn.Fnt,  Syntax16b.Scn.Fnt,
+  Syntax20.Scn.Fnt, Syntax20i.Scn.Fnt, Syntax20m.Scn.Fnt,  Syntax20b.Scn.Fnt,
+  Syntax24.Scn.Fnt, Syntax24i.Scn.Fnt, Syntax24m.Scn.Fnt,  Syntax24b.Scn.Fnt,
+  Elektra.Scn.Fnt, Courier.Lm3.Fnt, Syntax.Lm3.Fnt Elektra.Pr3.Fnt,
+  Math10.Pr3.Fnt, Math12.Pr3.Fnt, Math14.Pr3.Fnt, Math16.Pr3.Fnt,
+  Math20.Pr3.Fnt, Math24.Pr3.Fnt
+
+Options:
+
+Paint (picture editor, POWERoberon.Paint.tar.Z):
+  Pictures.Obj, Pictures.Sym, PictureFrames.Obj, PictureFrames.Sym,  Paint.Obj,
+  PictElems.Obj, Life.Text, LifeElems.Obj, Escher.Pict,  Paint.Tool
+
+Kepler (graphics editor, POWERoberon.Kepler.tar.Z):
+  KeplerPorts.Obj, KeplerPorts.Sym, KeplerGraphs.Obj, KeplerGraphs.Sym,
+  KeplerFrames.Obj, KeplerFrames.Sym, Kepler.Obj, Kepler1.Obj, Kepler2.Obj,
+  Kepler4.Obj, Kepler5.Obj, Kepler6.Obj, Kepler7.Obj, Kepler8.Obj, Kepler9.Obj,
+  KeplerElems.Obj, Kepler.Tool, Kepler.Text, Palette.Kep
+

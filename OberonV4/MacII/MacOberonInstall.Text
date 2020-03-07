@@ -1,0 +1,30 @@
+MacOberonª Version 4.1
+
+
+Welcome to MacOberon Version 4.1
+
+Enclosed is Version 4.1 of MacOberon. This software is copyrighted, but may be distributed free of charge for non-commercial purposes. Please read the copyright message within the program for details.
+			MacOberon requires a Macintosh¨ equipped with a Motorola 68020 processor (or higher) and a floating-point coprocessor. It will not run on Macintosh Classic computers. However, you can use it on Macintoshes without floating-point hardware by installing a software coprocessor emulator, such as SoftFPU by John Neil. Please use SoftFPU 2.45 or later with MacOberon; earlier versions contain a bug that can cause MacOberon to crash.
+			MacOberon prefers to run under System 7 and later versions of the Macintosh operating system, and is compatible with 32-bit addressing, virtual memory, and the "fast" mode of Macintosh Quadra computers.
+			This version of MacOberon can print on any Macintosh printer. For esthetically pleasing results, scalable versions (TrueType or PostScript) of the Helvetica and Courier fonts should be present, instead of bit-mapped printer fonts. MacOberon also provides an alternative printing mode in which superior PostScript output is generated directly, bypassing the Macintosh printing machinery.
+
+
+Decompressing, Installing, and Starting MacOberon
+
+MacOberon is distributed in compressed form. In order to uncompress it, double-click on the "Install MacOberonª" icon. In the dialog box that appears, select a destination on your hard disk for the Stuffitª uncompression step. The expander will create two font suitcases, a file called "DoubleClickOnMe", and a folder named "MacOberon", which contains various subfolders.
+			Install the two fonts "Elektra" and "Math" that are distributed with MacOberon. These fonts are necessary for printing some of MacOberon's documentation. Your Macintosh Manual will tell you how to install fonts. MacOberon also requires the "Helvetica" and "Courier" fonts for printing, which should have come with the operating system when you first bought your Macintosh. If you have removed either font from your sytem, please re-install it before attempting to print from Oberon.
+			Now you are ready to start MacOberon by double-clicking on the "DoubleClickOnMe" icon.
+
+
+Notice
+
+Due to a conceptual error in the Macintosh Finder, MacOberon runs much slower, and takes much longer to start, when its folder is opened on the desktop. You will get much better performance if keep the "MacOberon" folder closed while MacOberon is in use. You should start MacOberon either by double-clicking on a related document (such as the "DoubleClickOnMe" file) that lies outside of the MacOberon folder, or by using an Alias for the MacOberon application. Your Macintosh documentation will explain how to create Aliases in the Finder. 
+
+
+Michael Franz, 15.10.94
+
+
+---
+"Oberon" and "MacOberon" are trademarks of ETH Zurich.
+"Macintosh" is a registered trademark of Apple Computer, Inc.
+"StuffIt" is a trademark of Aladdin Systems.

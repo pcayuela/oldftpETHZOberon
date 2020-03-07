@@ -1,0 +1,64 @@
+Short:    Math Expressions within Oberon V4 Text Documents
+Author:   Weck@inf.ethz.ch (Wolfgang Weck)
+Uploader: degner@pallas.amp.uni-hannover.de (Ralf Degner)
+Type:     dev/obero
+
+Expressions.lha is an additional archive to use with "Oberon System V4
+for Amiga V1.4". You need the main archive Oberon.lha to run this.
+Extract this archive into the same directory where you extracted
+Oberon.lha .
+
+                                Ralf Degner
+
+
+------------------------------------------------------------------------------
+
+Expr is a package for editing and displaying mathematical expressions within
+text documents and for interfacing mathematical software.
+
+This software is a research prototype only. No warranties can be assumed.
+
+Currently, the code is available for SparcOberon, SolarisOberon, MacOberon,
+DecOberon, Oberon for Windows, and Oberon for Amiga. (Many thanks to
+Ralf Degner for compiling the Oberon for Amiga version!)
+
+
+Further, several documents are provided:
+
+ExprUsage.Text       introductory user's guide (please read this first!)
+Expressions.Tool     lists most important commands and documents
+ExprPalette.Text     palette with some Extensions
+ExprDemo.Text        some example expressions
+
+
+For all environments except for SolarisOberon a link to the Maple computer
+algebra system is provided. This component also includes some communication
+facilities it requires (and a terminal emulation). To use Maple it needs to
+be accessible on a unix machine via (r)login. 
+Information documents:
+
+ExprMaple.Text       introductory user's guide to maple interface
+ExprMaple.Tool       commands used for maple interface
+MapleFormManip.Text  demonstration text for an interactive document
+
+
+If you want to program and extend the framework you will find the needed
+information in this documents:
+
+ExprProgramming.Text
+ExprBessel.Mod
+ExprSubstituter.Mod
+
+
+Please send any questions or comments via e-mail to weck@inf.ethz.ch .
+If you enjoy using this software, please send a postcard.
+
+
+        Wolfgang Weck
+
+        Institut fuer Wissenschaftliches Rechnen
+        ETH-Zentrum
+        CH-8092 Zuerich
+
+        Weck@inf.ethz.ch
+        http://www.inf.ethz.ch/personal/weck

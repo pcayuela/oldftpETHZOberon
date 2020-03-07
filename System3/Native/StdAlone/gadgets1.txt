@@ -1,0 +1,6 @@
+gadgets1.arc is exactly the same as gadgets.arc, except that the
+following picture decoding modules have been removed to reduce
+its size to below 1.44Mb:
+  TGA.Obj IFF.Obj XPM.Obj PPM.Obj
+
+This is a temporary fix until the next release.

@@ -1,0 +1,13 @@
+ ----------------------------------------------------------------
+ Oberon for Windows (tm)
+
+ This directory contains ETH-Oberon V4 for Microsoft Windows NT
+ and Microsoft Windows 3.1. Both implementations are contained
+ in the file "oberon.zip". When running under Windows 3.1,
+ Oberon for Windows needs Microsoft's system extension "Win32s".
+ Win32s is contained in the file "win32s.exe". Windows NT users
+ or users that already have Win32s installed on their system do
+ not need to download "win32s.exe".
+    The file "readme.txt" is named so because we expect you
+ to read it.
+ ----------------------------------------------------------------

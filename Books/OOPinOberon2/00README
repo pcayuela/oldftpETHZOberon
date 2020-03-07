@@ -1,0 +1,6 @@
+OOPinOberon2.tar.gz contains the Oberon0 system as described in
+"Object-oriented Programming in Oberon-2" by H. Moessenboeck as
+Oberon text files. 
+
+Use gunzip and tar to extract the files from the compressed
+archive.

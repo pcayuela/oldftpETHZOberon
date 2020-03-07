@@ -1,0 +1,188 @@
+{\rtf1\ansi \deff0\deflang1024{\fonttbl{\f0\froman Times New Roman;}{\f1\froman Symbol;}{\f2\fswiss Arial;}{\f3\froman CG Times;}{\f4\fmodern Courier New;}}{\colortbl;\red0\green0\blue0;\red0\green0\blue255;
+\red0\green255\blue255;\red0\green255\blue0;\red255\green0\blue255;\red255\green0\blue0;\red255\green255\blue0;\red255\green255\blue255;\red0\green0\blue127;\red0\green127\blue127;\red0\green127\blue0;\red127\green0\blue127;\red127\green0\blue0;
+\red127\green127\blue0;\red127\green127\blue127;\red192\green192\blue192;}{\stylesheet{\s244 \fs16\up6\lang2057 \sbasedon0\snext0 footnote reference;}{\s245 \fs20\lang2057 \sbasedon0\snext245 footnote text;}{\fs20\lang2057 \snext0 Normal;}}{\info
+{\author System Administrator}{\operator System Administrator}{\creatim\yr2000\mo3\dy30\hr8\min55}{\revtim\yr2000\mo3\dy30\hr23\min26}{\version31}{\edmins150}{\nofpages1}{\nofwords65700}{\nofchars66655}{\vern16504}}
+\paperw11909\paperh16834\margl2448\margr2448\margt2880\margb2880\gutter0 \widowctrl\ftnbj \sectd \binfsxn201\binsxn201\linex0\endnhere \pard\plain \qc \fs20\lang2057 {\b\fs28 A Modification of Oberon TextFrames\line }{\b\fs28 for Narrower Displays}
+\par \pard \qc\li576\ri576\sb480 Paul Reed, Padded Cell Software Ltd, London\line www.paddedcell.com\line 15th May 2000 [Rev2]{\b 
+\par }\pard \qj\li576\ri576\sb480 {\b\fs18 Summary:}{\fs18 
+ The Oberon System [1] is a graphical operating system and programming environment for a personal workstation computer, ideal for use on machines 'outdated' by the power-hungry operating systems currently popular. However, a high-resolution (1024x768 or l
+}{\fs18 arger) display is a necessary hardware requir}{\fs18 
+ement for Oberon as originally designed.  We propose a crude but simple modification of menu texts to remove repeated module names in commands.  This facilitates the use of narrower displays (e.g. 800x600 or even IBM PC VGA resolution, 640x480), and is br
+}{\fs18 ought about by making only a few small alterations to the TextFrames module.}{\fs18 
+\par }\pard \sb480\sa120 {\b 1.  Introduction}{\b 
+\par }\pard \qj\sb120 One of the barriers to experimentation with, and adoption of the original Oberon System as a programming and user environment is its hardware requirements.  This
+ is unfortunate because Oberon does not require a particularly powerful processor, or huge amounts of memory or disk space (stumbling blocks for most commercially-available systems), but for rewarding use it does require a high-resolution graphical displa
+y (1024 pixels across or greater)
+\par \pard \qj \tab All text visible on the screen in Oberon has the same properties - there is no special area where commands are typed (and where output may be subsequently lost).  Clicking on any word of the form {\i Module.Procedure}, such as {\i 
+System.ShowModules}, will cause the procedure {\i Procedure} from module {\i Module} to be called, whereupon typically a new viewer with the desired information will be opened.
+\par \tab 
+An Oberon screen is usually split vertically into a wide User Track on the left, for user activities such as editing documents, and a narrower System Track on the right, intended for the output of system commands like a directory of files, and for the sys
+tem log.
+\par \pard \qj\keepn \tab A consequence of this design is that the menu bar at the top of each viewer (which is normally a single line of text) can contain only a few commands, such as:
+\par \pard \qj\li576\ri576\sb120\sa120\box\brdrs\brdrw15\brsp20 {\fs18 Demo.Txt  |  System.Close System.Copy System.Grow Edit.Search Edit.Store}
+\par \pard \qj When the above menu is displayed in the narrower system track on a display which has a width of less than around a thousand pixels, the text (rendered in a reasonably readable font) disappears off the right-hand side of the screen.
+\par \tab Displays of more than a thousand pixels wide are now quite common in the workplace, but are by no means ubiquitous, and 
+many common laptop computers still have 800x600 resolution or less.  Besides, the lightweight processor and memory requirements of Oberon represent an excellent opportunity to re-employ older hardware seemingly outdated by bloated and inefficient commerci
+al software.  There may be just such a suitable machine holding your office door open at this moment.
+\par \tab Many solutions to this restricted display-width problem have been proposed and used over the years, but most complicate the design of the system consider
+ably.  This paper describes a crude but effective technique for shortening the menu text just enough to make the system entirely usable on 600-700 pixel-width displays, which covers virtually every personal computer ever made.  Any reader with an original
+ IBM PC with its text-only Monochrome Display Adapter may apply to Padded Cell Software for a FREE Hercules adapter (while stocks last).
+\par \tab For example, under our modifications, the above menu becomes:
+\par \pard \qj\li576\ri2063\sb120\sa120\box\brdrs\brdrw15\brsp20 {\fs18 Demo.Txt  }{\fs18 |  System.Close .Copy .Grow Edit.Search .Store}
+\par \pard \qj 
+\par \pard {\b 2.  Shortening Menu Texts}{\b 
+\par }\pard \qj First, menu texts must be shortened when text frames are created.  When a text frame is created, the procedure {\i TextFrames.NewMenu} is called.  This in turn calls the procedure {\i Menu}
+, internal to TextFrames, which takes the name of the viewer and the list of commands as its two string parameters.  {\i Menu} then returns a Text consisting of these two strings separated by a vertical bar character.
+\par \tab We simply insert some lines at the beginning of this procedure to shorten the local copy of the {\i commands} parameter if necessary (new code in bold):
+\par \pard \li576\ri576\sb480 {\fs18 PROCEDURE Menu(name, commands: ARRAY OF CHAR): Texts.Text;}{\fs18 
+\par }\pard \li576\ri576 {\fs18   VAR T: Texts.Text; mb, me, m, s, d, i: INTEGER; ch: CHAR;}{\fs18 
+\par }{\fs18 BEGIN}{\fs18 
+\par }{\b\fs18   IF Display.Width < 1024 THEN (*adjust commands*)}{\b\fs18 
+\par }{\b\fs18     mb := 0; me := 0; s := 0; d := 0;}{\b\fs18 
+\par }{\b\fs18     LOOP}{\b\fs18 
+\par }{\b\fs18       (*position to beginning of word*)}{\b\fs18 
+\par }{\b\fs18       LOOP}{\b\fs18 
+\par }{\b\fs18         IF s >= LEN(commands) THEN EXIT END;}{\b\fs18 
+\par }{\b\fs18         ch := commands[s]; INC(s);}{\b\fs18 
+\par }{\b\fs18         IF ch = 0X THEN EXIT END;}{\b\fs18 
+\par }{\b\fs18      }{\b\fs18    commands[d] := ch; INC(d);}{\b\fs18 
+\par }{\b\fs18         IF ("A" <= CAP(ch)) & (CAP(ch) <= "Z") THEN EXIT END}{\b\fs18 
+\par }{\b\fs18       END;}{\b\fs18 
+\par }{\b\fs18       IF (s >= LEN(commands)) OR (ch = 0X) THEN EXIT END;}{\b\fs18 
+\par }{\b\fs18       (*scan first part of word, checking against last module name*)}{\b\fs18 
+\par }{\b\fs18       m := mb; i := 0;}{\b\fs18 
+\par }{\b\fs18       LOOP}{\b\fs18 
+\par }{\b\fs18         INC(i); IF (m < me) & (commands[m] = ch) THEN INC(m) END;}{\b\fs18 
+\par }{\b\fs18         IF s >= LEN(commands) THEN EXIT END;}{\b\fs18 
+\par }{\b\fs18         ch := commands[s]; INC(s);}{\b\fs18 
+\par }{\b\fs18         IF ch = 0X THEN EXIT END;}{\b\fs18 
+\par }{\b\fs18         commands[d] := ch; INC(d);}{\b\fs18 
+\par }{\b\fs18         IF (ch < }{\b\fs18 "0") OR ("9" < ch) & (CAP(ch) < "A")}{\b\fs18 
+\par }{\b\fs18              OR (CAP(ch) > "Z") THEN EXIT}{\b\fs18 
+\par }{\b\fs18         END}{\b\fs18 
+\par }{\b\fs18       END;}{\b\fs18 
+\par }{\b\fs18       (*check for match*)}{\b\fs18 
+\par }{\b\fs18       IF (s < LEN(commands)) & (ch = ".") THEN}{\b\fs18 
+\par }{\b\fs18         IF m = mb + i THEN (*matches previous module name - compress*)}{\b\fs18 
+\par }{\b\fs18           DEC(d, i); commands[d-1] := "."}{\b\fs18 
+\par }{\b\fs18         ELSE (*set new module name*)}{\b\fs18 
+\par }{\b\fs18           mb := d - (i+1); me := d-1}{\b\fs18 
+\par }{\b\fs18         END;}{\b\fs18 
+\par }{\b\fs18         (*and do last part of word*)}{\b\fs18 
+\par }{\b\fs18         LOOP}{\b\fs18 
+\par }{\b\fs18           IF s >= LEN(commands) THEN EXIT END;}{\b\fs18 
+\par }{\b\fs18           ch := commands[s}{\b\fs18 ]; INC(s);}{\b\fs18 
+\par }{\b\fs18           IF ch = 0X THEN EXIT END;}{\b\fs18 
+\par }{\b\fs18           commands[d] := ch; INC(d);}{\b\fs18 
+\par }{\b\fs18           IF (ch < "0") OR ("9" < ch) & (CAP(ch) < "A")}{\b\fs18 
+\par }{\b\fs18                OR (CAP(ch) > "Z") THEN EXIT}{\b\fs18 \line }{\b\fs18           END}{\b\fs18 \line }{\b\fs18         END}{\b\fs18 \line }{\b\fs18       END;}{\b\fs18 
+\par }{\b\fs18       IF (s >= LEN(comman}{\b\fs18 ds)) OR (ch = 0X) THEN EXIT END}{\b\fs18    <--*}{\b\fs18 \line }{\b\fs18     END;}{\b\fs18 
+\par }{\b\fs18     IF d < LEN(commands) THEN commands[d] := 0X END}{\b\fs18 
+\par }{\b\fs18   END;}{\b\fs18 
+\par }{\fs18   NEW(T); T.notify := NotifyDisplay; Texts.Open(T, "");}{\fs18 
+\par }{\fs18   Texts.WriteString(W, name); Texts.WriteString(W, " | ");}{\fs18 
+\par }{\fs18   Texts.WriteString(W, commands);}{\fs18 
+\par }{\fs18   Texts.Append(T, W.buf);}{\fs18 
+\par }{\fs18   RETURN T}{\fs18 
+\par }{\fs18 END Menu;}{\fs18 
+\par }\pard \qj 
+\par {\fs18 Note: The line arrowed above was omitted in the original version of this paper}{\fs18 
+\par }
+\par \pard {\b 
+\par }{\b 3.  Saving a 'Hint' for Command Execution}{\b 
+\par }\pard \qj 
+Having shortened the menu text, we need to be able to scan the previous commands on a line, in order to infer the module name in the case of a shortened command.  We achieve this by saving a 'hint' position when tracking words with the middle (command) mo
+use button, for use when the button is lifted and the command is executed.
+\par \tab First, a single variable is added at the beginning of the module:
+\par \pard \li576\ri576\sb480 {\fs18 VAR}{\fs18 
+\par }\pard \li576\ri576 {\fs18   menuH*, barW*, left*, right*, top*, bot*, lsp*: INTEGER; (*standard sizes*)}{\fs18 
+\par }{\fs18   asr, dsr, selH, markW, eolW: INTEGER;}{\fs18 
+\par }{\fs18   par: Oberon.ParList; nextCh: CHAR;}{\fs18 
+\par }{\fs18   W, KW: Texts.Writer; (*keyboard writer*)}{\fs18 
+\par }{\fs18   }{\b\fs18 hintPos: LONGINT;}{\fs18 
+\par }\pard 
+\par Next, the hint position is saved when tracking the mouse:
+\par \pard \li576\ri576\sb480 {\fs18 PROCEDURE TrackWord*(F: Frame; X, Y: INTEGER; VAR pos: LONGINT;}{\fs18 
+\par }\pard \li576\ri576 {\fs18                      VAR keysum: SET);}{\fs18 
+\par }{\fs18   VAR old, new: Location; keys: SET;}{\fs18 
+\par }{\fs18 BEGIN}{\fs18 
+\par }{\fs18   IF F.trailer.next # F.trailer THEN}{\fs18 
+\par }{\fs18     LocateString(F, X - F.X, Y - F.Y, old);}{\fs18 
+\par }{\fs18     ReplConst(Display.white, F, F.X + old.x, F.Y + old.y - dsr, old.dx, 2, 2);}{\fs18 
+\par }{\fs18     keysum := }{\fs18 \{}{\fs18 \}}{\fs18 ;}{\fs18 
+\par }{\fs18     REPEAT}{\fs18 
+\par }{\fs18       Input.Mouse(keys, X, Y);}{\fs18 
+\par }{\fs18       keysum := keysum + keys;}{\fs18 
+\par }{\fs18       Oberon.DrawCursor(Oberon.Mouse, Oberon.Mouse.marker, X, Y);}{\fs18 
+\par }{\fs18       LocateString(F, X - F.X, Y - F.Y, new);}{\fs18 
+\par }{\fs18       IF new.pos # old.pos THEN}{\fs18 
+\par }{\fs18         ReplConst(Display.white,}{\fs18 
+\par }{\fs18           F, F.X + old.x, F.Y + old.y - dsr, old.dx, 2, 2);}{\fs18 
+\par }{\fs18         Repl}{\fs18 Const(Display.white,}{\fs18 
+\par }{\fs18           F, F.X + new.x, F.Y + new.y - dsr, new.dx, 2, 2);}{\fs18 
+\par }{\fs18         old := new}{\fs18 
+\par }{\fs18       END}{\fs18 
+\par }{\fs18     UNTIL keys = }{\fs18 \{}{\fs18 \}}{\fs18 ;}{\fs18 
+\par }{\fs18     ReplConst(Display.white, F, F.X + new.x, F.Y + new.y - dsr, new.dx, 2, 2);}{\fs18 
+\par }{\fs18     pos := new.pos}{\b\fs18 ; hintPos := new.org}{\fs18 
+\par }{\fs18   ELSE pos := -1}{\fs18 
+\par }{\fs18   END}{\fs18 
+\par }{\fs18 END TrackWord;}{\fs18 
+\par }\pard 
+\par 
+\par 
+\par And finally, the hint is used when a command is selected by the user, by detecting whether the command begins with a dot:
+\par \pard \li576\ri576\sb480 {\fs18 PROCEDURE Call*(F: Frame; pos: LONGINT; new: BOOLEAN);}{\fs18 
+\par }\pard \li576\ri576 {\fs18   VAR S: Texts.Scanner; res}{\b\fs18 , i, h}{\fs18 : INTEGER;}{\fs18 
+\par }{\fs18     }{\b\fs18 hint: ARRAY 32 OF CHAR; ch: CHAR;}{\fs18 
+\par }{\fs18 BEGIN}{\fs18 
+\par }{\fs18   Texts.OpenScanner(S, F.text, pos); Texts.Scan(S);}{\b\fs18  h := 0;}{\fs18 
+\par }{\b\fs18   IF ((S.class = Texts.Char) & (S.c = "."))}{\b\fs18 
+\par }{\b\fs18           OR ((S.class = Texts.Name) & (S.s[0] = ".")) THEN}{\b\fs18 
+\par }{\b\fs18     (*find hint*)}{\b\fs18 
+\par }{\b\fs18     Texts.OpenScanner(S, F.text, hintPos);}{\b\fs18 
+\par }{\b\fs18     REPEAT}{\b\fs18 
+\par }{\b\fs18       Texts.Scan(S);}{\b\fs18 
+\par }{\b\fs18       IF S.class = Texts.Name THEN}{\b\fs18 
+\par }{\b\fs18         i := 0; WHILE (i < S.len) & (S.s[i] # ".") DO INC(i) END;}{\b\fs18 
+\par }{\b\fs18         IF (0 < i) & (i < S.len) THEN}{\b\fs18 
+\par }{\b\fs18           h := 0; REPEAT hint[h] := S.s[h]; INC(h) UNTIL h > i}{\b\fs18 
+\par }{\b\fs18         END}{\b\fs18 
+\par }{\b\fs18       END}{\b\fs18 
+\par }{\b\fs18     UNTIL Texts.Pos(S) > pos;}{\b\fs18 
+\par }{\b\fs18     IF (S.class = Texts.Char) & (S.c = ".") THEN Texts.Scan(S) END}{\b\fs18 
+\par }{\b\fs18   END;}{\b\fs18 
+\par }{\fs18   IF S.class = Texts.Name THEN}{\fs18 
+\par }{\fs18     }{\b\fs18 IF h > 1 THEN (*use hint*)}{\b\fs18 
+\par }{\b\fs18       i := S.len; IF S.s[0] = "." THEN DEC(h) END;}{\b\fs18 
+\par }{\b\fs18       REPEAT S.s[i+h] := S.s[i]; DEC(i) UNTIL (i = -1) OR (S.s[i+1] = ".");}{\b\fs18 
+\par }{\b\fs18       REPEAT DEC(h); S.s[h] := hint[h] UNTIL h = 0}{\b\fs18 
+\par }{\b\fs18     END;}{\b\fs18 
+\par }{\fs18     par.vwr := Viewers.This(F.X, F.Y);}{\fs18 
+\par }{\fs18     par.frame := F; pa}{\fs18 r.text := F.text; par.pos := pos + S.len;}{\fs18 
+\par }{\b\fs18     }{\fs18 Oberon.Call(S.s, par, new, res);}{\fs18 
+\par }{\fs18     IF res > 1 THEN}{\fs18 
+\par }{\fs18       Texts.WriteString(W, "Call error: ");}{\fs18 
+\par }{\fs18       ...}{\fs18 
+\par }{\fs18       (error handling)}{\fs18 
+\par }{\fs18       ...}{\fs18 
+\par }{\fs18       Texts.WriteLn(W); Texts.Append(Oberon.Log, W.buf)}{\fs18 
+\par }{\fs18     END}{\fs18 
+\par }{\fs18   END}{\fs18 
+\par }{\fs18 END Call;}{\fs18 
+\par }\pard 
+\par 
+\par {\b 4. Conclusion}
+\par \pard \qj 
+At Padded Cell Software Ltd, we produce custom software using an adaptation of the Oberon system and compiler as our development environment.  When working at clients' sites, we have avoided having to install complicated development tools before we can be
+gin work.  The entire Oberon system can be used from a single bootable floppy disk or CD-ROM, and with modifications such the one above, can be used on almost any hardware configuration.
+\par \tab The original Oberon system is a shining example of economical softwa
+re engineering resulting in a highly useful, flexible and reliable software environment.  We have shown that, with the help of the lucid explanations of its source code provided in the Project Oberon book, even quite simple modifications can be used to ad
+apt the system to whole new classes of hardware.
+\par 
+\par  
+\par {\b References}
+\par \pard\plain \s245 \fs20\lang2057 [1] Wirth, N. and Gutknecht, J. (1992) Project Oberon: The Design of an Operating System and Compiler. Wokingham, England: Addison Wesley
+\par \pard\plain \qj \fs20\lang2057 
+\par 
+\par }

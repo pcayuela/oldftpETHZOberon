@@ -1,0 +1,103 @@
+
+Oberon
+
+Copyright 1990-1993, ETH Zuerich
+
+Permission to use, copy, modify and distribute this software
+and its documentation for any purpose is hereby granted
+without fee, provided that the above copyright notice appear
+in all copies and that both that copyright notice and this
+permission notice appear in supporting documentation, and
+that the name of ETH not be used in advertising or publicity
+pertaining to distribution of the software without specific,
+written prior permission.  ETH makes no representations about
+the suitability of this software for any purpose.  It is provided
+"as is" without express or implied warranty.
+
+ETH DISCLAIMS ALL WARRANTIES WITH REGARD TO THIS
+SOFTWARE, INCLUDING ALL IMPLIED WARRANTIES OF
+MERCHANTABILITY AND FITNESS.  IN NO EVENT SHALL ETH
+BE LIABLE FOR ANY SPECIAL, INDIRECT OR CONSEQUENTIAL
+DAMAGES OR ANY DAMAGES WHATSOEVER RESULTING FROM
+LOSS OF USE, DATA OR PROFITS, WHETHER IN AN ACTION OF
+CONTRACT, NEGLIGENCE OR OTHER TORTIOUS ACTION, ARISING
+OUT OF OR IN  CONNECTION WITH THE USE OR PERFORMANCE
+OF THIS SOFTWARE.
+
+
+Syntax Font
+Copyright 1968 Linotype AG
+
+Syntax is a registered trademark of Linotype AG.
+The Syntax font is owned and used by permission of Linotype AG.
+
+RASTER DATA DESCRIBING THE SYNTAX FONT IS SUPPLIED WITH
+THIS RELEASE OF OBERON AND MAY BE USED ONLY IN
+CONJUNCTION WITH THE OBERON SOFTWARE.  ANY OTHER
+USE OF THE SYNTAX FONT REQUIRES A LICENSE FROM LINOTYPE AG.
+
+PostScript versions of the fonts in the Syntax family are available
+from Linotype, Inc. and its subsidiaries.
+
+
+This directory contains the following subdirectories:
+  SPARC  contains the Sun-SPARC version.
+  MacII  contains the Apple-Macintosh-II version.
+  DECstation  contains the DECstation version.
+  RS6000  contains the IBM RS/6000 version.
+  Windows contains the Windows 3.1 and Windows NT version for Intel 386
+  SiliconGraphics  contains the SGI version.
+  HP700 contains the version for HP Apollo Serie 700
+  Docu  contains general Oberon documentation (not related to
+        a particular implementation) as compressed postscript files.
+  Tools  contains various tools for Oberon in source form.
+
+See the readme files in the appropriate subdirectory for
+further important notes.
+For technical reports of the Institut fuer Computersysteme
+contact Mr. Ruettener (e-mail: ruettener@inf.ethz.ch).
+
+
+For Oberon compilers developed outside ETH contact
+
+VAX/VMS:
+  ModulaWare GmbH, Wilhelmstr. 17A, D-W 8520 Erlangen/F.R.Germany
+  Modula-2 & Oberon-2 Compiler Manufactur
+  Tel. +49 (9131) 208395, Fax +49 (9131) 28205.
+  E-mail/Internet:
+    100023.2527@compuserve.com
+      g_dotzel@ame.nbg.sub.org
+
+MS-DOS:
+  Oberon-M
+    contact E.Videki, e-mail: erv@k2.everest.tandem.com
+  Extacy
+    Real Time Associates Ltd.
+    Canning House, 59 Canning Road
+    Croydon, Surrey, CRO 6QF
+    England
+    Tel.: 0044-81-656 7333
+    Fax: 0044-81-655 0401
+    E-mail: 100023.145@CompuServe.COM
+
+Amiga:
+  A+L AG
+  Daederiz 61
+  CH-2540 Grenchen
+  Tel.: +41 (65) 52 03 11
+
+DECstation (Ultrix, OSF/1), Intel386 (SVR4, OS2, Solaris), Sparc (Solaris)
+  Office of Commercial Services
+  Queensland University of Technology
+  GPO box 2434, Brisbane Q4001
+  Australia
+
+Atari:
+  Martin Momberg
+  Hahlgartenstr. 13a
+  D-64331 Weiterstadt
+  Germany
+  E-Mail: Inet:momberg@dik.maschinenbau.th-darmstadt.de
+  anonymous ftp:
+    ftp.th-darmstadt.de
+    changing to directory /pub/machines/atari/programming/stoberon

@@ -1,0 +1,42 @@
+                                                             4. September 1992
+
+
+              [1;33;4mAmiga Oberon 3.00 (eingeschr‰nkte Version)[m
+
+
+[1;33mVorwort:[m
+
+  Vor Ihnen liegt eine frei  kopierbare  Demo-Version  eines  leistungsf‰higen
+  Compilers   f¸r   Oberon-2,   eine   der    modernsten    objektorientierten
+  Programmiersprachen. Oberon-2 ist  die  neuste  Entwicklung  von  Prof.  Dr.
+  Niklaus Wirth und Prof. Dr. Hanspeter Mˆssenbˆck von der ETH  Z¸rich.  Diese
+  Sprache entstand dort innerhalb eines Projekts, das sich  das  Ziel  setzte,
+  die   Leistungsf‰higkeit   der   Sprache   Modula-II   zu   vergrˆﬂern   und
+  gleichzeitig ihre Komplexit‰t  zu  verringern.  Dazu  wurde  Oberon  um  das
+  Konzept   der    Typerweiterung    erg‰nzt,    wodurch    objektorientiertes
+  Programmieren ‰hnlich wie  in  Smalltalk  oder  C++  mˆglich  wird,  w‰hrend
+  jedoch  die  gewohnte  Notation  aus  Modula-II  und   Pascal   grˆﬂtenteils
+  beibehalten wird.
+
+
+[1;33mEntpacken:[m
+
+  Diese Demonstration des  Amiga  Oberon  Systems  erstreckt  sich  ¸ber  zwei
+  Disketten, die aus Platzmangel gepackt werden muﬂten. Um  sie  zu  entpacken
+  legen Sie sich bitte zwei  Disketten  bereit  und  starten  Sie  das  Skript
+  'UnPack' durch einen Doppelklick auf sein Piktogramm. Unter AmigaOS 1.3  muﬂ
+  das Skript durch die Shell-Anweisungen
+
+    > cd DFx:Oberon3.0
+    > execute UnPack
+
+  gestartet werden (wobei diese Diskette im Laufwerk DFx: liegen muﬂ).
+
+  Eine Anleitung zu den Programmen des Oberon Systems  befindet  sich  in  der
+  Datei 'LiesMich' auf der ersten der beiden entpackten Disketten.
+
+
+[1;33mViel Spaﬂ mit Amiga Oberon 3.0[m
+
+
+--- Fridtjof.

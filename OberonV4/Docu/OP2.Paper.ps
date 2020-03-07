@@ -1,0 +1,4775 @@
+%!PS-Adobe- minimal conforming
+%%Creator: Oberon
+%%DocumentFonts: Helvetica Helvetica-Bold Helvetica-Oblique Courier Courier-Bold Times Times-Bold Times-Oblique
+% 
+% J. Templ, 1990, 1991, 1992
+% m  moveto  x y -> -
+% s  String  s -> -
+% d  dieresis  ch -> -
+% l  Line  x y w h -> -
+% x  XLine  x y dx dy -> -
+% c  scaled Circle  x y a b -> -
+% b  shaded box  x y w h col -> -
+% i  pattern image  x y w h mode  -> -
+% p  Page  n -> -
+% f  font mapping  fnt -> -
+% z Bezier cubic section  x1 y1 x2 y2 x3 y3 x0 y0 -> -
+% k char  x y w h dx -> -
+
+/bdef {bind def} bind def
+
+/m {moveto} bdef
+
+/s {show} bdef
+
+/d  % obsolete
+  { /s2 exch def
+        /ch0 s2 0 1 getinterval def
+        /ch1 s2 1 1 getinterval def
+    currentpoint /y0 exch def /x0 exch def
+    ch0 show
+    currentpoint /y1 exch def /x1 exch def
+    ch1 stringwidth /wy exch def /wx exch def
+    x1 x0 add wx sub 2 div y0 moveto
+    ch0 (Z) le {0 wx 2 div rmoveto} if
+    ch1 show
+    x1 y1 moveto
+  } bdef
+
+/l
+  { /ph exch def
+    /pw exch def
+    newpath
+    moveto
+    pw 0 rlineto
+    0 ph rlineto
+    pw neg 0 rlineto
+    closepath
+    0 setgray
+    fill
+  } bdef
+
+/x
+  { /dy exch def
+    /dx exch def
+    newpath
+    moveto
+    dx dy rlineto
+    0 setlinewidth
+    stroke
+  } bdef
+
+/c
+  { /pb exch def
+    /pa exch def
+    newpath
+    gsave
+    translate
+    1 pb pa div scale
+    0 0 pa 0 360 arc
+    0 setlinewidth
+    stroke
+    grestore
+  } bdef
+
+/maxwh
+  { pw ph gt {/max pw def} {/max ph def} ifelse
+  } bdef
+
+/shade
+  { gsave
+    col 0 eq {1 setgray} if
+    col 1 eq {0.99 setgray} if
+    col 2 eq {0.9 setgray} if
+    col 3 eq {0.65 setgray} if
+    col 4 eq {0.35 setgray} if
+    col 5 eq {0 setgray} if
+    fill
+    grestore
+  } bdef
+
+/texture
+  { gsave
+    clip
+    newpath
+    col 6 eq
+      { px py ph add moveto
+        maxwh
+        max 10 idiv 1 add
+          { max max rlineto
+            max neg dup 20 sub rmoveto
+          } repeat
+      } if
+    col 7 eq
+      { px py moveto
+        maxwh
+        max 10 idiv 1 add
+          { max neg max rlineto
+            max 20 add max neg rmoveto
+          } repeat
+      } if
+    col 8 eq
+      { px py moveto
+        pw 15 idiv 1 add
+          { 0 ph rlineto
+            15 ph neg rmoveto
+          } repeat
+     } if
+    col 9 eq
+      { px py moveto
+        ph 15 idiv 1 add
+          { pw 0 rlineto
+            pw neg 15 rmoveto
+          } repeat
+     } if
+    0 setlinewidth
+    stroke
+    grestore
+  } bdef
+
+/b
+  { /col exch def
+    /ph exch def
+    /pw exch def
+    /py exch def
+    /px exch def
+    newpath
+    px py moveto
+    pw 0 rlineto
+    0 ph rlineto
+    pw neg 0 rlineto
+    closepath
+    col 6 lt {shade} {texture} ifelse
+  } bdef
+
+/i % pattern image follows procedure i immediately
+  { /mode exch def
+    /ph exch def
+    /pw exch def
+    /py exch def
+    /px exch def
+    /picstr 256 string def
+    /nofbytes pw 7 add 8 idiv ph mul def
+    gsave
+    px py translate
+    pw mode 1 add mul ph mode 1 add mul scale
+    pw ph 1 [pw 0 0 ph 0 0]
+      {nofbytes 256 ge
+        { currentfile picstr readhexstring pop
+          /nofbytes nofbytes 256 sub def }
+        { /picstr nofbytes string def
+          currentfile picstr readhexstring pop
+          /nofbytes 0 def
+        } ifelse
+      } image
+    grestore
+  } bdef
+
+/k % char image follows procedure k immediately
+  { /pdx exch def
+    /ph exch def
+    /pw exch def
+    /py exch def
+    /px exch def
+    /picstr 256 string def
+    /nofbytes pw 7 add 8 idiv ph mul def
+    gsave
+        currentpoint translate
+    px py translate
+    pw ph scale
+    pw ph true [pw 0 0 ph 0 0]
+      { nofbytes 256 ge
+        { currentfile picstr readhexstring pop
+          /nofbytes nofbytes 256 sub def }
+        { /picstr nofbytes string def
+          currentfile picstr readhexstring pop
+          /nofbytes 0 def
+        } ifelse
+      } imagemask
+    grestore
+    pdx 0 rmoveto
+  } bdef
+
+
+/OberonEncoding
+  [ 128 /Adieresis
+    129 /Odieresis
+    130 /Udieresis
+    131 /adieresis
+    132 /odieresis
+    133 /udieresis
+    134 /acircumflex
+    135 /ecircumflex
+    136 /icircumflex
+    137 /ocircumflex
+    138 /ucircumflex
+    139 /agrave
+    140 /egrave
+    141 /igrave
+    142 /ograve
+    143 /ugrave
+    144 /eacute
+    145 /edieresis
+    146 /idieresis
+    147 /ccedilla
+    148 /aacute
+    149 /ntilde
+  ] def
+
+% font reencoding taken from P. Vollenweider, PostScript, Hanser Verlag 1988
+% encoding vector is /OberonEncoding
+% newfontdict basefontdict recode -
+
+/recode
+  { findfont /basefontdict exch def
+    /OberonFont basefontdict maxlength dict def
+    basefontdict
+      { exch dup /FID ne
+        { dup /Encoding eq
+          { exch dup length array copy OberonFont 3 1 roll put }
+          { exch OberonFont 3 1 roll put }
+          ifelse
+        }
+        { pop pop }
+        ifelse
+      } forall
+    OberonEncoding aload pop
+    OberonEncoding length 2 idiv {OberonFont /Encoding get 3 1 roll put} repeat
+    dup OberonFont exch /FontName exch put
+    OberonFont definefont pop
+  } bdef
+
+% font setup.  Recode the basic fonts first
+
+  /ObHelv /Helvetica recode
+  /ObHelvBold /Helvetica-Bold recode
+  /ObHelvOblique /Helvetica-Oblique recode
+  /ObCourier /Courier recode
+  /ObCourierBold /Courier-Bold recode
+  /ObTimes /Times-Roman recode
+  /ObTimesBold /Times-Bold recode
+  /ObTimesItalic /Times-Italic recode
+
+% now define the scaled versions
+
+  /Syntax8.Scn.Fnt   /ObHelv findfont 30 scalefont def
+  /Syntax8i.Scn.Fnt  /ObHelvOblique findfont 30 scalefont def
+  /Syntax8b.Scn.Fnt  /ObHelvBold findfont 30 scalefont def
+  /Syntax8m.Scn.Fnt  /ObHelvBold findfont 30 scalefont def
+  /Syntax9m.Scn.Fnt  /ObHelvBold findfont 33 scalefont def
+  /Syntax10.Scn.Fnt  /ObHelv findfont 37 scalefont def
+  /Syntax10i.Scn.Fnt /ObHelvOblique  findfont 37 scalefont def
+  /Syntax10b.Scn.Fnt /ObHelvBold findfont 37 scalefont def
+  /Syntax10m.Scn.Fnt /ObHelvBold findfont 37 scalefont def
+  /Syntax10w.Scn.Fnt /ObHelv findfont 37 scalefont def
+  /Syntax12.Scn.Fnt /ObHelv findfont 44 scalefont def
+  /Syntax12i.Scn.Fnt /ObHelvOblique findfont 44 scalefont def
+  /Syntax12b.Scn.Fnt /ObHelvBold findfont 44 scalefont def
+  /Syntax12m.Scn.Fnt /ObHelvBold findfont 44 scalefont def
+  /Syntax14.Scn.Fnt /ObHelv findfont 50 scalefont def
+  /Syntax14i.Scn.Fnt /ObHelvOblique findfont 50 scalefont def
+  /Syntax14b.Scn.Fnt /ObHelvBold findfont 50 scalefont def
+  /Syntax14m.Scn.Fnt /ObHelvBold findfont 50 scalefont def
+  /Syntax16.Scn.Fnt /ObHelv findfont 59 scalefont def
+  /Syntax16i.Scn.Fnt /ObHelvOblique findfont 59 scalefont def
+  /Syntax16b.Scn.Fnt /ObHelvBold findfont 59 scalefont def
+  /Syntax16m.Scn.Fnt /ObHelvBold findfont 59 scalefont def
+  /Syntax20.Scn.Fnt /ObHelv findfont 74 scalefont def
+  /Syntax20i.Scn.Fnt /ObHelvOblique findfont 74 scalefont def
+  /Syntax20b.Scn.Fnt /ObHelvBold findfont 74 scalefont def
+  /Syntax20m.Scn.Fnt /ObHelvBold findfont 74 scalefont def
+  /Syntax24.Scn.Fnt /ObHelv findfont 88 scalefont def
+  /Syntax24i.Scn.Fnt /ObHelvOblique findfont 88 scalefont def
+  /Syntax24b.Scn.Fnt /ObHelvBold findfont 88 scalefont def
+  /Syntax24m.Scn.Fnt  /ObHelvBold findfont 88 scalefont def
+
+  /Gacha10l /ObCourier findfont 30 scalefont def
+
+  /Courier8.Scn.Fnt /ObCourier findfont 30 scalefont def
+  /Courier10.Scn.Fnt /ObCourier findfont 37 scalefont def
+  /Courier12.Scn.Fnt  /ObCourierBold findfont 44 scalefont def
+
+  /Times8.Scn.Fnt  /ObTimes findfont 32 scalefont def
+  /Times8i.Scn.Fnt /ObTimesItalic  findfont 32 scalefont def
+  /Times8b.Scn.Fnt /ObTimesBold findfont 32 scalefont def
+  /Times10.Scn.Fnt  /ObTimes findfont 40 scalefont def
+  /Times10i.Scn.Fnt /ObTimesItalic  findfont 40 scalefont def
+  /Times10b.Scn.Fnt /ObTimesBold findfont 40 scalefont def
+  /Times12.Scn.Fnt /ObTimes findfont 48 scalefont def
+  /Times12i.Scn.Fnt /ObTimesItalic findfont 48 scalefont def
+  /Times12b.Scn.Fnt /ObTimesBold findfont 48 scalefont def
+  /Times14.Scn.Fnt /ObTimes findfont 56 scalefont def
+  /Times14i.Scn.Fnt /ObTimesItalic findfont 56 scalefont def
+  /Times14b.Scn.Fnt /ObTimesBold findfont 56 scalefont def
+  /Times16.Scn.Fnt /ObTimes findfont 64 scalefont def
+  /Times16i.Scn.Fnt /ObTimesItalic findfont 64 scalefont def
+  /Times16b.Scn.Fnt /ObTimesBold findfont 64 scalefont def
+  /Times20.Scn.Fnt /ObTimes findfont 80 scalefont def
+  /Times20i.Scn.Fnt /ObTimesItalic findfont 80 scalefont def
+  /Times20b.Scn.Fnt /ObTimesBold findfont 80 scalefont def
+  /Times24.Scn.Fnt /ObTimes findfont 96 scalefont def
+  /Times24i.Scn.Fnt /ObTimesItalic findfont 96 scalefont def
+  /Times24b.Scn.Fnt /ObTimesBold findfont 96 scalefont def
+
+
+/f {
+   cvn currentdict exch get setfont
+   } bdef
+
+/z % Bezier cubic section
+  { newpath moveto curveto 0 setlinewidth stroke } bdef
+
+/p % show page
+  { /#copies exch def
+    showpage
+    restore save
+  } bdef
+
+.23 .23 scale
+100 50 translate
+(Syntax10.Scn.Fnt) f
+save
+%%EndProlog
+%%Page: 0 1
+2104 3224 m (Syntax10.Scn.Fnt) f (1) s
+610 3119 m (Syntax14m.Scn.Fnt) f (OP2: A PORTABLE OBERON\2612 COMPILER) s
+574 3059 m (Syntax8.Scn.Fnt) f (Presented at the 2nd International Modula\2612 Conference, Loughborough, Sept 91) s
+964 2939 m (Syntax12.Scn.Fnt) f (R\220gis CRELIER) s
+719 2879 m (Institut f\205r Computersysteme, ETH Z\205rich) s
+177 2699 m (Syntax12m.Scn.Fnt) f (ABSTRACT) s
+177 2599 m (Syntax12.Scn.Fnt) f (A) s
+234 2599 m (portable) s
+419 2599 m (compiler) s
+613 2599 m (for) s
+691 2599 m (the) s
+778 2599 m (language) s
+983 2599 m (Oberon\2612) s
+1203 2599 m (is) s
+1262 2599 m (presented.) s
+1494 2599 m (Most) s
+1616 2599 m (related) s
+1776 2599 m (works) s
+1918 2599 m (pay) s
+2015 2599 m (for) s
+177 2539 m (portability) s
+382 2539 m (with) s
+478 2539 m (low) s
+562 2539 m (compilation) s
+801 2539 m (speed) s
+936 2539 m (or) s
+992 2539 m (poor) s
+1096 2539 m (code) s
+1207 2539 m (quality.) s
+1362 2539 m (Portability) s
+1571 2539 m (and) s
+1660 2539 m (efficiency) s
+1859 2539 m (have) s
+1970 2539 m (been) s
+177 2479 m (given) s
+297 2479 m (the) s
+373 2479 m (same) s
+496 2479 m (importance) s
+728 2479 m (in) s
+778 2479 m (our) s
+857 2479 m (approach.) s
+1066 2479 m (Hence,) s
+1220 2479 m (an) s
+1284 2479 m (automated) s
+1505 2479 m (retargetable) s
+1752 2479 m (code) s
+1861 2479 m (generation) s
+177 2419 m (has not been considered.) s
+177 2319 m (The) s
+277 2319 m (compiler) s
+468 2319 m (consists) s
+651 2319 m (of) s
+712 2319 m (a) s
+761 2319 m (front\261end) s
+969 2319 m (and) s
+1066 2319 m (a) s
+1115 2319 m (back\261end.) s
+1340 2319 m (The) s
+1439 2319 m (front\261end) s
+1646 2319 m (does) s
+1764 2319 m (the) s
+1848 2319 m (lexical) s
+1994 2319 m (and) s
+177 2259 m (syntactic) s
+387 2259 m (analysis,) s
+596 2259 m (including) s
+807 2259 m (type) s
+928 2259 m (checking.) s
+1151 2259 m (It) s
+1214 2259 m (builds) s
+1367 2259 m (a) s
+1430 2259 m (machine\261independent) s
+1896 2259 m (structure) s
+177 2199 m (representing) s
+438 2199 m (the) s
+517 2199 m (program.) s
+711 2199 m (This) s
+813 2199 m (structure) s
+1002 2199 m (is) s
+1053 2199 m (made) s
+1180 2199 m (up) s
+1246 2199 m (of) s
+1300 2199 m (a) s
+1342 2199 m (symbol) s
+1499 2199 m (table) s
+1611 2199 m (and) s
+1701 2199 m (an) s
+1767 2199 m (abstract) s
+1940 2199 m (syntax) s
+177 2139 m (tree,) s
+277 2139 m (rather) s
+404 2139 m (than) s
+501 2139 m (a) s
+538 2139 m (stream) s
+685 2139 m (of) s
+734 2139 m (pseudo\261instructions) s
+1133 2139 m (coded) s
+1263 2139 m (in) s
+1309 2139 m (an) s
+1369 2139 m ("intermediate) s
+1637 2139 m (language".) s
+1855 2139 m (If) s
+1891 2139 m (no) s
+1951 2139 m (errors) s
+177 2079 m (are) s
+265 2079 m (found,) s
+410 2079 m (control) s
+566 2079 m (is) s
+623 2079 m (passed) s
+788 2079 m (to) s
+849 2079 m (the) s
+934 2079 m (back\261end) s
+1147 2079 m (which) s
+1284 2079 m (generates) s
+1502 2079 m (code) s
+1621 2079 m (from) s
+1734 2079 m (this) s
+1826 2079 m (intermediate) s
+177 2019 m (structure.) s
+375 2019 m (This) s
+474 2019 m (structure) s
+660 2019 m (clearly) s
+803 2019 m (separates) s
+1010 2019 m (the) s
+1086 2019 m (front\261end) s
+1285 2019 m (which) s
+1413 2019 m (is) s
+1461 2019 m (machine\261independent) s
+1903 2019 m (from) s
+2006 2019 m (the) s
+177 1959 m (back\261end) s
+396 1959 m (which) s
+539 1959 m (is) s
+602 1959 m (machine\261dependent.) s
+1038 1959 m (While) s
+1179 1959 m (the) s
+1270 1959 m (front\261end) s
+1484 1959 m (can) s
+1585 1959 m (remain) s
+1750 1959 m (unchanged,) s
+2006 1959 m (the) s
+177 1899 m (back\261end has to be reprogrammed, when the compiler is retargeted to a new machine.) s
+177 1799 m (This) s
+278 1799 m (compiler) s
+462 1799 m (has) s
+550 1799 m (been) s
+664 1799 m (successfully) s
+917 1799 m (used) s
+1028 1799 m (to) s
+1081 1799 m (port) s
+1173 1799 m (the) s
+1250 1799 m (Oberon) s
+1412 1799 m (System) s
+1575 1799 m (onto) s
+1676 1799 m (different) s
+1850 1799 m (computers.) s
+177 1739 m (Code) s
+301 1739 m (generators) s
+529 1739 m (have) s
+643 1739 m (been) s
+759 1739 m (implemented) s
+1029 1739 m (both) s
+1133 1739 m (for) s
+1204 1739 m (CISC) s
+1329 1739 m (and) s
+1421 1739 m (RISC) s
+1546 1739 m (processors.) s
+1792 1739 m (Differences) s
+2032 1739 m (in) s
+177 1679 m (processor) s
+392 1679 m (architectures) s
+665 1679 m (are) s
+751 1679 m (reflected) s
+941 1679 m (in) s
+998 1679 m (the) s
+1081 1679 m (complexity) s
+1311 1679 m (of) s
+1369 1679 m (the) s
+1451 1679 m (back\261end,) s
+1673 1679 m (the) s
+1755 1679 m (generated) s
+1972 1679 m (code) s
+177 1619 m (density) s
+330 1619 m (and) s
+417 1619 m (performance.) s
+689 1619 m (The) s
+779 1619 m (compiler) s
+960 1619 m (is) s
+1006 1619 m (written) s
+1149 1619 m (in) s
+1197 1619 m (Oberon.) s
+1368 1619 m (New) s
+1470 1619 m (compilers) s
+1672 1619 m (have) s
+1780 1619 m (therefore) s
+1968 1619 m (to) s
+2018 1619 m (be) s
+177 1559 m (first) s
+263 1559 m (compiled) s
+453 1559 m (on) s
+516 1559 m (an) s
+579 1559 m (already) s
+737 1559 m (working) s
+903 1559 m (Oberon) s
+1062 1559 m (System.) s
+1234 1559 m (If) s
+1272 1559 m (such) s
+1378 1559 m (a) s
+1416 1559 m (system) s
+1569 1559 m (is) s
+1615 1559 m (not) s
+1689 1559 m (available,) s
+1887 1559 m (a) s
+1925 1559 m (version) s
+177 1499 m (of the compiler whose back\261end produces C code may be used for the bootstrap.) s
+177 1399 m (The) s
+268 1399 m (compilation) s
+505 1399 m (techniques) s
+731 1399 m (presented) s
+940 1399 m (here) s
+1043 1399 m (are) s
+1122 1399 m (not) s
+1198 1399 m (restricted) s
+1394 1399 m (to) s
+1446 1399 m (Oberon) s
+1607 1399 m (compilers,) s
+1823 1399 m (but) s
+1899 1399 m (could) s
+2018 1399 m (be) s
+177 1339 m (used) s
+291 1339 m (for) s
+362 1339 m (other) s
+481 1339 m (programming) s
+759 1339 m (languages) s
+979 1339 m (too.) s
+1071 1339 m (Nevertheless,) s
+1358 1339 m (Oberon) s
+1523 1339 m (and) s
+1615 1339 m (OP2) s
+1722 1339 m (tend) s
+1825 1339 m (to) s
+1880 1339 m (the) s
+1959 1339 m (same) s
+177 1279 m (ideal: simplicity, flexibility, efficiency and elegance.) s
+177 1159 m (Syntax12m.Scn.Fnt) f (INTRODUCTION) s
+177 1059 m (Syntax12.Scn.Fnt) f (Portability) s
+387 1059 m (is) s
+437 1059 m (an) s
+503 1059 m (important) s
+703 1059 m (criterion) s
+877 1059 m (for) s
+946 1059 m (program) s
+1127 1059 m (quality.) s
+1283 1059 m (A) s
+1330 1059 m (compiler) s
+1514 1059 m (is) s
+1564 1059 m (a) s
+1606 1059 m (program) s
+1787 1059 m (as) s
+1850 1059 m (well,) s
+1955 1059 m (and) s
+2044 1059 m (it) s
+177 999 m (may) s
+285 999 m (be) s
+358 999 m (ported.) s
+518 999 m (If) s
+567 999 m (it) s
+614 999 m (should) s
+766 999 m (produce) s
+947 999 m (the) s
+1031 999 m (same) s
+1162 999 m (code) s
+1280 999 m (as) s
+1350 999 m (before) s
+1497 999 m (on) s
+1569 999 m (the) s
+1653 999 m (new) s
+1757 999 m (machine) s
+1946 999 m (\(cross) s
+177 939 m (compiler\),) s
+389 939 m (then) s
+491 939 m (it) s
+531 939 m (is) s
+581 939 m (not) s
+659 939 m (more) s
+777 939 m (difficult) s
+931 939 m (to) s
+985 939 m (port) s
+1078 939 m (it) s
+1118 939 m (than) s
+1220 939 m (any) s
+1308 939 m (other) s
+1425 939 m (program) s
+1606 939 m (also) s
+1704 939 m (written) s
+1851 939 m (in) s
+1903 939 m (a) s
+1945 939 m (higher) s
+177 879 m (programming) s
+449 879 m (language.) s
+653 879 m (But) s
+732 879 m (if) s
+768 879 m (the) s
+842 879 m (produced) s
+1036 879 m (code) s
+1143 879 m (must) s
+1251 879 m (run) s
+1327 879 m (on) s
+1388 879 m (the) s
+1461 879 m (new) s
+1554 879 m (machine,) s
+1744 879 m (the) s
+1817 879 m (compiler) s
+1996 879 m (has) s
+177 819 m (to) s
+229 819 m (be) s
+293 819 m (rewritten) s
+477 819 m (and) s
+565 819 m (it) s
+603 819 m (is) s
+651 819 m (not) s
+727 819 m (the) s
+803 819 m (same) s
+926 819 m (program) s
+1105 819 m (any) s
+1191 819 m (more.) s
+1319 819 m (In) s
+1371 819 m (that) s
+1459 819 m (sense,) s
+1603 819 m (the) s
+1679 819 m (compiler) s
+1860 819 m (is) s
+1907 819 m (not,) s
+1994 819 m (and) s
+177 759 m (cannot) s
+331 759 m (be,) s
+415 759 m (portable.) s
+607 759 m (By) s
+681 759 m (the) s
+764 759 m (term) s
+875 759 m (Syntax12i.Scn.Fnt) f (portable) s
+1055 759 m (compiler) s
+(Syntax12.Scn.Fnt) f (,) s
+1256 759 m (we) s
+1335 759 m (refer) s
+1448 759 m (here) s
+1558 759 m (to) s
+1617 759 m (a) s
+1664 759 m (compiler) s
+1853 759 m (that) s
+1948 759 m (needs) s
+177 699 m (reasonably) s
+408 699 m (small) s
+529 699 m (effort) s
+646 699 m (to) s
+700 699 m (be) s
+766 699 m (adapted) s
+940 699 m (to) s
+994 699 m (a) s
+1036 699 m (new) s
+1134 699 m (machine) s
+1317 699 m (and/or) s
+1458 699 m (to) s
+1512 699 m (be) s
+1577 699 m (modified) s
+1759 699 m (to) s
+1812 699 m (produce) s
+1986 699 m (new) s
+177 639 m (code.) s
+177 539 m (Most) s
+297 539 m (related) s
+455 539 m (work) s
+573 539 m (attempt) s
+743 539 m (to) s
+804 539 m (reduce) s
+962 539 m (this) s
+1055 539 m (adaptation) s
+1282 539 m (cost) s
+1386 539 m (to) s
+1446 539 m (a) s
+1494 539 m (minimum,) s
+1709 539 m (compromising) s
+2006 539 m (the) s
+177 479 m (compilation) s
+419 479 m (speed) s
+558 479 m (and) s
+651 479 m (the) s
+732 479 m (code) s
+847 479 m (quality.) s
+1006 479 m (A) s
+1056 479 m (classification) s
+1325 479 m (of) s
+1382 479 m (such) s
+1495 479 m (automated) s
+1720 479 m (retargetable) s
+1972 479 m (code) s
+177 419 m (generation) s
+399 419 m (techniques) s
+626 419 m (and) s
+715 419 m (a) s
+756 419 m (survey) s
+902 419 m (of) s
+955 419 m (the) s
+1032 419 m (works) s
+1164 419 m (on) s
+1229 419 m (those) s
+1351 419 m (techniques) s
+1577 419 m (are) s
+1656 419 m (presented) s
+1865 419 m (in) s
+1915 419 m ([1].) s
+1991 419 m (The) s
+177 359 m (basic) s
+293 359 m (idea) s
+389 359 m (is) s
+435 359 m (to) s
+485 359 m (produce) s
+656 359 m (code) s
+763 359 m (for) s
+827 359 m (a) s
+864 359 m (virtual) s
+994 359 m (machine.) s
+1184 359 m (This) s
+1280 359 m (code) s
+1387 359 m (is) s
+1432 359 m (then) s
+1529 359 m (expanded) s
+1732 359 m (into) s
+1815 359 m (real) s
+1901 359 m (machine) s
+177 299 m (instructions.) s
+453 299 m (The) s
+571 299 m (expansion) s
+812 299 m (can) s
+925 299 m (be) s
+1016 299 m (done) s
+1155 299 m (by) s
+1244 299 m (hand\261written) s
+1536 299 m (translators) s
+1783 299 m ([2]) s
+1873 299 m (or) s
+1954 299 m (by) s
+2042 299 m (a) s
+177 239 m (machine\261independent) s
+629 239 m (code) s
+748 239 m (generation) s
+978 239 m (algorithm,) s
+1195 239 m (in) s
+1254 239 m (which) s
+1390 239 m (case) s
+1506 239 m (each) s
+1624 239 m (intermediate) s
+1888 239 m (language) s
+1 p
+%%Page: 0 2 
+2104 3224 m (Syntax10.Scn.Fnt) f (2) s
+177 3119 m (Syntax12.Scn.Fnt) f (instruction) s
+394 3119 m ([3]) s
+460 3119 m (or) s
+517 3119 m (each) s
+629 3119 m (recognized) s
+860 3119 m (pattern) s
+1013 3119 m (of) s
+1067 3119 m (these) s
+1191 3119 m ([4]) s
+1257 3119 m (is) s
+1306 3119 m (expanded) s
+1513 3119 m (into) s
+1600 3119 m (a) s
+1641 3119 m (fixed) s
+1750 3119 m (pattern) s
+1902 3119 m (of) s
+1955 3119 m (target) s
+177 3059 m (machine) s
+367 3059 m (instructions) s
+613 3059 m (recorded) s
+810 3059 m (in) s
+868 3059 m (tables.) s
+1020 3059 m (Trees) s
+1156 3059 m (may) s
+1263 3059 m (replace) s
+1430 3059 m (linear) s
+1561 3059 m (code) s
+1679 3059 m (to) s
+1739 3059 m (feed) s
+1847 3059 m (the) s
+1931 3059 m (pattern) s
+177 2999 m (matching) s
+367 2999 m (algorithm) s
+560 2999 m ([5,) s
+621 2999 m (6,) s
+670 2999 m (7].) s
+731 2999 m (These) s
+865 2999 m (techniques) s
+1088 2999 m (usually) s
+1237 2999 m (yield) s
+1340 2999 m (poor) s
+1440 2999 m (code) s
+1547 2999 m (quality,) s
+1698 2999 m (making) s
+1852 2999 m (a) s
+1888 2999 m (peephole) s
+177 2939 m (optimization phase necessary, which further increases the compilation time.) s
+177 2839 m (In) s
+230 2839 m (our) s
+310 2839 m (approach,) s
+520 2839 m (we) s
+593 2839 m (tried) s
+695 2839 m (to) s
+748 2839 m (find) s
+834 2839 m (the) s
+910 2839 m (right) s
+1011 2839 m (balance) s
+1179 2839 m (between) s
+1359 2839 m (code) s
+1469 2839 m (quality,) s
+1623 2839 m (compilation) s
+1860 2839 m (speed) s
+1994 2839 m (and) s
+177 2779 m (portability.) s
+391 2779 m (We) s
+472 2779 m (think) s
+579 2779 m (it) s
+616 2779 m (is) s
+663 2779 m (worth\261while) s
+909 2779 m (investing,) s
+1108 2779 m (say) s
+1191 2779 m (three) s
+1305 2779 m (man\261months,) s
+1584 2779 m (for) s
+1650 2779 m (a) s
+1689 2779 m (port,) s
+1791 2779 m (if) s
+1827 2779 m (the) s
+1901 2779 m (resulting) s
+177 2719 m (compiler) s
+359 2719 m (is) s
+407 2719 m (very) s
+506 2719 m (fast) s
+592 2719 m (and) s
+680 2719 m (produces) s
+875 2719 m (efficient) s
+1040 2719 m (code.) s
+1161 2719 m (Thus,) s
+1285 2719 m (a) s
+1324 2719 m (pattern) s
+1474 2719 m (matching) s
+1666 2719 m (or) s
+1720 2719 m (table\261driven) s
+1972 2719 m (code) s
+177 2659 m (generation) s
+410 2659 m (has) s
+508 2659 m (not) s
+596 2659 m (been) s
+720 2659 m (considered.) s
+973 2659 m (Instead,) s
+1155 2659 m (we) s
+1239 2659 m (looked) s
+1395 2659 m (at) s
+1459 2659 m (more) s
+1587 2659 m (conventional) s
+1858 2659 m (and) s
+1957 2659 m (faster) s
+177 2599 m (techniques,) s
+419 2599 m (such) s
+531 2599 m (as) s
+597 2599 m (single\261pass) s
+847 2599 m (compilation) s
+1088 2599 m ([8,) s
+1155 2599 m (9].) s
+1222 2599 m (In) s
+1277 2599 m (a) s
+1320 2599 m (single\261pass) s
+1569 2599 m (compiler,) s
+1766 2599 m (the) s
+1845 2599 m (compilation) s
+177 2539 m (phases) s
+331 2539 m (are) s
+408 2539 m (executed) s
+598 2539 m (simultaneously.) s
+913 2539 m (No) s
+983 2539 m (intermediate) s
+1237 2539 m (representation) s
+1528 2539 m (of) s
+1577 2539 m (the) s
+1650 2539 m (source) s
+1794 2539 m (text) s
+1877 2539 m (is) s
+1922 2539 m (needed) s
+177 2479 m (between) s
+358 2479 m (the) s
+435 2479 m (different) s
+609 2479 m (phases,) s
+778 2479 m (making) s
+936 2479 m (the) s
+1013 2479 m (compiler) s
+1196 2479 m (compact) s
+1378 2479 m (and) s
+1467 2479 m (efficient,) s
+1646 2479 m (but) s
+1722 2479 m (not) s
+1798 2479 m (very) s
+1897 2479 m (portable.) s
+177 2419 m (Indeed,) s
+343 2419 m (since) s
+467 2419 m (machine\261dependent) s
+882 2419 m (and) s
+975 2419 m (machine\261independent) s
+1423 2419 m (phases) s
+1584 2419 m (are) s
+1668 2419 m (mixed) s
+1806 2419 m (up,) s
+1887 2419 m (it) s
+1930 2419 m (is) s
+1983 2419 m (very) s
+177 2359 m (difficult to modify the compiler for a new machine.) s
+177 2259 m (One) s
+278 2259 m (solution) s
+447 2259 m (to) s
+502 2259 m (the) s
+581 2259 m (problem) s
+758 2259 m (is) s
+808 2259 m (to) s
+862 2259 m (clearly) s
+1007 2259 m (separate) s
+1194 2259 m (the) s
+1272 2259 m (compilation) s
+1511 2259 m (phases) s
+1669 2259 m (into) s
+1757 2259 m (two) s
+1843 2259 m (groups:) s
+2006 2259 m (the) s
+177 2199 m (Syntax12i.Scn.Fnt) f (front\261end) s
+382 2199 m (Syntax12.Scn.Fnt) f (consisting) s
+598 2199 m (of) s
+656 2199 m (the) s
+738 2199 m (machine\261independent) s
+1187 2199 m (phases) s
+1349 2199 m (\(lexical) s
+1508 2199 m (and) s
+1602 2199 m (syntactic) s
+1793 2199 m (analysis,) s
+1984 2199 m (type) s
+177 2139 m (checking\)) s
+385 2139 m (and) s
+478 2139 m (the) s
+559 2139 m (Syntax12i.Scn.Fnt) f (back\261end) s
+767 2139 m (Syntax12.Scn.Fnt) f (consisting) s
+981 2139 m (of) s
+1037 2139 m (the) s
+1117 2139 m (machine\261dependent) s
+1530 2139 m (phases) s
+1690 2139 m (\(storage) s
+1870 2139 m (allocation,) s
+177 2079 m (code) s
+298 2079 m (generation\).) s
+557 2079 m (Only) s
+674 2079 m (the) s
+761 2079 m (back\261end) s
+976 2079 m (must) s
+1098 2079 m (be) s
+1173 2079 m (modified) s
+1364 2079 m (when) s
+1494 2079 m (the) s
+1580 2079 m (compiler) s
+1772 2079 m (is) s
+1830 2079 m (ported.) s
+1991 2079 m (The) s
+177 2019 m (front\261end) s
+377 2019 m (enters) s
+515 2019 m (declarations) s
+767 2019 m (in) s
+817 2019 m (a) s
+857 2019 m (symbol) s
+1012 2019 m (table) s
+1122 2019 m (and) s
+1210 2019 m (builds) s
+1340 2019 m (an) s
+1404 2019 m (intermediate) s
+1660 2019 m (representation) s
+1954 2019 m (of) s
+2006 2019 m (the) s
+177 1959 m (program) s
+359 1959 m (statements,) s
+603 1959 m (an) s
+670 1959 m (abstract) s
+844 1959 m (syntax) s
+989 1959 m (tree.) s
+1095 1959 m (If) s
+1138 1959 m (no) s
+1205 1959 m (errors) s
+1339 1959 m (were) s
+1453 1959 m (found,) s
+1592 1959 m (control) s
+1742 1959 m (is) s
+1793 1959 m (passed) s
+1952 1959 m (to) s
+2006 1959 m (the) s
+177 1899 m (back\261end,) s
+395 1899 m (which) s
+525 1899 m (generates) s
+736 1899 m (code) s
+848 1899 m (from) s
+954 1899 m (the) s
+1032 1899 m (syntax) s
+1176 1899 m (tree.) s
+1281 1899 m (Since) s
+1408 1899 m (this) s
+1493 1899 m (structure) s
+1680 1899 m (is) s
+1729 1899 m (guaranteed) s
+1965 1899 m (to) s
+2018 1899 m (be) s
+177 1839 m (free) s
+266 1839 m (of) s
+315 1839 m (errors,) s
+455 1839 m (type) s
+550 1839 m (checking) s
+735 1839 m (or) s
+787 1839 m (error) s
+893 1839 m (recovery) s
+1074 1839 m (are) s
+1150 1839 m (not) s
+1223 1839 m (part) s
+1311 1839 m (of) s
+1360 1839 m (the) s
+1433 1839 m (back\261end,) s
+1646 1839 m (which) s
+1771 1839 m (is) s
+1816 1839 m (a) s
+1853 1839 m (noteworthy) s
+177 1779 m (advantage.) s
+422 1779 m (Only) s
+543 1779 m (implementation) s
+870 1779 m (restrictions) s
+1113 1779 m (must) s
+1239 1779 m (be) s
+1318 1779 m (checked.) s
+1523 1779 m (Another) s
+1706 1779 m (advantage) s
+1939 1779 m (of) s
+2006 1779 m (the) s
+177 1719 m (intermediate) s
+438 1719 m (structure) s
+629 1719 m (is) s
+682 1719 m (that) s
+775 1719 m (optional) s
+948 1719 m (passes) s
+1107 1719 m (may) s
+1211 1719 m (be) s
+1279 1719 m (inserted) s
+1454 1719 m (to) s
+1510 1719 m (optimize) s
+1693 1719 m (the) s
+1773 1719 m (code.) s
+1899 1719 m (Such) s
+2018 1719 m (an) s
+177 1659 m (optimization) s
+434 1659 m (phase) s
+576 1659 m (cannot) s
+730 1659 m (be) s
+802 1659 m (easily) s
+938 1659 m (embedded) s
+1166 1659 m (in) s
+1223 1659 m (a) s
+1270 1659 m (conventional) s
+1537 1659 m (single\261pass) s
+1790 1659 m (compiler.) s
+1991 1659 m (The) s
+177 1599 m (front\261end and the back\261end are implemented separately as a set of modules.) s
+177 1479 m (Syntax12m.Scn.Fnt) f (MODULE STRUCTURE) s
+177 1379 m (Syntax12.Scn.Fnt) f (Originally,) s
+396 1379 m (OP2) s
+507 1379 m (has) s
+601 1379 m (been) s
+721 1379 m (designed) s
+921 1379 m (to) s
+980 1379 m (compile) s
+1154 1379 m (Oberon) s
+1322 1379 m (programs) s
+1530 1379 m ([10]) s
+1625 1379 m (and) s
+1720 1379 m (has) s
+1813 1379 m (been) s
+1932 1379 m (slightly) s
+177 1319 m (modified) s
+358 1319 m (later) s
+459 1319 m (to) s
+511 1319 m (compile) s
+678 1319 m (Oberon\2612) s
+887 1319 m (programs) s
+1088 1319 m ([11,) s
+1176 1319 m (12].) s
+1263 1319 m (It) s
+1302 1319 m (consists) s
+1475 1319 m (of) s
+1526 1319 m (nine) s
+1623 1319 m (modules) s
+1803 1319 m (\(see) s
+1903 1319 m (figure) s
+2027 1319 m (1\)) s
+177 1259 m (all written in Oberon.) s
+177 1159 m (The) s
+269 1159 m (lowest) s
+410 1159 m (module) s
+570 1159 m (of) s
+623 1159 m (the) s
+700 1159 m (hierarchy) s
+897 1159 m (is) s
+945 1159 m (OP) s
+(Syntax12m.Scn.Fnt) f (M) s
+(Syntax12.Scn.Fnt) f (,) s
+1073 1159 m (where) s
+1208 1159 m (Syntax12m.Scn.Fnt) f (M) s
+1261 1159 m (Syntax12.Scn.Fnt) f (stands) s
+1405 1159 m (for) s
+1472 1159 m (Syntax12m.Scn.Fnt) f (m) s
+(Syntax12.Scn.Fnt) f (achine.) s
+1667 1159 m (We) s
+1749 1159 m (must) s
+1860 1159 m (distinguish) s
+177 1099 m (between) s
+355 1099 m (the) s
+429 1099 m (host) s
+525 1099 m (machine) s
+704 1099 m (on) s
+765 1099 m (which) s
+890 1099 m (the) s
+963 1099 m (compiler) s
+1142 1099 m (is) s
+1187 1099 m (running,) s
+1357 1099 m (and) s
+1442 1099 m (the) s
+1515 1099 m (target) s
+1639 1099 m (machine) s
+1817 1099 m (for) s
+1881 1099 m (which) s
+2006 1099 m (the) s
+177 1039 m (compiler) s
+360 1039 m (is) s
+409 1039 m (generating) s
+631 1039 m (code.) s
+754 1039 m (Most) s
+866 1039 m (of) s
+919 1039 m (the) s
+996 1039 m (time,) s
+1108 1039 m (the) s
+1184 1039 m (two) s
+1268 1039 m (machines) s
+1471 1039 m (are) s
+1550 1039 m (the) s
+1626 1039 m (same,) s
+1761 1039 m (except) s
+1905 1039 m (during) s
+2042 1039 m (a) s
+177 979 m (bootstrap) s
+371 979 m (or) s
+423 979 m (in) s
+470 979 m (case) s
+575 979 m (of) s
+624 979 m (a) s
+661 979 m (cross\261compiler.) s
+981 979 m (The) s
+1069 979 m (module) s
+1224 979 m (OPM) s
+1336 979 m (defines) s
+1488 979 m (and) s
+1572 979 m (exports) s
+1727 979 m (several) s
+1880 979 m (constants) s
+177 919 m (used) s
+284 919 m (to) s
+333 919 m (parametrize) s
+577 919 m (the) s
+650 919 m (front\261end.) s
+858 919 m (Some) s
+985 919 m (of) s
+1034 919 m (these) s
+1153 919 m (constants) s
+1352 919 m (reflect) s
+1484 919 m (target) s
+1608 919 m (machine) s
+1786 919 m (characteristics) s
+177 859 m (or) s
+232 859 m (implementation) s
+543 859 m (restrictions.) s
+782 859 m (For) s
+863 859 m (example,) s
+1055 859 m (these) s
+1176 859 m (values) s
+1317 859 m (are) s
+1395 859 m (used) s
+1504 859 m (in) s
+1553 859 m (the) s
+1628 859 m (front\261end) s
+1826 859 m (to) s
+1877 859 m (check) s
+2006 859 m (the) s
+177 799 m (evaluation) s
+396 799 m (of) s
+453 799 m (constant) s
+638 799 m (expressions) s
+892 799 m (on) s
+961 799 m (overflow.) s
+1157 799 m (But) s
+1243 799 m (OPM) s
+1363 799 m (has) s
+1453 799 m (a) s
+1497 799 m (second) s
+1657 799 m (function.) s
+1841 799 m (It) s
+1885 799 m (works) s
+2020 799 m (as) s
+177 739 m (interface) s
+359 739 m (between) s
+538 739 m (the) s
+613 739 m (compiler) s
+794 739 m (and) s
+881 739 m (the) s
+956 739 m (host) s
+1053 739 m (machine.) s
+1245 739 m (This) s
+1342 739 m (interface) s
+1523 739 m (includes) s
+1697 739 m (procedures) s
+1929 739 m (to) s
+1979 739 m (read) s
+177 679 m (the) s
+257 679 m (text) s
+347 679 m (to) s
+403 679 m (be) s
+471 679 m (compiled,) s
+678 679 m (to) s
+734 679 m (read) s
+841 679 m (and) s
+933 679 m (write) s
+1046 679 m (data) s
+1150 679 m (in) s
+1204 679 m (symbol) s
+1363 679 m (files) s
+1461 679 m ([13],) s
+1565 679 m (and) s
+1657 679 m (to) s
+1713 679 m (display) s
+1869 679 m (text) s
+1958 679 m (\(error) s
+177 619 m (messages) s
+391 619 m (e.g.\)) s
+493 619 m (onto) s
+592 619 m (the) s
+667 619 m (screen.) s
+825 619 m (All) s
+889 619 m (these) s
+1010 619 m (input) s
+1119 619 m (and) s
+1205 619 m (output) s
+1339 619 m (operations) s
+1556 619 m (are) s
+1633 619 m (strongly) s
+1800 619 m (dependent) s
+2018 619 m (on) s
+177 559 m (the) s
+257 559 m (operating) s
+458 559 m (system.) s
+629 559 m (If) s
+673 559 m (the) s
+753 559 m (compiler) s
+939 559 m (resides) s
+1100 559 m (in) s
+1154 559 m (the) s
+1234 559 m (Oberon) s
+1399 559 m (System) s
+1565 559 m (environment) s
+1824 559 m ([14,) s
+1915 559 m (15],) s
+2006 559 m (the) s
+177 499 m (host\261dependent part of OPM remains unchanged.) s
+1 p
+%%Page: 0 3 
+2104 3224 m (Syntax10.Scn.Fnt) f (3) s
+177 3119 m (Syntax12.Scn.Fnt) f (The) s
+276 3119 m (topmost) s
+455 3119 m (module) s
+622 3119 m (\(OP2\)) s
+762 3119 m (is) s
+817 3119 m (very) s
+923 3119 m (short.) s
+1055 3119 m (It) s
+1102 3119 m (is) s
+1157 3119 m (the) s
+1240 3119 m (interface) s
+1430 3119 m (to) s
+1489 3119 m (the) s
+1572 3119 m (user,) s
+1692 3119 m (and) s
+1787 3119 m (therefore) s
+1984 3119 m (host) s
+177 3059 m (machine\261dependent.) s
+597 3059 m (It) s
+636 3059 m (first) s
+722 3059 m (calls) s
+825 3059 m (the) s
+900 3059 m (front\261end) s
+1098 3059 m (with) s
+1191 3059 m (the) s
+1265 3059 m (source) s
+1410 3059 m (text) s
+1494 3059 m (to) s
+1544 3059 m (be) s
+1606 3059 m (compiled) s
+1795 3059 m (as) s
+1855 3059 m (parameter.) s
+177 2999 m (If) s
+215 2999 m (no) s
+277 2999 m (error) s
+384 2999 m (is) s
+430 2999 m (detected,) s
+622 2999 m (it) s
+658 2999 m (then) s
+756 2999 m (calls) s
+858 2999 m (the) s
+932 2999 m (back\261end) s
+1134 2999 m (with) s
+1225 2999 m (the) s
+1298 2999 m (root) s
+1386 2999 m (of) s
+1435 2999 m (the) s
+1508 2999 m (tree) s
+1596 2999 m (that) s
+1681 2999 m (was) s
+1772 2999 m (returned) s
+1947 2999 m (by) s
+2006 2999 m (the) s
+177 2939 m (front\261end as parameter.) s
+1409 1339 m (Syntax10.Scn.Fnt) f (back\261end) s
+609 1339 m (front\261end) s
+1601 1547 m 6 8 24 24 28 k
+fffff0
+fffff0
+7fffe0
+7fffe0
+7fffe0
+3fffc0
+3fffc0
+1fff80
+1fff80
+1fff80
+0fff00
+0fff00
+07fe00
+07fe00
+07fe00
+03fc00
+03fc00
+01f800
+01f800
+01f800
+00f000
+00f000
+006000
+006000
+1441 1547 m 6 8 24 24 28 k
+fffff0
+fffff0
+7fffe0
+7fffe0
+7fffe0
+3fffc0
+3fffc0
+1fff80
+1fff80
+1fff80
+0fff00
+0fff00
+07fe00
+07fe00
+07fe00
+03fc00
+03fc00
+01f800
+01f800
+01f800
+00f000
+00f000
+006000
+006000
+1297 1547 m 6 8 24 24 28 k
+fffff0
+fffff0
+7fffe0
+7fffe0
+7fffe0
+3fffc0
+3fffc0
+1fff80
+1fff80
+1fff80
+0fff00
+0fff00
+07fe00
+07fe00
+07fe00
+03fc00
+03fc00
+01f800
+01f800
+01f800
+00f000
+00f000
+006000
+006000
+1089 1547 m 6 8 24 24 28 k
+fffff0
+fffff0
+7fffe0
+7fffe0
+7fffe0
+3fffc0
+3fffc0
+1fff80
+1fff80
+1fff80
+0fff00
+0fff00
+07fe00
+07fe00
+07fe00
+03fc00
+03fc00
+01f800
+01f800
+01f800
+00f000
+00f000
+006000
+006000
+881 1547 m 6 8 24 24 28 k
+fffff0
+fffff0
+7fffe0
+7fffe0
+7fffe0
+3fffc0
+3fffc0
+1fff80
+1fff80
+1fff80
+0fff00
+0fff00
+07fe00
+07fe00
+07fe00
+03fc00
+03fc00
+01f800
+01f800
+01f800
+00f000
+00f000
+006000
+006000
+801 1547 m 6 8 24 24 28 k
+fffff0
+fffff0
+7fffe0
+7fffe0
+7fffe0
+3fffc0
+3fffc0
+1fff80
+1fff80
+1fff80
+0fff00
+0fff00
+07fe00
+07fe00
+07fe00
+03fc00
+03fc00
+01f800
+01f800
+01f800
+00f000
+00f000
+006000
+006000
+705 1547 m 6 8 24 24 28 k
+fffff0
+fffff0
+7fffe0
+7fffe0
+7fffe0
+3fffc0
+3fffc0
+1fff80
+1fff80
+1fff80
+0fff00
+0fff00
+07fe00
+07fe00
+07fe00
+03fc00
+03fc00
+01f800
+01f800
+01f800
+00f000
+00f000
+006000
+006000
+657 1547 m 6 8 24 24 28 k
+fffff0
+fffff0
+7fffe0
+7fffe0
+7fffe0
+3fffc0
+3fffc0
+1fff80
+1fff80
+1fff80
+0fff00
+0fff00
+07fe00
+07fe00
+07fe00
+03fc00
+03fc00
+01f800
+01f800
+01f800
+00f000
+00f000
+006000
+006000
+1057 1435 m (OPM) s
+818 1531 1 31 l
+722 1531 1 31 l
+674 1531 1 31 l
+898 1531 1 31 l
+1314 1531 1 31 l
+1458 1531 1 31 l
+1618 1531 1 31 l
+674 1531 943 1 l
+1106 1499 1 63 l
+994 1403 223 1 l
+1216 1403 1 95 l
+994 1497 223 1 l
+994 1403 1 95 l
+625 1691 m (OPS) s
+514 1787 1 927 l
+514 1787 95 1 l
+610 1755 1 31 l
+546 1819 1 623 l
+546 1819 95 1 l
+642 1755 1 63 l
+674 1755 1 495 l
+706 1755 1 31 l
+562 1659 223 1 l
+784 1659 1 95 l
+562 1753 223 1 l
+562 1659 1 95 l
+881 1819 m 6 8 24 24 28 k
+fffff0
+fffff0
+7fffe0
+7fffe0
+7fffe0
+3fffc0
+3fffc0
+1fff80
+1fff80
+1fff80
+0fff00
+0fff00
+07fe00
+07fe00
+07fe00
+03fc00
+03fc00
+01f800
+01f800
+01f800
+00f000
+00f000
+006000
+006000
+898 1787 1 47 l
+706 1787 191 1 l
+706 1979 1 271 l
+689 2235 m 6 8 24 24 28 k
+fffff0
+fffff0
+7fffe0
+7fffe0
+7fffe0
+3fffc0
+3fffc0
+1fff80
+1fff80
+1fff80
+0fff00
+0fff00
+07fe00
+07fe00
+07fe00
+03fc00
+03fc00
+01f800
+01f800
+01f800
+00f000
+00f000
+006000
+006000
+657 2235 m 6 8 24 24 28 k
+fffff0
+fffff0
+7fffe0
+7fffe0
+7fffe0
+3fffc0
+3fffc0
+1fff80
+1fff80
+1fff80
+0fff00
+0fff00
+07fe00
+07fe00
+07fe00
+03fc00
+03fc00
+01f800
+01f800
+01f800
+00f000
+00f000
+006000
+006000
+1138 2635 175 1 l
+514 2715 495 1 l
+1010 2715 1 47 l
+1042 2683 1 79 l
+674 2683 367 1 l
+674 2363 1 319 l
+546 2443 239 1 l
+786 2443 1 63 l
+818 2411 1 95 l
+706 2411 111 1 l
+706 2363 1 47 l
+641 2299 m (OPB) s
+578 2267 223 1 l
+800 2267 1 95 l
+578 2361 223 1 l
+578 2267 1 95 l
+849 1883 m (OPT) s
+786 1851 223 1 l
+1008 1851 1 95 l
+786 1945 223 1 l
+786 1851 1 95 l
+706 1979 111 1 l
+818 1947 1 31 l
+882 1947 1 127 l
+850 1947 1 559 l
+769 2491 m 6 8 24 24 28 k
+fffff0
+fffff0
+7fffe0
+7fffe0
+7fffe0
+3fffc0
+3fffc0
+1fff80
+1fff80
+1fff80
+0fff00
+0fff00
+07fe00
+07fe00
+07fe00
+03fc00
+03fc00
+01f800
+01f800
+01f800
+00f000
+00f000
+006000
+006000
+833 2491 m 6 8 24 24 28 k
+fffff0
+fffff0
+7fffe0
+7fffe0
+7fffe0
+3fffc0
+3fffc0
+1fff80
+1fff80
+1fff80
+0fff00
+0fff00
+07fe00
+07fe00
+07fe00
+03fc00
+03fc00
+01f800
+01f800
+01f800
+00f000
+00f000
+006000
+006000
+801 2491 m 6 8 24 24 28 k
+fffff0
+fffff0
+7fffe0
+7fffe0
+7fffe0
+3fffc0
+3fffc0
+1fff80
+1fff80
+1fff80
+0fff00
+0fff00
+07fe00
+07fe00
+07fe00
+03fc00
+03fc00
+01f800
+01f800
+01f800
+00f000
+00f000
+006000
+006000
+1074 2651 1 111 l
+818 2651 255 1 l
+818 2619 1 31 l
+769 2555 m (OPP) s
+706 2523 223 1 l
+928 2523 1 95 l
+706 2617 223 1 l
+706 2523 1 95 l
+914 1947 1 95 l
+946 1947 1 63 l
+978 1947 1 31 l
+882 2075 223 1 l
+1106 2075 1 687 l
+914 2043 399 1 l
+1314 2043 1 207 l
+946 2011 511 1 l
+1458 2011 1 495 l
+978 1979 639 1 l
+1618 1979 1 47 l
+1601 2011 m 6 8 24 24 28 k
+fffff0
+fffff0
+7fffe0
+7fffe0
+7fffe0
+3fffc0
+3fffc0
+1fff80
+1fff80
+1fff80
+0fff00
+0fff00
+07fe00
+07fe00
+07fe00
+03fc00
+03fc00
+01f800
+01f800
+01f800
+00f000
+00f000
+006000
+006000
+1569 2075 m (OPL) s
+1506 2043 223 1 l
+1728 2043 1 95 l
+1506 2137 223 1 l
+1506 2043 1 95 l
+1586 2139 1 31 l
+1346 2171 239 1 l
+1346 2171 1 79 l
+1618 2139 1 63 l
+1490 2203 127 1 l
+1490 2203 1 303 l
+1473 2491 m 6 8 24 24 28 k
+fffff0
+fffff0
+7fffe0
+7fffe0
+7fffe0
+3fffc0
+3fffc0
+1fff80
+1fff80
+1fff80
+0fff00
+0fff00
+07fe00
+07fe00
+07fe00
+03fc00
+03fc00
+01f800
+01f800
+01f800
+00f000
+00f000
+006000
+006000
+1329 2235 m 6 8 24 24 28 k
+fffff0
+fffff0
+7fffe0
+7fffe0
+7fffe0
+3fffc0
+3fffc0
+1fff80
+1fff80
+1fff80
+0fff00
+0fff00
+07fe00
+07fe00
+07fe00
+03fc00
+03fc00
+01f800
+01f800
+01f800
+00f000
+00f000
+006000
+006000
+1297 2235 m 6 8 24 24 28 k
+fffff0
+fffff0
+7fffe0
+7fffe0
+7fffe0
+3fffc0
+3fffc0
+1fff80
+1fff80
+1fff80
+0fff00
+0fff00
+07fe00
+07fe00
+07fe00
+03fc00
+03fc00
+01f800
+01f800
+01f800
+00f000
+00f000
+006000
+006000
+1346 2363 1 63 l
+1346 2427 79 1 l
+1426 2427 1 79 l
+1409 2491 m 6 8 24 24 28 k
+fffff0
+fffff0
+7fffe0
+7fffe0
+7fffe0
+3fffc0
+3fffc0
+1fff80
+1fff80
+1fff80
+0fff00
+0fff00
+07fe00
+07fe00
+07fe00
+03fc00
+03fc00
+01f800
+01f800
+01f800
+00f000
+00f000
+006000
+006000
+1441 2491 m 6 8 24 24 28 k
+fffff0
+fffff0
+7fffe0
+7fffe0
+7fffe0
+3fffc0
+3fffc0
+1fff80
+1fff80
+1fff80
+0fff00
+0fff00
+07fe00
+07fe00
+07fe00
+03fc00
+03fc00
+01f800
+01f800
+01f800
+00f000
+00f000
+006000
+006000
+1314 2363 1 271 l
+1138 2635 1 127 l
+1458 2619 1 63 l
+1170 2683 287 1 l
+1170 2683 1 79 l
+1650 2139 1 575 l
+1202 2715 447 1 l
+1202 2715 1 47 l
+1409 2555 m (OPV) s
+1346 2523 223 1 l
+1568 2523 1 95 l
+1346 2617 223 1 l
+1346 2523 1 95 l
+1265 2299 m (OPC) s
+1202 2267 223 1 l
+1424 2267 1 95 l
+1202 2361 223 1 l
+1202 2267 1 95 l
+994 2779 223 1 l
+1216 2779 1 95 l
+994 2873 223 1 l
+994 2779 1 95 l
+993 2747 m 6 8 24 24 28 k
+fffff0
+fffff0
+7fffe0
+7fffe0
+7fffe0
+3fffc0
+3fffc0
+1fff80
+1fff80
+1fff80
+0fff00
+0fff00
+07fe00
+07fe00
+07fe00
+03fc00
+03fc00
+01f800
+01f800
+01f800
+00f000
+00f000
+006000
+006000
+1025 2747 m 6 8 24 24 28 k
+fffff0
+fffff0
+7fffe0
+7fffe0
+7fffe0
+3fffc0
+3fffc0
+1fff80
+1fff80
+1fff80
+0fff00
+0fff00
+07fe00
+07fe00
+07fe00
+03fc00
+03fc00
+01f800
+01f800
+01f800
+00f000
+00f000
+006000
+006000
+1057 2747 m 6 8 24 24 28 k
+fffff0
+fffff0
+7fffe0
+7fffe0
+7fffe0
+3fffc0
+3fffc0
+1fff80
+1fff80
+1fff80
+0fff00
+0fff00
+07fe00
+07fe00
+07fe00
+03fc00
+03fc00
+01f800
+01f800
+01f800
+00f000
+00f000
+006000
+006000
+1185 2747 m 6 8 24 24 28 k
+fffff0
+fffff0
+7fffe0
+7fffe0
+7fffe0
+3fffc0
+3fffc0
+1fff80
+1fff80
+1fff80
+0fff00
+0fff00
+07fe00
+07fe00
+07fe00
+03fc00
+03fc00
+01f800
+01f800
+01f800
+00f000
+00f000
+006000
+006000
+1153 2747 m 6 8 24 24 28 k
+fffff0
+fffff0
+7fffe0
+7fffe0
+7fffe0
+3fffc0
+3fffc0
+1fff80
+1fff80
+1fff80
+0fff00
+0fff00
+07fe00
+07fe00
+07fe00
+03fc00
+03fc00
+01f800
+01f800
+01f800
+00f000
+00f000
+006000
+006000
+1121 2747 m 6 8 24 24 28 k
+fffff0
+fffff0
+7fffe0
+7fffe0
+7fffe0
+3fffc0
+3fffc0
+1fff80
+1fff80
+1fff80
+0fff00
+0fff00
+07fe00
+07fe00
+07fe00
+03fc00
+03fc00
+01f800
+01f800
+01f800
+00f000
+00f000
+006000
+006000
+1089 2747 m 6 8 24 24 28 k
+fffff0
+fffff0
+7fffe0
+7fffe0
+7fffe0
+3fffc0
+3fffc0
+1fff80
+1fff80
+1fff80
+0fff00
+0fff00
+07fe00
+07fe00
+07fe00
+03fc00
+03fc00
+01f800
+01f800
+01f800
+00f000
+00f000
+006000
+006000
+1057 2811 m (OP2) s
+177 1233 m (Syntax12.Scn.Fnt) f (Figure 1.    Module import graph \(an arrow from A to B means ) s
+(Syntax12i.Scn.Fnt) f (B imports A) s
+(Syntax12.Scn.Fnt) f (\)) s
+177 1113 m (Between) s
+365 1113 m (the) s
+444 1113 m (highest) s
+603 1113 m (and) s
+694 1113 m (the) s
+773 1113 m (lowest) s
+916 1113 m (module,) s
+1089 1113 m (one) s
+1179 1113 m (finds) s
+1289 1113 m (the) s
+1367 1113 m (front\261end) s
+1568 1113 m (and) s
+1658 1113 m (the) s
+1736 1113 m (back\261end,) s
+1954 1113 m (which) s
+177 1053 m (consist) s
+332 1053 m (of) s
+387 1053 m (four,) s
+493 1053 m (respectively) s
+743 1053 m (three) s
+861 1053 m (modules.) s
+1057 1053 m (There) s
+1189 1053 m (is) s
+1239 1053 m (no) s
+1305 1053 m (interaction) s
+1524 1053 m (during) s
+1663 1053 m (compilation) s
+1902 1053 m (between) s
+177 993 m (these) s
+297 993 m (two) s
+379 993 m (sets) s
+473 993 m (of) s
+523 993 m (modules.) s
+714 993 m (The) s
+803 993 m (symbol) s
+956 993 m (table) s
+1064 993 m (and) s
+1150 993 m (the) s
+1224 993 m (syntax) s
+1364 993 m (tree) s
+1453 993 m (are) s
+1530 993 m (defined) s
+1686 993 m (in) s
+1734 993 m (module) s
+1891 993 m (OPT) s
+1994 993 m (and) s
+177 933 m (are) s
+257 933 m (used) s
+368 933 m (by) s
+431 933 m (both) s
+532 933 m (the) s
+609 933 m (front\261end) s
+809 933 m (and) s
+898 933 m (the) s
+975 933 m (back\261end.) s
+1192 933 m (This) s
+1292 933 m (explains) s
+1469 933 m (the) s
+1546 933 m (presence) s
+1742 933 m (of) s
+1795 933 m (import) s
+1934 933 m (arrows) s
+177 873 m (from) s
+281 873 m (OPT) s
+387 873 m (to) s
+439 873 m (back\261end) s
+643 873 m (modules) s
+824 873 m (visible) s
+962 873 m (in) s
+1012 873 m (the) s
+1088 873 m (import) s
+1226 873 m (graph) s
+1353 873 m (\(figure) s
+1493 873 m (1\).) s
+1560 873 m (But) s
+1641 873 m (there) s
+1756 873 m (is) s
+1804 873 m (no) s
+1867 873 m (transfer) s
+2030 873 m (of) s
+177 813 m (control, such as procedure calls.) s
+177 713 m (The) s
+269 713 m (front\261end) s
+469 713 m (is) s
+518 713 m (controlled) s
+724 713 m (by) s
+787 713 m (the) s
+864 713 m (module) s
+1024 713 m (OP) s
+(Syntax12m.Scn.Fnt) f (P) s
+(Syntax12.Scn.Fnt) f (,) s
+1145 713 m (a) s
+1186 713 m (recursive\261descent) s
+1557 713 m (Syntax12m.Scn.Fnt) f (p) s
+(Syntax12.Scn.Fnt) f (arser.) s
+1713 713 m (Its) s
+1775 713 m (main) s
+1886 713 m (task) s
+1982 713 m (is) s
+2030 713 m (to) s
+177 653 m (check) s
+304 653 m (syntax) s
+443 653 m (and) s
+528 653 m (to) s
+577 653 m (call) s
+656 653 m (procedures) s
+887 653 m (to) s
+936 653 m (construct) s
+1126 653 m (the) s
+1199 653 m (symbol) s
+1351 653 m (table) s
+1458 653 m (and) s
+1543 653 m (the) s
+1616 653 m (syntax) s
+1755 653 m (tree.) s
+1855 653 m (The) s
+1942 653 m (parser) s
+177 593 m (requests) s
+359 593 m (lexical) s
+496 593 m (symbols) s
+672 593 m (from) s
+775 593 m (the) s
+849 593 m (Syntax12m.Scn.Fnt) f (s) s
+(Syntax12.Scn.Fnt) f (canner) s
+1020 593 m (\(OP) s
+(Syntax12m.Scn.Fnt) f (S) s
+(Syntax12.Scn.Fnt) f (\)) s
+1156 593 m (and) s
+1242 593 m (calls) s
+1344 593 m (procedures) s
+1576 593 m (of) s
+1626 593 m (OP) s
+(Syntax12m.Scn.Fnt) f (T) s
+(Syntax12.Scn.Fnt) f (,) s
+1742 593 m (the) s
+1816 593 m (symbol) s
+1969 593 m (Syntax12m.Scn.Fnt) f (t) s
+(Syntax12.Scn.Fnt) f (able) s
+177 533 m (handler, and of OP) s
+(Syntax12m.Scn.Fnt) f (B) s
+(Syntax12.Scn.Fnt) f (, the syntax tree ) s
+(Syntax12m.Scn.Fnt) f (b) s
+(Syntax12.Scn.Fnt) f (uilder. OPB also checks type compatibility.) s
+177 433 m (The) s
+267 433 m (back\261end) s
+470 433 m (is) s
+517 433 m (controlled) s
+721 433 m (by) s
+782 433 m (OP) s
+(Syntax12m.Scn.Fnt) f (V) s
+(Syntax12.Scn.Fnt) f (,) s
+901 433 m (the) s
+975 433 m (tree) s
+1064 433 m (tra) s
+(Syntax12m.Scn.Fnt) f (v) s
+(Syntax12.Scn.Fnt) f (erser.) s
+1265 433 m (It) s
+1303 433 m (first) s
+1388 433 m (traverses) s
+1582 433 m (the) s
+1656 433 m (symbol) s
+1809 433 m (table) s
+1917 433 m (to) s
+1967 433 m (enter) s
+177 373 m (machine\261dependent) s
+594 373 m (data) s
+702 373 m (\(using) s
+844 373 m (OPM) s
+967 373 m (constants\),) s
+1203 373 m (such) s
+1318 373 m (as) s
+1387 373 m (the) s
+1470 373 m (size) s
+1571 373 m (of) s
+1630 373 m (types,) s
+1769 373 m (the) s
+1852 373 m (address) s
+2030 373 m (of) s
+177 313 m (variables) s
+369 313 m (or) s
+425 313 m (the) s
+502 313 m (offset) s
+625 313 m (of) s
+678 313 m (record) s
+819 313 m (fields.) s
+950 313 m (It) s
+991 313 m (then) s
+1092 313 m (traverses) s
+1289 313 m (the) s
+1366 313 m (syntax) s
+1509 313 m (tree) s
+1601 313 m (and) s
+1690 313 m (calls) s
+1795 313 m (procedures) s
+2030 313 m (of) s
+177 253 m (OP) s
+(Syntax12m.Scn.Fnt) f (C) s
+292 253 m (Syntax12.Scn.Fnt) f (\() s
+(Syntax12m.Scn.Fnt) f (c) s
+(Syntax12.Scn.Fnt) f (ode) s
+423 253 m (emitter\),) s
+604 253 m (which) s
+736 253 m (in) s
+790 253 m (turn) s
+885 253 m (synthesizes) s
+1133 253 m (machine) s
+1318 253 m (instructions) s
+1559 253 m (using) s
+1683 253 m (procedures) s
+1921 253 m (of) s
+1976 253 m (OP) s
+(Syntax12m.Scn.Fnt) f (L) s
+177 193 m (Syntax12.Scn.Fnt) f (\() s
+(Syntax12m.Scn.Fnt) f (l) s
+(Syntax12.Scn.Fnt) f (ow\261level code generator\).) s
+1 p
+%%Page: 0 4 
+2104 3224 m (Syntax10.Scn.Fnt) f (4) s
+177 3119 m (Syntax12.Scn.Fnt) f (This) s
+296 3119 m (module) s
+475 3119 m (structure) s
+681 3119 m (achieves) s
+889 3119 m (to) s
+961 3119 m (make) s
+1104 3119 m (the) s
+1200 3119 m (front\261end) s
+1419 3119 m (target\261independent) s
+1828 3119 m (as) s
+1909 3119 m (well) s
+2020 3119 m (as) s
+177 3059 m (host\261independent, and to make the back\261end host\261independent.) s
+177 2939 m (Syntax12m.Scn.Fnt) f (SYMBOL TABLE) s
+177 2839 m (Syntax12.Scn.Fnt) f (The) s
+265 2839 m (symbol) s
+417 2839 m (table) s
+524 2839 m (contains) s
+699 2839 m (information) s
+928 2839 m (about) s
+1048 2839 m (declared) s
+1227 2839 m (constants,) s
+1437 2839 m (variables,) s
+1636 2839 m (types) s
+1752 2839 m (and) s
+1836 2839 m (procedures.) s
+177 2779 m (It) s
+217 2779 m (is) s
+265 2779 m (built) s
+361 2779 m (by) s
+423 2779 m (the) s
+499 2779 m (front\261end.) s
+709 2779 m (The) s
+799 2779 m (front\261end) s
+997 2779 m (uses) s
+1104 2779 m (it) s
+1141 2779 m (to) s
+1192 2779 m (check) s
+1321 2779 m (the) s
+1396 2779 m (context) s
+1551 2779 m (conditions) s
+1762 2779 m (of) s
+1813 2779 m (the) s
+1888 2779 m (language) s
+177 2719 m (and) s
+265 2719 m (the) s
+341 2719 m (back\261end) s
+545 2719 m (retrieves) s
+729 2719 m (type) s
+826 2719 m (information) s
+1057 2719 m (from) s
+1160 2719 m (it.) s
+1209 2719 m (The) s
+1299 2719 m (symbol) s
+1453 2719 m (table) s
+1562 2719 m (is) s
+1609 2719 m (a) s
+1648 2719 m (dynamically) s
+1892 2719 m (allocated) s
+177 2659 m (data structure with three different element types:) s
+236 2558 m (Syntax10.Scn.Fnt) f (TYPE) s
+295 2509 m (Const = POINTER TO ConstDesc;) s
+295 2460 m (Object = POINTER TO ObjDesc;) s
+295 2411 m (Struct = POINTER TO StrDesc;) s
+177 2305 m (Syntax12.Scn.Fnt) f (An) s
+247 2305 m (Syntax12i.Scn.Fnt) f (Object) s
+389 2305 m (Syntax12.Scn.Fnt) f (is) s
+437 2305 m (a) s
+477 2305 m (record) s
+617 2305 m (\(more) s
+748 2305 m (exactly) s
+900 2305 m (a) s
+940 2305 m (pointer) s
+1089 2305 m (to) s
+1141 2305 m (a) s
+1181 2305 m (record\),) s
+1348 2305 m (which) s
+1476 2305 m (represents) s
+1698 2305 m (a) s
+1738 2305 m (declared,) s
+1933 2305 m (named) s
+177 2245 m (object. The object declaration in the compiler is the following:) s
+295 2144 m (Syntax10.Scn.Fnt) f (ObjDesc = RECORD) s
+354 2095 m (left, right, link, scope: Object;) s
+354 2046 m (name: OPS.Name;) s
+767 2046 m (Syntax10i.Scn.Fnt) f (\(* key *\)) s
+354 1997 m (Syntax10.Scn.Fnt) f (leaf: BOOLEAN;) s
+767 1997 m (Syntax10i.Scn.Fnt) f (\(* procedure: leaf; variable: candidate to be allocated in register *\)) s
+354 1948 m (Syntax10.Scn.Fnt) f (mode: SHORTINT;) s
+767 1948 m (Syntax10i.Scn.Fnt) f (\(* constant, type, variable, procedure or module *\)) s
+354 1899 m (Syntax10.Scn.Fnt) f (mnolev: SHORTINT;) s
+767 1899 m (Syntax10i.Scn.Fnt) f (\(* imported from module \261mnolev, or local at procedure nesting level mnolev *\)) s
+354 1850 m (Syntax10.Scn.Fnt) f (vis: SHORTINT;) s
+767 1850 m (Syntax10i.Scn.Fnt) f (\(* not exported, exported, read\261only exported *\)) s
+354 1801 m (Syntax10.Scn.Fnt) f (typ: Struct;) s
+531 1801 m (Syntax10i.Scn.Fnt) f (\(* object type *\)) s
+354 1752 m (Syntax10.Scn.Fnt) f (conval: Const;) s
+767 1752 m (Syntax10i.Scn.Fnt) f (\(* numeric attributes *\)) s
+354 1703 m (Syntax10.Scn.Fnt) f (adr, linkadr: LONGINT) s
+767 1703 m (Syntax10i.Scn.Fnt) f (\(* storage allocation *\)) s
+295 1654 m (Syntax10.Scn.Fnt) f (END ;) s
+177 1548 m (Syntax12.Scn.Fnt) f (The) s
+266 1548 m (name) s
+389 1548 m (of) s
+439 1548 m (the) s
+513 1548 m (object) s
+643 1548 m (stored) s
+778 1548 m (in) s
+826 1548 m (the) s
+900 1548 m (object) s
+1029 1548 m (itself) s
+1132 1548 m (\(field) s
+1240 1548 m (Syntax12i.Scn.Fnt) f (name) s
+(Syntax12.Scn.Fnt) f (\)) s
+1377 1548 m (is) s
+1422 1548 m (used) s
+1529 1548 m (as) s
+1588 1548 m (key) s
+1669 1548 m (to) s
+1718 1548 m (retrieve) s
+1877 1548 m (the) s
+1950 1548 m (object) s
+177 1488 m (in) s
+224 1488 m (its) s
+281 1488 m (scope.) s
+422 1488 m (Each) s
+534 1488 m (scope) s
+663 1488 m (is) s
+708 1488 m (organized) s
+912 1488 m (as) s
+970 1488 m (a) s
+1006 1488 m (sorted) s
+1139 1488 m (binary) s
+1270 1488 m (tree) s
+1357 1488 m (of) s
+1405 1488 m (objects) s
+1555 1488 m (\(fields) s
+1684 1488 m (Syntax12i.Scn.Fnt) f (left) s
+1754 1488 m (Syntax12.Scn.Fnt) f (and) s
+1838 1488 m (Syntax12i.Scn.Fnt) f (right) s
+(Syntax12.Scn.Fnt) f (\)) s
+1950 1488 m (and) s
+2034 1488 m (is) s
+177 1428 m (anchored) s
+375 1428 m (\(field) s
+487 1428 m (Syntax12i.Scn.Fnt) f (scope) s
+(Syntax12.Scn.Fnt) f (\)) s
+635 1428 m (to) s
+688 1428 m (the) s
+764 1428 m (owner) s
+899 1428 m (procedure,) s
+1123 1428 m (which) s
+1251 1428 m (in) s
+1301 1428 m (turn) s
+1392 1428 m (belongs) s
+1560 1428 m (as) s
+1622 1428 m (object) s
+1754 1428 m (to) s
+1806 1428 m (the) s
+1882 1428 m (enclosing) s
+177 1368 m (scope.) s
+322 1368 m (Parameters) s
+565 1368 m (of) s
+618 1368 m (the) s
+695 1368 m (same) s
+819 1368 m (procedure,) s
+1043 1368 m (fields) s
+1161 1368 m (of) s
+1213 1368 m (the) s
+1289 1368 m (same) s
+1412 1368 m (record) s
+1552 1368 m (and) s
+1640 1368 m (variables) s
+1831 1368 m (of) s
+1883 1368 m (the) s
+1959 1368 m (same) s
+177 1308 m (scope) s
+311 1308 m (are) s
+392 1308 m (additionally) s
+627 1308 m (linked) s
+758 1308 m (together) s
+934 1308 m (\(field) s
+1046 1308 m (Syntax12i.Scn.Fnt) f (link) s
+(Syntax12.Scn.Fnt) f (\)) s
+1144 1308 m (to) s
+1197 1308 m (maintain) s
+1379 1308 m (the) s
+1456 1308 m (declaration) s
+1686 1308 m (order.) s
+1817 1308 m (The) s
+1909 1308 m (flag) s
+1996 1308 m (Syntax12i.Scn.Fnt) f (leaf) s
+177 1248 m (Syntax12.Scn.Fnt) f (indicates) s
+370 1248 m (whether) s
+545 1248 m (a) s
+589 1248 m (procedure) s
+805 1248 m (is) s
+857 1248 m (a) s
+901 1248 m (leaf) s
+991 1248 m (procedure) s
+1207 1248 m (or) s
+1266 1248 m (whether) s
+1441 1248 m (a) s
+1485 1248 m (variable) s
+1658 1248 m (is) s
+1710 1248 m (a) s
+1754 1248 m (candidate) s
+1962 1248 m (to) s
+2018 1248 m (be) s
+177 1188 m (allocated) s
+369 1188 m (permanently) s
+627 1188 m (in) s
+679 1188 m (a) s
+721 1188 m (register.) s
+897 1188 m (The) s
+990 1188 m (back\261end) s
+1195 1188 m (may) s
+1295 1188 m (or) s
+1351 1188 m (may) s
+1451 1188 m (not) s
+1528 1188 m (use) s
+1615 1188 m (this) s
+1700 1188 m (information) s
+1933 1188 m (\261) s
+1974 1188 m (Note) s
+177 1128 m (that) s
+276 1128 m (this) s
+371 1128 m (information) s
+614 1128 m (could) s
+745 1128 m (not) s
+832 1128 m (be) s
+906 1128 m (available) s
+1104 1128 m (in) s
+1164 1128 m (a) s
+1214 1128 m (single\261pass) s
+1470 1128 m (compiler) s
+1662 1128 m (without) s
+1826 1128 m (intermediate) s
+177 1068 m (representation) s
+473 1068 m (of) s
+527 1068 m (the) s
+605 1068 m (program.) s
+798 1068 m (An) s
+869 1068 m (object) s
+1003 1068 m (has) s
+1090 1068 m (always) s
+1241 1068 m (a) s
+1282 1068 m (type) s
+1381 1068 m (\(field) s
+1493 1068 m (Syntax12i.Scn.Fnt) f (typ) s
+(Syntax12.Scn.Fnt) f (\),) s
+1595 1068 m (which) s
+1724 1068 m (is) s
+1773 1068 m (described) s
+1979 1068 m (by) s
+2042 1068 m (a) s
+177 1008 m (record named ) s
+(Syntax12i.Scn.Fnt) f (StrDesc) s
+(Syntax12.Scn.Fnt) f (:) s
+295 907 m (Syntax10.Scn.Fnt) f (StrDesc = RECORD) s
+354 858 m (form, comp: SHORTINT;) s
+767 858 m (Syntax10i.Scn.Fnt) f (\(* basic or composite type, type class *\)) s
+354 809 m (Syntax10.Scn.Fnt) f (mno: SHORTINT;) s
+767 809 m (Syntax10i.Scn.Fnt) f (\(* imported from module mno *\)) s
+354 760 m (Syntax10.Scn.Fnt) f (extlev: SHORTINT;) s
+767 760 m (Syntax10i.Scn.Fnt) f (\(* record extension level *\)) s
+354 711 m (Syntax10.Scn.Fnt) f (ref, sysflag: INTEGER;) s
+767 711 m (Syntax10i.Scn.Fnt) f (\(* export reference *\)) s
+354 662 m (Syntax10.Scn.Fnt) f (n, size: LONGINT;) s
+767 662 m (Syntax10i.Scn.Fnt) f (\(* number of elements and allocation size *\)) s
+354 613 m (Syntax10.Scn.Fnt) f (tdadr, offset: LONGINT;) s
+767 613 m (Syntax10i.Scn.Fnt) f (\(* address of type descriptor *\)) s
+354 564 m (Syntax10.Scn.Fnt) f (txtpos: LONGINT;) s
+767 564 m (Syntax10i.Scn.Fnt) f (\(* text position *\)) s
+354 515 m (Syntax10.Scn.Fnt) f (BaseTyp: Struct;) s
+767 515 m (Syntax10i.Scn.Fnt) f (\(* base record type or array element type *\)) s
+354 466 m (Syntax10.Scn.Fnt) f (link: Object;) s
+767 466 m (Syntax10i.Scn.Fnt) f (\(* record fields or formal parameters of procedure type *\)) s
+354 417 m (Syntax10.Scn.Fnt) f (strobj: Object) s
+767 417 m (Syntax10i.Scn.Fnt) f (\(* named declaration of this type *\)) s
+295 368 m (Syntax10.Scn.Fnt) f (END ;) s
+1 p
+%%Page: 0 5 
+2104 3224 m (Syntax10.Scn.Fnt) f (5) s
+177 3119 m (Syntax12.Scn.Fnt) f (There) s
+304 3119 m (are) s
+380 3119 m (several) s
+534 3119 m (classes) s
+693 3119 m (of) s
+742 3119 m (types:) s
+871 3119 m (basic) s
+986 3119 m (types) s
+1103 3119 m (like) s
+1182 3119 m (character,) s
+1389 3119 m (integer) s
+1534 3119 m (or) s
+1585 3119 m (set,) s
+1667 3119 m (and) s
+1751 3119 m (composite) s
+1962 3119 m (types) s
+177 3059 m (like) s
+256 3059 m (array,) s
+381 3059 m (open) s
+490 3059 m (array) s
+603 3059 m (or) s
+655 3059 m (record) s
+792 3059 m (\(fields) s
+922 3059 m (Syntax12i.Scn.Fnt) f (form) s
+1023 3059 m (Syntax12.Scn.Fnt) f (and) s
+1108 3059 m (Syntax12i.Scn.Fnt) f (comp) s
+(Syntax12.Scn.Fnt) f (\).) s
+1255 3059 m (The) s
+1343 3059 m (third) s
+1440 3059 m (element) s
+1607 3059 m (type) s
+1701 3059 m (of) s
+1749 3059 m (the) s
+1821 3059 m (symbol) s
+1972 3059 m (table) s
+177 2999 m (is) s
+233 2999 m (Syntax12i.Scn.Fnt) f (ConstDesc) s
+(Syntax12.Scn.Fnt) f (.) s
+483 2999 m (This) s
+590 2999 m (record) s
+738 2999 m (contains) s
+924 2999 m (numeric) s
+1104 2999 m (attributes) s
+1307 2999 m (of) s
+1367 2999 m (objects,) s
+1540 2999 m (like) s
+1629 2999 m (values) s
+1778 2999 m (of) s
+1837 2999 m (declared) s
+2027 2999 m (or) s
+177 2939 m (anonymous constants:) s
+295 2838 m (Syntax10.Scn.Fnt) f (ConstDesc = RECORD) s
+354 2789 m (ext: ConstExt;) s
+767 2789 m (Syntax10i.Scn.Fnt) f (\(* extension for string constant *\)) s
+354 2740 m (Syntax10.Scn.Fnt) f (intval: LONGINT;) s
+354 2691 m (intval2: LONGINT;) s
+354 2642 m (setval: SET;) s
+354 2593 m (realval: LONGREAL) s
+295 2544 m (END ;) s
+177 2438 m (Syntax12.Scn.Fnt) f (An example is shown in figure 2 below:) s
+751 1441 32 0 x
+735 1649 32 0 x
+639 1601 0 -32 x
+607 1425 m (Syntax8.Scn.Fnt) f (form) s
+799 1425 m (BaseTyp) s
+591 1761 m (value) s
+463 1537 m (left) s
+511 1569 32 32 x
+783 1537 m (right) s
+735 1601 32 -32 x
+783 1633 m (conval) s
+575 1633 m (name) s
+639 1665 m (mode) s
+623 1537 m (typ) s
+1984 1665 1 95 l
+1791 1665 192 0 x
+1791 1665 0 96 x
+1791 1761 192 0 x
+1743 1921 0 -96 x
+1551 1825 192 0 x
+1551 1825 0 96 x
+1551 1921 192 0 x
+1487 2081 0 -96 x
+1295 1985 192 0 x
+1295 1985 0 96 x
+1295 2081 192 0 x
+1231 1921 0 -96 x
+1039 1825 192 0 x
+1039 1825 0 96 x
+1039 1921 192 0 x
+783 2081 192 0 x
+783 1985 0 96 x
+783 1985 192 0 x
+975 2081 0 -96 x
+1231 2241 0 -96 x
+1039 2145 192 0 x
+1039 2145 0 96 x
+1039 2241 192 0 x
+735 1697 0 -96 x
+543 1601 192 0 x
+543 1601 0 96 x
+543 1697 192 0 x
+1327 2145 192 0 x
+1359 2241 192 0 x
+543 1729 192 0 x
+575 1825 192 0 x
+271 1761 m (Syntax10.Scn.Fnt) f (ConstDesc:) s
+271 1633 m (ObjDesc:) s
+287 1425 m (StrDesc:) s
+1071 2177 m (Pi) s
+1167 2193 m (Syntax8.Scn.Fnt) f (con) s
+1103 2017 m (Syntax10.Scn.Fnt) f (real) s
+1136 2081 1 63 l
+815 2017 m (A) s
+1327 2017 m (i) s
+911 2033 m (Syntax8.Scn.Fnt) f (typ) s
+1423 2033 m (var) s
+1167 1873 m (var) s
+1071 1857 m (Syntax10.Scn.Fnt) f (a) s
+1679 1873 m (Syntax8.Scn.Fnt) f (var) s
+1583 1857 m (Syntax10.Scn.Fnt) f (x) s
+1919 1713 m (Syntax8.Scn.Fnt) f (var) s
+1839 1697 m (Syntax10.Scn.Fnt) f (y) s
+1392 1921 1 63 l
+1327 1857 m (integer) s
+1583 1505 m (longint) s
+1648 1569 1 255 l
+1663 1569 240 96 x
+1071 1633 m (array 4) s
+1136 1697 1 127 l
+1231 1649 400 -80 x
+879 1985 240 -288 x
+1327 2145 32 96 x
+1519 2145 32 96 x
+1232 2193 111 1 l
+1375 2177 m (3.14) s
+543 1729 32 96 x
+735 1729 32 96 x
+255 2289 m (CONST) s
+319 2249 m (Pi = 3.14;) s
+255 2209 m (TYPE) s
+319 2169 m (A = ARRAY 4 OF LONGINT;) s
+255 2129 m (VAR) s
+319 2089 m (i: INTEGER;) s
+319 2049 m (a: A;) s
+319 2009 m (x, y: LONGINT;) s
+879 2081 160 64 x
+1231 2145 160 -64 x
+1487 1985 160 -64 x
+1135 1921 160 64 x
+1743 1825 160 -64 x
+1158 2081 1181 2079 1199 2073 1135 2081 z
+1210 2068 1219 2063 1223 2049 1199 2073 z
+1225 2039 1225 2026 1223 2017 1223 2049 z
+1219 2002 1210 1997 1199 1993 1223 2017 z
+1181 1986 1158 1985 1135 1985 1199 1993 z
+1111 1985 1088 1986 1071 1993 1135 1985 z
+1059 1997 1050 2002 1047 2017 1071 1993 z
+1044 2026 1044 2039 1047 2049 1047 2017 z
+1050 2063 1059 2068 1071 2073 1047 2049 z
+1088 2079 1111 2081 1135 2081 1071 2073 z
+1158 1697 1181 1695 1199 1689 1135 1697 z
+1210 1684 1219 1679 1223 1665 1199 1689 z
+1225 1655 1225 1642 1223 1633 1223 1665 z
+1219 1618 1210 1613 1199 1609 1223 1633 z
+1181 1602 1158 1601 1135 1601 1199 1609 z
+1111 1601 1088 1602 1071 1609 1135 1601 z
+1059 1613 1050 1618 1047 1633 1071 1609 z
+1044 1642 1044 1655 1047 1665 1047 1633 z
+1050 1679 1059 1684 1071 1689 1047 1665 z
+1088 1695 1111 1697 1135 1697 1071 1689 z
+1670 1569 1693 1567 1711 1561 1647 1569 z
+1722 1556 1731 1551 1735 1537 1711 1561 z
+1737 1527 1737 1514 1735 1505 1735 1537 z
+1731 1490 1722 1485 1711 1481 1735 1505 z
+1693 1474 1670 1473 1647 1473 1711 1481 z
+1623 1473 1600 1474 1583 1481 1647 1473 z
+1571 1485 1562 1490 1559 1505 1583 1481 z
+1556 1514 1556 1527 1559 1537 1559 1505 z
+1562 1551 1571 1556 1583 1561 1559 1537 z
+1600 1567 1623 1569 1647 1569 1583 1561 z
+678 1489 701 1487 719 1481 655 1489 z
+730 1476 739 1471 743 1457 719 1481 z
+745 1447 745 1434 743 1425 743 1457 z
+739 1410 730 1405 719 1401 743 1425 z
+701 1394 678 1393 655 1393 719 1401 z
+631 1393 608 1394 591 1401 655 1393 z
+579 1405 570 1410 567 1425 591 1401 z
+564 1434 564 1447 567 1457 567 1425 z
+570 1471 579 1476 591 1481 567 1457 z
+608 1487 631 1489 655 1489 591 1481 z
+1414 1921 1437 1919 1455 1913 1391 1921 z
+1466 1908 1475 1903 1479 1889 1455 1913 z
+1481 1879 1481 1866 1479 1857 1479 1889 z
+1475 1842 1466 1837 1455 1833 1479 1857 z
+1437 1826 1414 1825 1391 1825 1455 1833 z
+1367 1825 1344 1826 1327 1833 1391 1825 z
+1315 1837 1306 1842 1303 1857 1327 1833 z
+1300 1866 1300 1879 1303 1889 1303 1857 z
+1306 1903 1315 1908 1327 1913 1303 1889 z
+1344 1919 1367 1921 1391 1921 1327 1913 z
+177 1299 m (Syntax12.Scn.Fnt) f (Figure 2.    Declarations and corresponding symbol table) s
+(Syntax12i.Scn.Fnt) f ( ) s
+177 1179 m (Syntax12m.Scn.Fnt) f (SYNTAX TREE) s
+177 1079 m (Syntax12.Scn.Fnt) f (The) s
+273 1079 m (front\261end) s
+477 1079 m (builds) s
+612 1079 m (an) s
+681 1079 m (abstract) s
+857 1079 m (syntax) s
+1004 1079 m (tree) s
+1100 1079 m (representing) s
+1363 1079 m (all) s
+1427 1079 m (statements) s
+1660 1079 m (of) s
+1716 1079 m (the) s
+1796 1079 m (program.) s
+1991 1079 m (The) s
+177 1019 m (Oberon syntax is mapped into a binary tree of elements called ) s
+(Syntax12i.Scn.Fnt) f (NodeDesc) s
+(Syntax12.Scn.Fnt) f (:) s
+295 918 m (Syntax10.Scn.Fnt) f (Node = POINTER TO NodeDesc;) s
+295 820 m (NodeDesc = RECORD) s
+354 771 m (left, right, link: Node;) s
+354 722 m (class, subcl: SHORTINT;) s
+354 673 m (readonly: BOOLEAN;) s
+354 624 m (typ: Struct;) s
+354 575 m (obj: Object;) s
+354 526 m (conval: Const) s
+295 477 m (END ;) s
+1 p
+%%Page: 0 6 
+2104 3224 m (Syntax10.Scn.Fnt) f (6) s
+177 3119 m (Syntax12.Scn.Fnt) f (A) s
+223 3119 m (binary) s
+359 3119 m (tree) s
+451 3119 m (has) s
+538 3119 m (been) s
+650 3119 m (chosen) s
+806 3119 m (because) s
+986 3119 m (each) s
+1096 3119 m (Oberon) s
+1257 3119 m (construct) s
+1450 3119 m (can) s
+1536 3119 m (be) s
+1600 3119 m (decomposed) s
+1865 3119 m (into) s
+1951 3119 m (a) s
+1991 3119 m (root) s
+177 3059 m (element) s
+347 3059 m (identifying) s
+558 3059 m (the) s
+633 3059 m (construct) s
+825 3059 m (and) s
+912 3059 m (two) s
+995 3059 m (subtrees) s
+1177 3059 m (representing) s
+1434 3059 m (its) s
+1493 3059 m (components:) s
+1757 3059 m (an) s
+1820 3059 m (operator) s
+1996 3059 m (has) s
+177 2999 m (a) s
+219 2999 m (left) s
+295 2999 m (and) s
+385 2999 m (a) s
+427 2999 m (right) s
+530 2999 m (operand,) s
+719 2999 m (an) s
+785 2999 m (assignment) s
+1026 2999 m (has) s
+1114 2999 m (a) s
+1156 2999 m (left) s
+1232 2999 m (and) s
+1322 2999 m (a) s
+1364 2999 m (right) s
+1467 2999 m (side,) s
+1577 2999 m (a) s
+1619 2999 m (While) s
+1747 2999 m (statement) s
+1955 2999 m (has) s
+2042 2999 m (a) s
+177 2939 m (condition) s
+373 2939 m (and) s
+467 2939 m (a) s
+513 2939 m (sequence) s
+723 2939 m (of) s
+781 2939 m (statements,) s
+1028 2939 m (and) s
+1122 2939 m (so) s
+1189 2939 m (on.) s
+1270 2939 m (Some) s
+1405 2939 m (Oberon) s
+1571 2939 m (constructs) s
+1791 2939 m (are) s
+1875 2939 m (organized) s
+177 2879 m (sequentially:) s
+434 2879 m (there) s
+548 2879 m (are) s
+626 2879 m (lists) s
+717 2879 m (of) s
+768 2879 m (actual) s
+898 2879 m (parameters) s
+1133 2879 m (in) s
+1181 2879 m (procedure) s
+1391 2879 m (calls) s
+1493 2879 m (and) s
+1579 2879 m (sequences) s
+1803 2879 m (of) s
+1853 2879 m (statements) s
+177 2819 m (in) s
+226 2819 m (structured) s
+435 2819 m (statements.) s
+675 2819 m (It) s
+714 2819 m (would) s
+842 2819 m (be) s
+904 2819 m (expensive) s
+1114 2819 m (to) s
+1164 2819 m (insert) s
+1285 2819 m (dummy) s
+1443 2819 m (nodes) s
+1575 2819 m (to) s
+1625 2819 m (link) s
+1705 2819 m (these) s
+1825 2819 m (subtrees;) s
+2018 2819 m (an) s
+177 2759 m (additional ) s
+(Syntax12i.Scn.Fnt) f (link) s
+(Syntax12.Scn.Fnt) f ( field in the node is much cheaper.) s
+177 2659 m (Each) s
+305 2659 m (node) s
+430 2659 m (has) s
+529 2659 m (a) s
+582 2659 m (class) s
+711 2659 m (\(field) s
+835 2659 m (Syntax12i.Scn.Fnt) f (class) s
+(Syntax12.Scn.Fnt) f (\)) s
+978 2659 m (and) s
+1078 2659 m (possibly) s
+1264 2659 m (a) s
+1316 2659 m (subclass) s
+1514 2659 m (\(field) s
+1637 2659 m (Syntax12i.Scn.Fnt) f (subcl) s
+(Syntax12.Scn.Fnt) f (\)) s
+1782 2659 m (identifying) s
+2006 2659 m (the) s
+177 2599 m (represented) s
+422 2599 m (Oberon) s
+580 2599 m (construct.) s
+782 2599 m (Each) s
+894 2599 m (node) s
+1003 2599 m (has) s
+1086 2599 m (a) s
+1123 2599 m (type,) s
+1230 2599 m (which) s
+1355 2599 m (is) s
+1400 2599 m (a) s
+1437 2599 m (pointer) s
+1583 2599 m (\(field) s
+1691 2599 m (Syntax12i.Scn.Fnt) f (typ) s
+(Syntax12.Scn.Fnt) f (\)) s
+1777 2599 m (to) s
+1826 2599 m (a) s
+1862 2599 m (Syntax12i.Scn.Fnt) f (StrDesc) s
+2030 2599 m (Syntax12.Scn.Fnt) f (of) s
+177 2539 m (the) s
+255 2539 m (symbol) s
+412 2539 m (table.) s
+536 2539 m (Similarly,) s
+733 2539 m (a) s
+775 2539 m (leaf) s
+863 2539 m (node) s
+977 2539 m (representing) s
+1237 2539 m (a) s
+1279 2539 m (declared) s
+1464 2539 m (object) s
+1598 2539 m (contains) s
+1778 2539 m (a) s
+1820 2539 m (pointer) s
+1971 2539 m (\(field) s
+177 2479 m (Syntax12i.Scn.Fnt) f (obj) s
+(Syntax12.Scn.Fnt) f (\)) s
+272 2479 m (to) s
+330 2479 m (the) s
+412 2479 m (corresponding) s
+710 2479 m (Syntax12i.Scn.Fnt) f (ObjDesc) s
+900 2479 m (Syntax12.Scn.Fnt) f (of) s
+958 2479 m (the) s
+1039 2479 m (symbol) s
+1199 2479 m (table.) s
+1326 2479 m (A) s
+1376 2479 m (Syntax12i.Scn.Fnt) f (ConstDesc) s
+1611 2479 m (Syntax12.Scn.Fnt) f (may) s
+1715 2479 m (be) s
+1784 2479 m (attached) s
+1971 2479 m (\(field) s
+177 2419 m (Syntax12i.Scn.Fnt) f (conval) s
+(Syntax12.Scn.Fnt) f (\)) s
+332 2419 m (to) s
+382 2419 m (a) s
+420 2419 m (node) s
+530 2419 m (to) s
+580 2419 m (describe) s
+758 2419 m (a) s
+795 2419 m (numeric) s
+964 2419 m (attribute,) s
+1146 2419 m (such) s
+1251 2419 m (as) s
+1310 2419 m (the) s
+1383 2419 m (value) s
+1500 2419 m (of) s
+1549 2419 m (an) s
+1610 2419 m (anonymous) s
+1848 2419 m (constant.) s
+2037 2419 m (A) s
+177 2359 m (Syntax12i.Scn.Fnt) f (ConstDesc) s
+418 2359 m (Syntax12.Scn.Fnt) f (denoting) s
+611 2359 m (the) s
+698 2359 m (position) s
+875 2359 m (in) s
+935 2359 m (the) s
+1021 2359 m (source) s
+1178 2359 m (text) s
+1274 2359 m (is) s
+1332 2359 m (anchored) s
+1539 2359 m (to) s
+1601 2359 m (the) s
+1687 2359 m (root) s
+1788 2359 m (node) s
+1910 2359 m (of) s
+1972 2359 m (each) s
+177 2299 m (statement. This allows locating compilation errors reported by the back\261end.) s
+177 2199 m (Figure 3 shows the representation of two statements manipulating variables declared in Figure 2.) s
+821 883 64 64 x
+741 691 m (Syntax8.Scn.Fnt) f (i) s
+725 835 m (var) s
+822 659 1 223 l
+694 883 127 1 l
+694 659 127 1 l
+694 659 1 223 l
+1509 691 m (i) s
+1397 947 64 -64 x
+1493 835 m (var) s
+1590 659 1 223 l
+1462 883 127 1 l
+1462 659 127 1 l
+1462 659 1 223 l
+1205 883 64 64 x
+1109 739 m (array) s
+1125 691 m (a) s
+1109 835 m (var) s
+1206 659 1 223 l
+1078 883 127 1 l
+1078 659 127 1 l
+1078 659 1 223 l
+1013 1171 64 64 x
+917 1123 m (conv) s
+1014 947 1 223 l
+886 1171 127 1 l
+886 947 127 1 l
+886 947 1 223 l
+1205 1235 64 -64 x
+1301 1123 m (index) s
+1398 947 1 223 l
+1270 1171 127 1 l
+1270 947 127 1 l
+1270 947 1 223 l
+1125 1363 m (*) s
+1509 1267 m (y) s
+1205 1459 64 64 x
+1206 1235 1 223 l
+1078 1459 127 1 l
+1078 1235 127 1 l
+1078 1235 1 223 l
+1397 1523 64 -64 x
+1493 1411 m (var) s
+1590 1235 1 223 l
+1462 1459 127 1 l
+1462 1235 127 1 l
+1462 1235 1 223 l
+1989 1859 m (Syntax12i.Scn.Fnt) f (...) s
+1845 1907 112 -32 x
+1205 2035 512 -128 x
+1925 1571 m (Syntax10.Scn.Fnt) f (statseq) s
+1557 1571 m (expr) s
+1845 1683 64 -64 x
+1653 1619 64 64 x
+1749 1859 m (Syntax8.Scn.Fnt) f (while) s
+437 1235 32 32 x
+389 1203 m (left) s
+645 1203 m (right) s
+597 1267 32 -32 x
+677 1475 m (link) s
+597 1491 64 0 x
+1846 1683 1 223 l
+1718 1907 127 1 l
+1718 1683 127 1 l
+1718 1683 1 223 l
+1205 1811 64 -64 x
+1317 1651 m (+) s
+1398 1523 1 223 l
+1270 1747 127 1 l
+1270 1523 127 1 l
+1270 1523 1 223 l
+933 1555 m (x) s
+917 1699 m (var) s
+1013 1747 64 64 x
+1014 1523 1 223 l
+886 1747 127 1 l
+886 1523 127 1 l
+886 1523 1 223 l
+1093 1987 m (assign) s
+965 2067 112 -32 x
+1206 1811 1 223 l
+1078 2035 127 1 l
+1078 1811 127 1 l
+1078 1811 1 223 l
+598 1267 1 223 l
+677 1299 m (obj) s
+677 1347 m (typ) s
+501 1395 m (subcl) s
+501 1443 m (class) s
+470 1491 127 1 l
+470 1267 127 1 l
+470 1267 1 223 l
+181 1427 m (Syntax10.Scn.Fnt) f (NodeDesc:) s
+181 1987 m (WHILE expr DO statseq END ;) s
+901 2083 m (Syntax12i.Scn.Fnt) f (...) s
+181 1931 m (Syntax10.Scn.Fnt) f (...) s
+181 2043 m (x := i * a[i] + y;) s
+181 2099 m (...) s
+533 1363 128 0 x
+533 1315 128 0 x
+901 1603 m (Syntax8.Scn.Fnt) f (longint) s
+709 739 m (integer) s
+1477 739 m (integer) s
+901 1027 m (longint) s
+1285 1027 m (longint) s
+1093 1315 m (longint) s
+1477 1315 m (longint) s
+1285 1603 m (longint) s
+1285 1699 m (dyadic) s
+1093 1411 m (dyadic) s
+177 565 m (Syntax12.Scn.Fnt) f (Figure 3.    Statements and corresponding syntax tree) s
+(Syntax12i.Scn.Fnt) f ( ) s
+177 445 m (Syntax12.Scn.Fnt) f (The) s
+275 445 m (rules) s
+393 445 m (of) s
+452 445 m (numeric) s
+631 445 m (type) s
+736 445 m (compatibility) s
+1000 445 m (are) s
+1085 445 m (flexible) s
+1243 445 m (in) s
+1299 445 m (Oberon;) s
+1478 445 m (for) s
+1551 445 m (example,) s
+1750 445 m (it) s
+1794 445 m (is) s
+1848 445 m (possible) s
+2030 445 m (to) s
+177 385 m (multiply) s
+342 385 m (integers) s
+513 385 m (with) s
+606 385 m (long) s
+703 385 m (integers,) s
+885 385 m (as) s
+946 385 m (shown) s
+1087 385 m (in) s
+1136 385 m (Figure) s
+1275 385 m (3.) s
+1326 385 m (Note) s
+1433 385 m (the) s
+1508 385 m (conversion) s
+1734 385 m (operator) s
+1911 385 m (inserted) s
+177 325 m (in the tree, freeing the back\261end from type checking.) s
+1 p
+%%Page: 0 7 
+2104 3224 m (Syntax10.Scn.Fnt) f (7) s
+177 3119 m (Syntax12.Scn.Fnt) f (While) s
+300 3119 m (generating) s
+518 3119 m (code) s
+625 3119 m (for) s
+689 3119 m (a) s
+726 3119 m (node,) s
+847 3119 m (one) s
+932 3119 m (typically) s
+1101 3119 m (has) s
+1184 3119 m (to) s
+1233 3119 m (recursively) s
+1456 3119 m (evaluate) s
+1633 3119 m (left) s
+1704 3119 m (and) s
+1789 3119 m (right) s
+1887 3119 m (subtrees,) s
+177 3059 m (then the node itself, and finally the linked successors if any. A traversal of the tree looks like this:) s
+224 2959 m (Syntax12i.Scn.Fnt) f (Traverse\(node: Node\):) s
+271 2899 m (WHILE node # NIL DO) s
+318 2839 m (Traverse\(node^.left\);) s
+318 2779 m (Traverse\(node^.right\);) s
+318 2719 m (Do something with node;) s
+318 2659 m (node := node^.link) s
+271 2599 m (END) s
+177 2499 m (Syntax12.Scn.Fnt) f (The) s
+267 2499 m (intermediate) s
+522 2499 m (representation) s
+815 2499 m (could) s
+934 2499 m (be) s
+997 2499 m (a) s
+1036 2499 m (stream) s
+1185 2499 m (of) s
+1236 2499 m (instructions) s
+1472 2499 m (for) s
+1538 2499 m (a) s
+1577 2499 m (virtual) s
+1709 2499 m (machine;) s
+1901 2499 m (we) s
+1972 2499 m (have) s
+177 2439 m (preferred) s
+372 2439 m (an) s
+437 2439 m (internal) s
+597 2439 m (abstract) s
+769 2439 m (syntax) s
+912 2439 m (tree) s
+1004 2439 m (for) s
+1072 2439 m (different) s
+1246 2439 m (reasons.) s
+1430 2439 m (A) s
+1476 2439 m (virtual) s
+1610 2439 m (machine) s
+1792 2439 m (instruction) s
+2008 2439 m (set) s
+177 2379 m (should) s
+330 2379 m (be) s
+403 2379 m (defined) s
+570 2379 m (without) s
+733 2379 m (knowing) s
+918 2379 m (anything) s
+1107 2379 m (about) s
+1240 2379 m (the) s
+1325 2379 m (future) s
+1461 2379 m (target) s
+1597 2379 m (machines.) s
+1820 2379 m (Perhaps) s
+2006 2379 m (the) s
+177 2319 m (mapping) s
+363 2319 m (of) s
+418 2319 m (this) s
+505 2319 m (instruction) s
+723 2319 m (set) s
+800 2319 m (to) s
+855 2319 m (a) s
+898 2319 m (real) s
+990 2319 m (instruction) s
+1208 2319 m (set) s
+1285 2319 m (would) s
+1418 2319 m (not) s
+1497 2319 m (be) s
+1564 2319 m (easy,) s
+1687 2319 m (the) s
+1766 2319 m (virtual) s
+1902 2319 m (and) s
+1993 2319 m (real) s
+177 2259 m (machines) s
+391 2259 m (being) s
+524 2259 m (very) s
+634 2259 m (different) s
+818 2259 m (\(RISC) s
+965 2259 m (vs.) s
+1048 2259 m (CISC) s
+1180 2259 m (e.g.\).) s
+1306 2259 m (Generating) s
+1547 2259 m (these) s
+1679 2259 m (pseudo\261instructions) s
+177 2199 m (already) s
+334 2199 m (needs) s
+466 2199 m (a) s
+504 2199 m (code) s
+612 2199 m (generator,) s
+824 2199 m (whereas) s
+1003 2199 m (building) s
+1167 2199 m (the) s
+1241 2199 m (syntax) s
+1381 2199 m (tree) s
+1470 2199 m (is) s
+1516 2199 m (a) s
+1554 2199 m (trivial) s
+1670 2199 m (recursive) s
+1861 2199 m (task) s
+1954 2199 m (easily) s
+177 2139 m (embedded) s
+401 2139 m (in) s
+454 2139 m (the) s
+533 2139 m (recursive\261descent) s
+906 2139 m (parser.) s
+1061 2139 m (Since) s
+1189 2139 m (the) s
+1268 2139 m (tree) s
+1361 2139 m (is) s
+1411 2139 m (a) s
+1453 2139 m (natural) s
+1604 2139 m (mapping) s
+1789 2139 m (of) s
+1843 2139 m (the) s
+1921 2139 m (Oberon) s
+177 2079 m (syntax,) s
+330 2079 m (each) s
+439 2079 m (procedure) s
+650 2079 m (of) s
+701 2079 m (the) s
+776 2079 m (parser) s
+915 2079 m (returns) s
+1066 2079 m (as) s
+1127 2079 m (parameter) s
+1341 2079 m (the) s
+1416 2079 m (root) s
+1506 2079 m (of) s
+1557 2079 m (the) s
+1631 2079 m (subtree) s
+1790 2079 m (corresponding) s
+177 2019 m (to) s
+227 2019 m (the) s
+301 2019 m (construct) s
+492 2019 m (just) s
+574 2019 m (parsed) s
+721 2019 m (by) s
+781 2019 m (this) s
+863 2019 m (procedure.) s
+1085 2019 m (Furthermore,) s
+1352 2019 m (the) s
+1426 2019 m (tree) s
+1515 2019 m (keeps) s
+1645 2019 m (the) s
+1719 2019 m (program) s
+1896 2019 m (structure) s
+177 1959 m (intact,) s
+312 1959 m (so) s
+376 1959 m (that) s
+466 1959 m (a) s
+508 1959 m (control\261flow) s
+759 1959 m (analysis) s
+935 1959 m (necessary) s
+1152 1959 m (for) s
+1221 1959 m (an) s
+1287 1959 m (optimization) s
+1538 1959 m (phase) s
+1674 1959 m (can) s
+1762 1959 m (be) s
+1828 1959 m (done) s
+1942 1959 m (easily.) s
+177 1899 m (Without) s
+338 1899 m (a) s
+375 1899 m (tree,) s
+475 1899 m (this) s
+556 1899 m (analysis) s
+727 1899 m (would) s
+854 1899 m (be) s
+914 1899 m (expensive,) s
+1134 1899 m (since) s
+1248 1899 m (basic) s
+1362 1899 m (blocks) s
+1498 1899 m (would) s
+1624 1899 m (have) s
+1730 1899 m (been) s
+1838 1899 m (dissolved) s
+2032 1899 m (in) s
+177 1839 m (the) s
+260 1839 m (linear) s
+390 1839 m (code.) s
+519 1839 m (The) s
+617 1839 m (reordering) s
+839 1839 m (of) s
+898 1839 m (program) s
+1083 1839 m (pieces) s
+1231 1839 m (is) s
+1285 1839 m (easier) s
+1426 1839 m (to) s
+1484 1839 m (perform) s
+1657 1839 m (in) s
+1713 1839 m (a) s
+1759 1839 m (tree) s
+1856 1839 m (than) s
+1962 1839 m (in) s
+2018 1839 m (an) s
+177 1779 m (instruction) s
+389 1779 m (stream;) s
+547 1779 m (for) s
+610 1779 m (example,) s
+799 1779 m (the) s
+871 1779 m (conditional) s
+1091 1779 m (expression) s
+1314 1779 m (of) s
+1362 1779 m (a) s
+1398 1779 m (While) s
+1520 1779 m (statement) s
+1723 1779 m (may) s
+1818 1779 m (be) s
+1878 1779 m (evaluated) s
+177 1719 m (at) s
+227 1719 m (the) s
+301 1719 m (end) s
+387 1719 m (of) s
+436 1719 m (the) s
+509 1719 m (loop,) s
+616 1719 m (while) s
+729 1719 m (first) s
+813 1719 m (generating) s
+1031 1719 m (code) s
+1138 1719 m (for) s
+1202 1719 m (the) s
+1275 1719 m (right) s
+1373 1719 m (subtree) s
+1531 1719 m (of) s
+1580 1719 m (the) s
+1653 1719 m (While) s
+1776 1719 m (node,) s
+1897 1719 m (and) s
+1982 1719 m (then) s
+177 1659 m (for its left subtree.) s
+177 1559 m (The) s
+265 1559 m (syntax) s
+404 1559 m (tree) s
+492 1559 m (has) s
+575 1559 m (nevertheless) s
+835 1559 m (one) s
+920 1559 m (drawback) s
+1120 1559 m (over) s
+1218 1559 m (an) s
+1279 1559 m (intermediate) s
+1532 1559 m (linear) s
+1652 1559 m (code:) s
+1771 1559 m (it) s
+1806 1559 m (needs) s
+1936 1559 m (quite) s
+2042 1559 m (a) s
+177 1499 m (large heap space, but, nowadays, this is not a real problem any more.) s
+177 1379 m (Syntax12m.Scn.Fnt) f (CODE GENERATION) s
+177 1279 m (Syntax12.Scn.Fnt) f (Although) s
+372 1279 m (an) s
+443 1279 m (extensive) s
+650 1279 m (experience) s
+886 1279 m (in) s
+943 1279 m (compiler) s
+1132 1279 m (development) s
+1404 1279 m (is) s
+1459 1279 m (not) s
+1542 1279 m (necessary) s
+1764 1279 m (to) s
+1823 1279 m (write) s
+1939 1279 m (a) s
+1986 1279 m (new) s
+177 1219 m (back\261end,) s
+393 1219 m (knowledge) s
+617 1219 m (of) s
+669 1219 m (the) s
+745 1219 m (subject) s
+898 1219 m (is) s
+945 1219 m (nevertheless) s
+1207 1219 m (an) s
+1270 1219 m (advantage.) s
+1499 1219 m (The) s
+1589 1219 m (front\261end,) s
+1799 1219 m (which) s
+1926 1219 m (doesn't) s
+177 1159 m (need) s
+290 1159 m (any) s
+377 1159 m (modifications,) s
+661 1159 m (has) s
+748 1159 m (only) s
+845 1159 m (to) s
+898 1159 m (be) s
+963 1159 m (adapted) s
+1136 1159 m (to) s
+1189 1159 m (the) s
+1266 1159 m (new) s
+1363 1159 m (target) s
+1491 1159 m (machine) s
+1673 1159 m (by) s
+1736 1159 m (editing) s
+1880 1159 m (constants) s
+177 1099 m (exported) s
+364 1099 m (from) s
+470 1099 m (module) s
+631 1099 m (OPM.) s
+761 1099 m (Then,) s
+890 1099 m (the) s
+967 1099 m (storage) s
+1129 1099 m (allocation) s
+1330 1099 m (strategy) s
+1502 1099 m (must) s
+1614 1099 m (be) s
+1679 1099 m (adapted) s
+1852 1099 m (to) s
+1905 1099 m (the) s
+1982 1099 m (data) s
+177 1039 m (alignment) s
+384 1039 m (requirements) s
+657 1039 m (of) s
+711 1039 m (the) s
+789 1039 m (new) s
+887 1039 m (processor.) s
+1109 1039 m (This) s
+1210 1039 m (allocation) s
+1412 1039 m (is) s
+1461 1039 m (done) s
+1574 1039 m (in) s
+1625 1039 m (module) s
+1785 1039 m (OPV,) s
+1906 1039 m (where) s
+2042 1039 m (a) s
+177 979 m (procedure) s
+393 979 m (traverses) s
+593 979 m (the) s
+673 979 m (symbol) s
+832 979 m (table) s
+946 979 m (and) s
+1038 979 m (distributes) s
+1257 979 m (addresses) s
+1478 979 m (to) s
+1534 979 m (variables,) s
+1740 979 m (offsets) s
+1887 979 m (to) s
+1942 979 m (record) s
+177 919 m (fields,) s
+303 919 m (sizes) s
+415 919 m (to) s
+463 919 m (structured) s
+669 919 m (types,) s
+797 919 m (and) s
+881 919 m (so) s
+939 919 m (on.) s
+1011 919 m (The) s
+1098 919 m (last) s
+1178 919 m (thing) s
+1284 919 m (to) s
+1332 919 m (do,) s
+1404 919 m (but) s
+1476 919 m (not) s
+1548 919 m (least,) s
+1664 919 m (is) s
+1708 919 m (to) s
+1756 919 m (rewrite) s
+1900 919 m (the) s
+1972 919 m (code) s
+177 859 m (generator.) s
+177 759 m (After) s
+284 759 m (storage) s
+444 759 m (allocation,) s
+655 759 m (code) s
+764 759 m (generation) s
+984 759 m (takes) s
+1102 759 m (place.) s
+1232 759 m (Between) s
+1415 759 m (the) s
+1489 759 m (two) s
+1571 759 m (phases,) s
+1737 759 m (OPT) s
+1841 759 m (shortly) s
+1984 759 m (gets) s
+177 699 m (control) s
+321 699 m (in) s
+368 699 m (order) s
+483 699 m (to) s
+532 699 m (produce) s
+702 699 m (a) s
+739 699 m (symbol) s
+891 699 m (file.) s
+972 699 m (The) s
+1060 699 m (whole) s
+1187 699 m (process) s
+1353 699 m (of) s
+1402 699 m (code) s
+1509 699 m (generation) s
+1727 699 m (can) s
+1810 699 m (be) s
+1871 699 m (viewed) s
+2020 699 m (as) s
+177 639 m (the) s
+255 639 m (process) s
+426 639 m (of) s
+480 639 m (computing) s
+699 639 m (attribute) s
+874 639 m (values) s
+1018 639 m (for) s
+1087 639 m (each) s
+1199 639 m (node) s
+1313 639 m (of) s
+1367 639 m (the) s
+1445 639 m (tree.) s
+1550 639 m (Attribute) s
+1730 639 m (values) s
+1874 639 m (of) s
+1928 639 m (a) s
+1970 639 m (node) s
+177 579 m (depend) s
+339 579 m (on) s
+405 579 m (the) s
+483 579 m (attribute) s
+657 579 m (values) s
+800 579 m (of) s
+853 579 m (the) s
+930 579 m (children) s
+1100 579 m (nodes) s
+1235 579 m (and) s
+1324 579 m (on) s
+1389 579 m (the) s
+1466 579 m (node's) s
+1611 579 m (class) s
+1728 579 m (and) s
+1817 579 m (type.) s
+1928 579 m (Hence,) s
+177 519 m (module) s
+335 519 m (OPV) s
+442 519 m (recursively) s
+667 519 m (traverses) s
+862 519 m (the) s
+937 519 m (syntax) s
+1078 519 m (tree) s
+1168 519 m (and) s
+1255 519 m (calls,) s
+1370 519 m (in) s
+1419 519 m (a) s
+1458 519 m (post\261order) s
+1681 519 m (fashion,) s
+1848 519 m (procedures) s
+177 459 m (of) s
+230 459 m (underlying) s
+448 459 m (modules) s
+630 459 m (computing) s
+848 459 m (attribute) s
+1022 459 m (values) s
+1165 459 m (for) s
+1233 459 m (each) s
+1344 459 m (traversed) s
+1543 459 m (node,) s
+1668 459 m (or) s
+1723 459 m (subtree) s
+1884 459 m (of) s
+1936 459 m (nodes.) s
+177 399 m (These) s
+313 399 m (procedures) s
+546 399 m (act) s
+619 399 m (similarly) s
+793 399 m (to) s
+843 399 m (an) s
+905 399 m (Syntax12i.Scn.Fnt) f (attribute) s
+1076 399 m (evaluator) s
+1269 399 m (Syntax12.Scn.Fnt) f (of) s
+1319 399 m (an) s
+1381 399 m (Syntax12i.Scn.Fnt) f (attribute) s
+1552 399 m (grammar) s
+(Syntax12.Scn.Fnt) f (.) s
+1754 399 m (The) s
+1843 399 m (emission) s
+2030 399 m (of) s
+177 339 m (code) s
+288 339 m (is) s
+337 339 m (actually) s
+502 339 m (a) s
+543 339 m (side) s
+639 339 m (effect) s
+761 339 m (of) s
+813 339 m (computing) s
+1030 339 m (these) s
+1152 339 m (attributes.) s
+1359 339 m (Since) s
+1484 339 m (the) s
+1560 339 m (side) s
+1656 339 m (effect) s
+1778 339 m (\(code\)) s
+1918 339 m (is) s
+1966 339 m (more) s
+177 279 m (important) s
+375 279 m (than) s
+475 279 m (the) s
+550 279 m (computed) s
+756 279 m (attribute) s
+928 279 m (values,) s
+1081 279 m (and) s
+1168 279 m (since) s
+1285 279 m (these) s
+1406 279 m (values) s
+1547 279 m (will) s
+1624 279 m (only) s
+1719 279 m (be) s
+1782 279 m (reused) s
+1930 279 m (later) s
+2030 279 m (to) s
+177 219 m (compute) s
+362 219 m (the) s
+440 219 m (attribute) s
+615 219 m (values) s
+759 219 m (of) s
+813 219 m (parent) s
+954 219 m (nodes,) s
+1101 219 m (they) s
+1200 219 m (don't) s
+1311 219 m (need) s
+1424 219 m (to) s
+1477 219 m (be) s
+1542 219 m (stored) s
+1680 219 m (in) s
+1731 219 m (the) s
+1808 219 m (tree.) s
+1912 219 m (Instead,) s
+1 p
+%%Page: 0 8 
+2104 3224 m (Syntax10.Scn.Fnt) f (8) s
+177 3119 m (Syntax12.Scn.Fnt) f (they are passed as procedure parameters named ) s
+(Syntax12i.Scn.Fnt) f (Item) s
+(Syntax12.Scn.Fnt) f ( during the recursive traversal of the tree.) s
+177 3019 m (An) s
+243 3019 m (Syntax12i.Scn.Fnt) f (Item) s
+341 3019 m (Syntax12.Scn.Fnt) f (is) s
+386 3019 m (a) s
+423 3019 m (record) s
+560 3019 m (of) s
+609 3019 m (attributes) s
+801 3019 m (representing) s
+1056 3019 m (the) s
+1129 3019 m (operand) s
+1301 3019 m (or) s
+1353 3019 m (the) s
+1426 3019 m (result) s
+1545 3019 m (of) s
+1593 3019 m (an) s
+1653 3019 m (operation.) s
+1858 3019 m (It) s
+1894 3019 m (indicates) s
+177 2959 m (where) s
+311 2959 m (the) s
+386 2959 m (operand) s
+560 2959 m (is) s
+607 2959 m (located) s
+762 2959 m (\(memory,) s
+963 2959 m (register) s
+1124 2959 m (or) s
+1178 2959 m (immediate) s
+1395 2959 m (value) s
+1514 2959 m (e.g.\).) s
+1628 2959 m (Syntax12i.Scn.Fnt) f (Items) s
+1749 2959 m (Syntax12.Scn.Fnt) f (make) s
+1870 2959 m (it) s
+1906 2959 m (possible) s
+177 2899 m (to) s
+227 2899 m (delay) s
+345 2899 m (emission) s
+532 2899 m (of) s
+582 2899 m (code,) s
+702 2899 m (so) s
+762 2899 m (that) s
+848 2899 m (processor) s
+1054 2899 m (addressing) s
+1281 2899 m (modes) s
+1426 2899 m (can) s
+1510 2899 m (be) s
+1571 2899 m (optimally) s
+1757 2899 m (used.) s
+1876 2899 m (There) s
+2003 2899 m (are) s
+177 2839 m (as) s
+242 2839 m (many) s
+368 2839 m (Syntax12i.Scn.Fnt) f (Item) s
+472 2839 m (Syntax12.Scn.Fnt) f (modes) s
+622 2839 m (as) s
+687 2839 m (processor) s
+897 2839 m (addressing) s
+1128 2839 m (modes.) s
+1289 2839 m (Depending) s
+1517 2839 m (on) s
+1583 2839 m (the) s
+1661 2839 m (mode) s
+1788 2839 m (specified) s
+1978 2839 m (by) s
+2042 2839 m (a) s
+177 2779 m (field) s
+272 2779 m (of) s
+323 2779 m (the) s
+398 2779 m (Syntax12i.Scn.Fnt) f (Item) s
+(Syntax12.Scn.Fnt) f (,) s
+510 2779 m (other) s
+624 2779 m (attributes) s
+818 2779 m (like) s
+899 2779 m (type,) s
+1008 2779 m (address,) s
+1190 2779 m (offset,) s
+1323 2779 m (register) s
+1483 2779 m (number,) s
+1657 2779 m (value) s
+1775 2779 m (of) s
+1825 2779 m (constant) s
+2003 2779 m (are) s
+177 2719 m (stored) s
+322 2719 m (in) s
+380 2719 m (Syntax12i.Scn.Fnt) f (Item) s
+489 2719 m (Syntax12.Scn.Fnt) f (fields) s
+615 2719 m (as) s
+685 2719 m (well.) s
+797 2719 m (The) s
+896 2719 m (complexity) s
+1127 2719 m (of) s
+1187 2719 m (a) s
+1235 2719 m (processor) s
+1451 2719 m (architecture) s
+1703 2719 m (is) s
+1759 2719 m (reflected) s
+1949 2719 m (in) s
+2006 2719 m (the) s
+177 2659 m (declaration) s
+408 2659 m (of) s
+462 2659 m (the) s
+540 2659 m (Syntax12i.Scn.Fnt) f (Item) s
+(Syntax12.Scn.Fnt) f (.) s
+655 2659 m (Typically,) s
+856 2659 m (back\261ends) s
+1084 2659 m (for) s
+1153 2659 m (CISC) s
+1276 2659 m (processors) s
+1508 2659 m (have) s
+1620 2659 m (Syntax12i.Scn.Fnt) f (Items) s
+1745 2659 m (Syntax12.Scn.Fnt) f (with) s
+1840 2659 m (many) s
+1964 2659 m (fields) s
+177 2599 m (and many possible modes, whereas the ones for RISC are very simple.) s
+177 2499 m (Since) s
+301 2499 m (almost) s
+445 2499 m (each) s
+554 2499 m (procedure) s
+765 2499 m (of) s
+816 2499 m (the) s
+891 2499 m (code) s
+1000 2499 m (generator) s
+1201 2499 m (has) s
+1286 2499 m (to) s
+1337 2499 m (distinguish) s
+1558 2499 m (between) s
+1736 2499 m (the) s
+1810 2499 m (different) s
+1981 2499 m (Syntax12i.Scn.Fnt) f (Item) s
+177 2439 m (Syntax12.Scn.Fnt) f (modes,) s
+334 2439 m (the) s
+408 2439 m (complexity) s
+629 2439 m (of) s
+679 2439 m (the) s
+753 2439 m (back\261end) s
+955 2439 m (depends) s
+1135 2439 m (on) s
+1197 2439 m (the) s
+1271 2439 m (number) s
+1433 2439 m (of) s
+1483 2439 m (modes.) s
+1639 2439 m (Expression) s
+1868 2439 m (evaluation) s
+177 2379 m (for) s
+241 2379 m (RISC) s
+359 2379 m (processors) s
+586 2379 m (is) s
+631 2379 m (therefore) s
+818 2379 m (very) s
+914 2379 m (easy) s
+1019 2379 m (to) s
+1068 2379 m (code.) s
+1187 2379 m (A) s
+1228 2379 m (more) s
+1340 2379 m (difficult) s
+1488 2379 m (part) s
+1575 2379 m (of) s
+1623 2379 m (RISC) s
+1740 2379 m (back\261ends) s
+1962 2379 m (is) s
+2006 2379 m (the) s
+177 2319 m (register) s
+338 2319 m (allocation.) s
+549 2319 m (The) s
+639 2319 m (advantage) s
+856 2319 m (in) s
+904 2319 m (performance) s
+1163 2319 m (of) s
+1213 2319 m (RISC) s
+1332 2319 m (over) s
+1431 2319 m (CISC) s
+1550 2319 m (may) s
+1647 2319 m (be) s
+1709 2319 m (lost) s
+1791 2319 m (if) s
+1827 2319 m (a) s
+1865 2319 m (too) s
+1939 2319 m (simple) s
+177 2259 m (allocation strategy is used.) s
+177 2159 m (An excerpt of the module OPV is listed below, giving an idea how the back\261end works:) s
+236 2058 m (Syntax10.Scn.Fnt) f (PROCEDURE^ expr\(n: OPT.Node; VAR x: OPL.Item\);) s
+1175 2058 m (Syntax10i.Scn.Fnt) f (\(* forward declaration *\)) s
+236 1960 m (Syntax10.Scn.Fnt) f (PROCEDURE design\(n: OPT.Node; VAR x: OPL.Item\);) s
+295 1911 m (VAR y: OPL.Item;) s
+236 1862 m (BEGIN) s
+295 1813 m (CASE n^.class OF) s
+295 1764 m (...) s
+295 1715 m (| index: design\(n^.left, x\); expr\(n^.right, y\); OPC.Index\(x, y\)) s
+1296 1715 m (Syntax10i.Scn.Fnt) f (\(* x := x[y] *\)) s
+295 1666 m (Syntax10.Scn.Fnt) f (...) s
+295 1617 m (END ;) s
+295 1568 m (x.typ := n^.typ) s
+236 1519 m (END design;) s
+236 1421 m (PROCEDURE expr\(n: OPT.Node; VAR x: OPL.Item\);) s
+295 1372 m (VAR y: OPL.Item;) s
+236 1323 m (BEGIN) s
+295 1274 m (CASE n^.class OF) s
+295 1225 m (...) s
+295 1176 m (| dyadic:) s
+354 1127 m (expr\(n^.left, x\); ... expr\(n^.right, y\);) s
+354 1078 m (CASE n^.subcl OF) s
+354 1029 m (...) s
+354 980 m (| plus: OPC.Add\(x, y\)) s
+767 980 m (Syntax10i.Scn.Fnt) f (\(* x := x + y *\)) s
+354 931 m (Syntax10.Scn.Fnt) f (...) s
+354 882 m (END ;) s
+295 833 m (...) s
+295 784 m (END) s
+295 735 m (x.typ := n^.typ) s
+236 686 m (END expr;) s
+236 588 m (PROCEDURE stat\(n: OPT.Node\);) s
+295 539 m (VAR x: OPL.Item; L0, L1: OPL.Label;) s
+236 490 m (BEGIN) s
+295 441 m (WHILE n # NIL DO) s
+354 392 m (CASE n^.class OF) s
+354 343 m (...) s
+354 294 m (| while:) s
+413 245 m (L0 := OPL.pc;) s
+767 245 m (Syntax10i.Scn.Fnt) f (\(* remind loop beginning *\)) s
+413 196 m (Syntax10.Scn.Fnt) f (expr\(n^.left, x\);) s
+767 196 m (Syntax10i.Scn.Fnt) f (\(* evaluate conditional expression into x *\)) s
+1 p
+%%Page: 0 9 
+2104 3224 m (Syntax10.Scn.Fnt) f (9) s
+413 3127 m (OPC.CFJ\(x, L1\);) s
+767 3127 m (Syntax10i.Scn.Fnt) f (\(* if not x then jump to L1 *\)) s
+413 3078 m (Syntax10.Scn.Fnt) f (stat\(n^.right\);) s
+767 3078 m (Syntax10i.Scn.Fnt) f (\(* do statement sequence *\)) s
+413 3029 m (Syntax10.Scn.Fnt) f (OPC.BJ\(L0\);) s
+767 3029 m (Syntax10i.Scn.Fnt) f (\(* backwards jump to L0 *\)) s
+413 2980 m (Syntax10.Scn.Fnt) f (OPL.FixLink\(L1\)) s
+767 2980 m (Syntax10i.Scn.Fnt) f (\(* fix\261up L1 with current pc *\)) s
+354 2931 m (Syntax10.Scn.Fnt) f (...) s
+354 2882 m (END ;) s
+354 2833 m (n := n^.link) s
+295 2784 m (END) s
+236 2735 m (END stat;) s
+177 2618 m (Syntax12m.Scn.Fnt) f (MEASUREMENTS AND BENCHMARKS) s
+177 2518 m (Syntax12.Scn.Fnt) f (The) s
+273 2518 m (front\261end) s
+477 2518 m (of) s
+534 2518 m (OP2) s
+642 2518 m (\(modules) s
+843 2518 m (OPS,) s
+968 2518 m (OPT,) s
+1091 2518 m (OPB) s
+1204 2518 m (and) s
+1297 2518 m (OPP\),) s
+1436 2518 m (which) s
+1568 2518 m (remains) s
+1744 2518 m (the) s
+1824 2518 m (same) s
+1951 2518 m (for) s
+2022 2518 m (all) s
+177 2458 m (versions) s
+362 2458 m (of) s
+420 2458 m (OP2,) s
+541 2458 m (consists) s
+721 2458 m (of) s
+779 2458 m (less) s
+879 2458 m (than) s
+984 2458 m (3500) s
+1101 2458 m (lines) s
+1212 2458 m (of) s
+1269 2458 m (Oberon) s
+1435 2458 m (source) s
+1587 2458 m (code.) s
+1714 2458 m (The) s
+1810 2458 m (length) s
+1949 2458 m (of) s
+2006 2458 m (the) s
+177 2398 m (back\261end and the size of the machine code depend on the target processor architecture.) s
+177 2298 m (The) s
+273 2298 m (very) s
+377 2298 m (first) s
+469 2298 m (back\261end) s
+678 2298 m (for) s
+750 2298 m (OP2) s
+858 2298 m (was) s
+957 2298 m (written) s
+1107 2298 m (by) s
+1174 2298 m (the) s
+1254 2298 m (author) s
+1397 2298 m (in) s
+1451 2298 m (less) s
+1549 2298 m (than) s
+1653 2298 m (three) s
+1772 2298 m (months) s
+1935 2298 m (for) s
+2006 2298 m (the) s
+177 2238 m (National) s
+357 2238 m (Semiconductor) s
+668 2238 m (NS32532) s
+869 2238 m (processor) s
+1081 2238 m (used) s
+1195 2238 m (in) s
+1249 2238 m (the) s
+1328 2238 m (Ceres) s
+1464 2238 m (workstation) s
+1704 2238 m (developed) s
+1923 2238 m (at) s
+1978 2238 m (ETH) s
+177 2178 m ([16].) s
+280 2178 m (The) s
+374 2178 m (newest) s
+531 2178 m (version) s
+691 2178 m (\(Oberon\2612\)) s
+933 2178 m (of) s
+988 2178 m (this) s
+1075 2178 m (back\261end) s
+1282 2178 m (\(OPL,) s
+1414 2178 m (OPC) s
+1527 2178 m (and) s
+1617 2178 m (OPV\)) s
+1742 2178 m (for) s
+1811 2178 m (that) s
+1901 2178 m (machine) s
+177 2118 m (consists) s
+349 2118 m (of) s
+399 2118 m (less) s
+491 2118 m (than) s
+589 2118 m (2500) s
+699 2118 m (lines) s
+803 2118 m (of) s
+853 2118 m (Oberon) s
+1012 2118 m (source) s
+1157 2118 m (code,) s
+1277 2118 m (of) s
+1327 2118 m (which) s
+1453 2118 m (about) s
+1575 2118 m (500) s
+1661 2118 m (are) s
+1738 2118 m (portable) s
+1908 2118 m (\(module) s
+177 2058 m (OPV\). The total size of the compiler \(including modules OPM and OP2\) is less than 6500 lines.) s
+177 1958 m (About) s
+308 1958 m (2000) s
+422 1958 m (lines) s
+530 1958 m (\(30%) s
+650 1958 m (of) s
+704 1958 m (the) s
+782 1958 m (compiler\)) s
+981 1958 m (have) s
+1093 1958 m (to) s
+1147 1958 m (be) s
+1213 1958 m (rewritten) s
+1399 1958 m (when) s
+1521 1958 m (the) s
+1599 1958 m (compiler) s
+1782 1958 m (is) s
+1831 1958 m (ported.) s
+1983 1958 m (This) s
+177 1898 m (number) s
+338 1898 m (may) s
+434 1898 m (vary) s
+530 1898 m (slightly) s
+677 1898 m (depending) s
+892 1898 m (on) s
+953 1898 m (the) s
+1026 1898 m (target) s
+1150 1898 m (architecture.) s
+1403 1898 m (For) s
+1482 1898 m (the) s
+1555 1898 m (MIPS) s
+1674 1898 m (R2000,) s
+1826 1898 m (for) s
+1889 1898 m (example,) s
+177 1838 m (the) s
+253 1838 m (back\261end) s
+457 1838 m (is) s
+505 1838 m (500) s
+593 1838 m (lines) s
+699 1838 m (longer.) s
+848 1838 m (The) s
+939 1838 m (heap) s
+1051 1838 m (space) s
+1183 1838 m (required) s
+1359 1838 m (to) s
+1411 1838 m (store) s
+1524 1838 m (the) s
+1600 1838 m (syntax) s
+1742 1838 m (tree) s
+1833 1838 m (of) s
+1884 1838 m (a) s
+1923 1838 m (module) s
+177 1778 m (depends) s
+357 1778 m (only) s
+451 1778 m (on) s
+513 1778 m (the) s
+587 1778 m (size) s
+679 1778 m (of) s
+729 1778 m (the) s
+803 1778 m (module,) s
+972 1778 m (but) s
+1046 1778 m (not) s
+1120 1778 m (on) s
+1182 1778 m (the) s
+1256 1778 m (target) s
+1381 1778 m (processor) s
+1587 1778 m (architecture;) s
+1841 1778 m (it) s
+1876 1778 m (is) s
+1921 1778 m (about) s
+2042 1778 m (8) s
+177 1718 m (times larger than the source text of the module.) s
+177 1618 m (Larger) s
+318 1618 m (variations) s
+520 1618 m (are) s
+598 1618 m (noticed) s
+753 1618 m (in) s
+802 1618 m (the) s
+877 1618 m (size) s
+969 1618 m (of) s
+1019 1618 m (the) s
+1093 1618 m (machine) s
+1272 1618 m (code:) s
+1392 1618 m (the) s
+1466 1618 m (whole) s
+1594 1618 m (compiler) s
+1774 1618 m (for) s
+1839 1618 m (NS32532) s
+2034 1618 m (is) s
+177 1558 m (62KB,) s
+317 1558 m (whereas) s
+504 1558 m (the) s
+586 1558 m (one) s
+680 1558 m (for) s
+753 1558 m (the) s
+835 1558 m (MIPS) s
+964 1558 m (R2000) s
+1113 1558 m (is) s
+1166 1558 m (152KB.) s
+1329 1558 m (The) s
+1425 1558 m (different) s
+1603 1558 m (architecture) s
+1852 1558 m (is) s
+1905 1558 m (not) s
+1986 1558 m (only) s
+177 1498 m (reflected) s
+363 1498 m (in) s
+416 1498 m (code) s
+529 1498 m (density,) s
+698 1498 m (but) s
+777 1498 m (in) s
+830 1498 m (performance) s
+1094 1498 m (too:) s
+1185 1498 m (on) s
+1251 1498 m (a) s
+1293 1498 m (Ceres) s
+1428 1498 m (\(NS32532,) s
+1654 1498 m (25) s
+1720 1498 m (MHz\),) s
+1856 1498 m (it) s
+1896 1498 m (takes) s
+2018 1498 m (32) s
+177 1438 m (seconds) s
+359 1438 m (to) s
+415 1438 m (recompile) s
+625 1438 m (OP2;) s
+744 1438 m (on) s
+812 1438 m (a) s
+855 1438 m (DECstation) s
+1095 1438 m (5000) s
+1210 1438 m (\(MIPS) s
+1351 1438 m (R3000,) s
+1510 1438 m (25) s
+1577 1438 m (MHz\),) s
+1714 1438 m (only) s
+1813 1438 m (6.3) s
+1892 1438 m (seconds.) s
+177 1378 m (Note) s
+282 1378 m (that) s
+367 1378 m (self\261compilation) s
+693 1378 m (time) s
+789 1378 m (is) s
+834 1378 m (a) s
+871 1378 m (good) s
+980 1378 m (indicator) s
+1158 1378 m (for) s
+1222 1378 m (compiler) s
+1401 1378 m (quality,) s
+1552 1378 m (since) s
+1667 1378 m (speed,) s
+1809 1378 m (compactness) s
+177 1318 m (and code quality are multiplicative factors contributing to the overall result.) s
+177 1218 m (Several) s
+339 1218 m (other) s
+452 1218 m (code) s
+560 1218 m (generators) s
+782 1218 m (have) s
+890 1218 m (been) s
+999 1218 m (implemented) s
+1262 1218 m (at) s
+1311 1218 m (the) s
+1384 1218 m (Institut) s
+1525 1218 m (f\205r) s
+1589 1218 m (Computersysteme.) s
+1969 1218 m (They) s
+177 1158 m (have) s
+302 1158 m (been) s
+429 1158 m (used) s
+554 1158 m (to) s
+620 1158 m (port) s
+725 1158 m (the) s
+815 1158 m (Oberon) s
+990 1158 m (System) s
+1166 1158 m (to) s
+1232 1158 m (different) s
+1419 1158 m (computers) s
+1653 1158 m (\(Sun) s
+1775 1158 m (SPARCstation,) s
+177 1098 m (Macintosh,) s
+405 1098 m (DECstation,) s
+655 1098 m (IBM) s
+750 1098 m (PS/2) s
+861 1098 m (and) s
+950 1098 m (S/6000\)) s
+1119 1098 m ([17,) s
+1208 1098 m (18,) s
+1285 1098 m (19].) s
+1374 1098 m (In) s
+1427 1098 m (most) s
+1539 1098 m (cases,) s
+1682 1098 m (the) s
+1759 1098 m (new) s
+1856 1098 m (back\261ends) s
+177 1038 m (have) s
+286 1038 m (been) s
+397 1038 m (developed) s
+611 1038 m (on) s
+673 1038 m (the) s
+747 1038 m (Ceres) s
+878 1038 m (workstation) s
+1113 1038 m (in) s
+1161 1038 m (about) s
+1283 1038 m (three) s
+1396 1038 m (or) s
+1449 1038 m (four) s
+1538 1038 m (months) s
+1695 1038 m (by) s
+1755 1038 m (a) s
+1793 1038 m (single) s
+1921 1038 m (person.) s
+177 978 m (The) s
+273 978 m (object) s
+410 978 m (files,) s
+521 978 m (cross\261compiled) s
+846 978 m (on) s
+915 978 m (Ceres,) s
+1065 978 m (have) s
+1180 978 m (been) s
+1297 978 m (then) s
+1402 978 m (transferred) s
+1634 978 m (to) s
+1690 978 m (the) s
+1770 978 m (target) s
+1901 978 m (machine) s
+177 918 m (using a diskette or an RS232 line.) s
+177 818 m (We) s
+262 818 m (also) s
+361 818 m (have) s
+474 818 m (a) s
+517 818 m (special) s
+672 818 m (back\261end) s
+879 818 m (producing) s
+1089 818 m (C) s
+1139 818 m (code.) s
+1263 818 m (The) s
+1356 818 m (idea) s
+1456 818 m (here) s
+1561 818 m (is) s
+1611 818 m (not) s
+1689 818 m (to) s
+1743 818 m (shirk) s
+1854 818 m (the) s
+1932 818 m (task) s
+2030 818 m (of) s
+177 758 m (writing) s
+327 758 m (a) s
+374 758 m (code) s
+491 758 m (generator,) s
+712 758 m (but) s
+795 758 m (to) s
+854 758 m (use) s
+947 758 m (this) s
+1037 758 m (Oberon\261to\261C) s
+1320 758 m (translator) s
+1524 758 m (as) s
+1592 758 m (a) s
+1638 758 m (preprocessor) s
+1915 758 m (for) s
+1988 758 m (a) s
+2034 758 m (C) s
+177 698 m (compiler) s
+356 698 m (during) s
+490 698 m (the) s
+563 698 m (bootstrap) s
+757 698 m (of) s
+806 698 m (the) s
+879 698 m (compiler) s
+1058 698 m (only.) s
+1162 698 m (Remember) s
+1391 698 m (that) s
+1475 698 m (OP2) s
+1574 698 m (is) s
+1618 698 m (written) s
+1759 698 m (in) s
+1805 698 m (Oberon;) s
+1974 698 m (so,) s
+2044 698 m (if) s
+177 638 m (there) s
+291 638 m (is) s
+338 638 m (no) s
+401 638 m (machine) s
+581 638 m (with) s
+674 638 m (a) s
+713 638 m (running) s
+873 638 m (Oberon) s
+1033 638 m (compiler) s
+1214 638 m (at) s
+1265 638 m (immediate) s
+1481 638 m (disposal,) s
+1667 638 m (the) s
+1741 638 m (new) s
+1835 638 m (OP2) s
+1936 638 m (cannot) s
+177 578 m (be) s
+239 578 m (cross\261compiled.) s
+569 578 m (So) s
+635 578 m (we) s
+704 578 m (execute) s
+869 578 m (the) s
+942 578 m (bootstrap) s
+1136 578 m (on) s
+1197 578 m (the) s
+1270 578 m (target) s
+1394 578 m (machine) s
+1572 578 m (directly.) s
+1736 578 m (We) s
+1815 578 m (first) s
+1899 578 m (translate) s
+177 518 m (the) s
+252 518 m (new) s
+347 518 m (OP2) s
+449 518 m (to) s
+500 518 m (C) s
+547 518 m (and) s
+634 518 m (then) s
+732 518 m (compile) s
+897 518 m (it) s
+933 518 m (using) s
+1051 518 m (an) s
+1113 518 m (existing) s
+1275 518 m (C) s
+1321 518 m (compiler.) s
+1513 518 m (After) s
+1619 518 m (a) s
+1657 518 m (self\261compilation) s
+1984 518 m (step) s
+177 458 m (of OP2, we can and should forget the C compiler.) s
+1 p
+%%Page: 0 10 
+2083 3224 m (Syntax10.Scn.Fnt) f (10) s
+177 3059 m (Syntax12m.Scn.Fnt) f (ACKNOWLEDGEMENTS) s
+177 2959 m (Syntax12.Scn.Fnt) f (The) s
+274 2959 m (single\261pass) s
+526 2959 m (Oberon) s
+693 2959 m (compiler) s
+881 2959 m (of) s
+939 2959 m (N.) s
+1005 2959 m (Wirth) s
+1130 2959 m (for) s
+1203 2959 m (Ceres) s
+1341 2959 m (has) s
+1432 2959 m (been) s
+1549 2959 m (a) s
+1594 2959 m (model) s
+1734 2959 m (of) s
+1791 2959 m (efficiency) s
+1994 2959 m (and) s
+177 2899 m (compactness) s
+450 2899 m (for) s
+517 2899 m (this) s
+601 2899 m (project.) s
+760 2899 m (The) s
+851 2899 m (advice) s
+993 2899 m (of) s
+1045 2899 m (M.) s
+1110 2899 m (Odersky) s
+1288 2899 m (helped) s
+1433 2899 m (a) s
+1472 2899 m (lot) s
+1533 2899 m (during) s
+1669 2899 m (the) s
+1744 2899 m (design) s
+1887 2899 m (phase.) s
+2032 2899 m (J.) s
+177 2839 m (Templ,) s
+324 2839 m (M.) s
+386 2839 m (Franz) s
+511 2839 m (and) s
+596 2839 m (H.) s
+653 2839 m (M\204ssenb\204ck) s
+911 2839 m (made) s
+1033 2839 m (valuable) s
+1208 2839 m (comments) s
+1423 2839 m (and) s
+1508 2839 m (improvement) s
+1774 2839 m (suggestions) s
+2018 2839 m (on) s
+177 2779 m (OP2) s
+284 2779 m (and) s
+376 2779 m (on) s
+444 2779 m (this) s
+532 2779 m (paper.) s
+675 2779 m (Many) s
+802 2779 m (thanks) s
+950 2779 m (to) s
+1006 2779 m (all) s
+1070 2779 m (of) s
+1126 2779 m (them) s
+1243 2779 m (and) s
+1335 2779 m (to) s
+1391 2779 m (the) s
+1470 2779 m (very) s
+1572 2779 m (first) s
+1662 2779 m (users) s
+1788 2779 m (who) s
+1887 2779 m (searched) s
+177 2719 m (desperately in their programs for bugs hidden in OP2.) s
+177 2599 m (Syntax12m.Scn.Fnt) f (REFERENCES AND FURTHER READING) s
+188 2507 m (Syntax10.Scn.Fnt) f (1.) s
+283 2507 m (Ganapathi) s
+469 2507 m (M.,) s
+533 2507 m (Fischer) s
+666 2507 m (C.) s
+715 2507 m (N.,) s
+774 2507 m (Hennessy) s
+951 2507 m (J.) s
+991 2507 m (L.,) s
+1044 2507 m (Syntax10i.Scn.Fnt) f (Retargetable) s
+1270 2507 m (Compiler) s
+1431 2507 m (Code) s
+1533 2507 m (Generation) s
+(Syntax10.Scn.Fnt) f (,) s
+1740 2507 m (Computing) s
+1933 2507 m (Surveys) s
+283 2458 m (14:4, 573\261592, 1982.) s
+188 2378 m (2.) s
+283 2378 m (Amman) s
+428 2378 m (U.,) s
+491 2378 m (Jensen) s
+627 2378 m (K.,) s
+688 2378 m (N\203geli) s
+810 2378 m (H.,) s
+873 2378 m (Nori) s
+957 2378 m (K.,) s
+1018 2378 m (Syntax10i.Scn.Fnt) f (The) s
+1099 2378 m (Pascal) s
+1226 2378 m ('P') s
+1283 2378 m (Compiler:) s
+1458 2378 m (Implementation) s
+1728 2378 m (Notes) s
+(Syntax10.Scn.Fnt) f (,) s
+1850 2378 m (Departement) s
+283 2329 m (Informatik, ETH Z\205rich, 1974.) s
+188 2249 m (3.) s
+283 2249 m (Tanenbaum) s
+497 2249 m (A.) s
+545 2249 m (S.,) s
+603 2249 m (Kaashoek) s
+782 2249 m (M.) s
+836 2249 m (F.,) s
+892 2249 m (Langendoen) s
+1115 2249 m (K.) s
+1163 2249 m (G.,) s
+1225 2249 m (Jacobs) s
+1355 2249 m (C.) s
+1405 2249 m (J.) s
+1446 2249 m (H.,) s
+1506 2249 m (Syntax10i.Scn.Fnt) f (The) s
+1584 2249 m (Design) s
+1712 2249 m (of) s
+1755 2249 m (Very) s
+1843 2249 m (Fast) s
+1927 2249 m (Portable) s
+283 2200 m (Compilers) s
+(Syntax10.Scn.Fnt) f (, ACM SIGPLAN Notices 24:11, 125\261131, 1989.) s
+188 2120 m (4.) s
+283 2120 m (Glanville) s
+441 2120 m (R.) s
+494 2120 m (S.,) s
+555 2120 m (Graham) s
+706 2120 m (S.) s
+757 2120 m (L.,) s
+814 2120 m (Syntax10i.Scn.Fnt) f (A) s
+855 2120 m (New) s
+946 2120 m (Method) s
+1087 2120 m (for) s
+1146 2120 m (Compiler) s
+1311 2120 m (Code) s
+1417 2120 m (Generation) s
+(Syntax10.Scn.Fnt) f (,) s
+1628 2120 m (Fifth) s
+1716 2120 m (ACM) s
+1815 2120 m (Symposium) s
+2024 2120 m (on) s
+283 2071 m (Principles of Programming Languages, 231\261240, 1978.) s
+188 1991 m (5.) s
+283 1991 m (Aho) s
+376 1991 m (A.) s
+437 1991 m (V.,) s
+508 1991 m (Ganapathi) s
+707 1991 m (M.,) s
+784 1991 m (Tjiang) s
+911 1991 m (S.) s
+971 1991 m (W.) s
+1041 1991 m (K.,) s
+1111 1991 m (Syntax10i.Scn.Fnt) f (Code) s
+1226 1991 m (Generation) s
+1436 1991 m (Using) s
+1556 1991 m (Tree) s
+1658 1991 m (Matching) s
+1834 1991 m (and) s
+1922 1991 m (Dynamic) s
+283 1942 m (Programming) s
+(Syntax10.Scn.Fnt) f (, ACM Transactions on Programming Languages and Systems 11:4, 491\261516, 1989.) s
+188 1862 m (6.) s
+283 1862 m (Cattell) s
+403 1862 m (R.) s
+455 1862 m (G.) s
+509 1862 m (G.,) s
+573 1862 m (Newcomer) s
+766 1862 m (J.) s
+809 1862 m (M.,) s
+875 1862 m (Leverett) s
+1023 1862 m (B.) s
+1072 1862 m (W.,) s
+1141 1862 m (Syntax10i.Scn.Fnt) f (Code) s
+1245 1862 m (Generation) s
+1444 1862 m (in) s
+1487 1862 m (a) s
+1522 1862 m (Machine\261Independent) s
+1907 1862 m (Compiler) s
+(Syntax10.Scn.Fnt) f (,) s
+283 1813 m (ACM SIGPLAN Notices 14:8, 65\26175, 1979.) s
+188 1733 m (7.) s
+283 1733 m (Fraser) s
+410 1733 m (C.) s
+467 1733 m (W.,) s
+542 1733 m (Wendt) s
+669 1733 m (A.,) s
+733 1733 m (Syntax10i.Scn.Fnt) f (Integrating) s
+928 1733 m (Code) s
+1037 1733 m (Generation) s
+1241 1733 m (and) s
+1323 1733 m (Optimization) s
+(Syntax10.Scn.Fnt) f (,) s
+1558 1733 m (ACM) s
+1660 1733 m (SIGPLAN) s
+1841 1733 m (Notices) s
+1983 1733 m (21:6,) s
+283 1684 m (242\261248, 1986.) s
+188 1604 m (8.) s
+283 1604 m (Wirth) s
+386 1604 m (N.,) s
+450 1604 m (Syntax10i.Scn.Fnt) f (A) s
+492 1604 m (Fast) s
+581 1604 m (and) s
+661 1604 m (Compact) s
+827 1604 m (Compiler) s
+993 1604 m (for) s
+1053 1604 m (Modula\2612) s
+(Syntax10.Scn.Fnt) f (,) s
+1245 1604 m (Report) s
+1374 1604 m (64,) s
+1442 1604 m (Departement) s
+1674 1604 m (Informatik,) s
+1862 1604 m (ETH) s
+1953 1604 m (Z\205rich,) s
+283 1555 m (1985.) s
+188 1475 m (9.) s
+283 1475 m (Wirth N., ) s
+(Syntax10i.Scn.Fnt) f (Compilerbau, Eine Einf\205hrung) s
+(Syntax10.Scn.Fnt) f (, B. G. Teubner Stuttgart, 1986.) s
+188 1395 m (10.) s
+283 1395 m (Wirth) s
+388 1395 m (N.,) s
+454 1395 m (Syntax10i.Scn.Fnt) f (From) s
+560 1395 m (Modula) s
+702 1395 m (to) s
+752 1395 m (Oberon,) s
+906 1395 m (The) s
+990 1395 m (Programming) s
+1233 1395 m (Language) s
+1420 1395 m (Oberon) s
+1564 1395 m (\(revised) s
+1713 1395 m (edition\)) s
+(Syntax10.Scn.Fnt) f (,) s
+1863 1395 m (Report) s
+1993 1395 m (143,) s
+283 1346 m (Departement Informatik, ETH Z\205rich, 1990.) s
+188 1266 m (11.) s
+283 1266 m (M\204ssenb\204ck) s
+511 1266 m (H.,) s
+578 1266 m (Syntax10i.Scn.Fnt) f (Differences) s
+785 1266 m (between) s
+947 1266 m (Oberon) s
+1092 1266 m (and) s
+1175 1266 m (Oberon\2612,) s
+1372 1266 m (The) s
+1457 1266 m (Programming) s
+1701 1266 m (Language) s
+1889 1266 m (Oberon\2612) s
+(Syntax10.Scn.Fnt) f (,) s
+283 1217 m (Report 160, Departement Informatik, ETH Z\205rich, 1991.) s
+188 1137 m (12.) s
+283 1137 m (M\204ssenb\204ck) s
+506 1137 m (H.,) s
+567 1137 m (Syntax10i.Scn.Fnt) f (Object\261Oriented) s
+852 1137 m (Programming) s
+1090 1137 m (in) s
+1133 1137 m (Oberon\2612) s
+(Syntax10.Scn.Fnt) f (,) s
+1324 1137 m (Second) s
+1465 1137 m (International) s
+1684 1137 m (Modula\2612) s
+1863 1137 m (Conference,) s
+283 1088 m (Loughborough, 1991.) s
+188 1008 m (13.) s
+283 1008 m (Gutknecht) s
+465 1008 m (J.,) s
+516 1008 m (Syntax10i.Scn.Fnt) f (Compilation) s
+726 1008 m (of) s
+770 1008 m (Data) s
+862 1008 m (Structures:) s
+1053 1008 m (A) s
+1091 1008 m (New) s
+1179 1008 m (Approach) s
+1352 1008 m (to) s
+1396 1008 m (Efficient) s
+1540 1008 m (Modula\2612) s
+1718 1008 m (Symbol) s
+1854 1008 m (Files) s
+(Syntax10.Scn.Fnt) f (,) s
+1954 1008 m (Report) s
+283 959 m (64, Departement Informatik, ETH Z\205rich, 1985.) s
+188 879 m (14.) s
+283 879 m (Wirth N., Gutknecht J., ) s
+(Syntax10i.Scn.Fnt) f (The Oberon System) s
+(Syntax10.Scn.Fnt) f (, Report 88, Departement Informatik, ETH Z\205rich, 1988.) s
+188 799 m (15.) s
+283 799 m (Reiser M., ) s
+(Syntax10i.Scn.Fnt) f (The Oberon System, User Guide and Programmer's Manual) s
+(Syntax10.Scn.Fnt) f (, Addison\261Wesley, 1991.) s
+188 719 m (16.) s
+283 719 m (Eberle H., ) s
+(Syntax10i.Scn.Fnt) f (Development and Analysis of a Workstation Computer) s
+(Syntax10.Scn.Fnt) f (, Ph.D. Thesis, ETH Z\205rich, 1987.) s
+188 639 m (17.) s
+283 639 m (Templ) s
+402 639 m (J.,) s
+455 639 m (Syntax10i.Scn.Fnt) f (SPARC) s
+599 639 m (Oberon) s
+739 639 m (\261) s
+774 639 m (User's) s
+892 639 m (Guide) s
+1006 639 m (and) s
+1083 639 m (Implementation) s
+(Syntax10.Scn.Fnt) f (,) s
+1362 639 m (Report) s
+1488 639 m (133,) s
+1575 639 m (Departement) s
+1805 639 m (Informatik,) s
+1991 639 m (ETH) s
+283 590 m (Z\205rich, 1990.) s
+188 510 m (18.) s
+283 510 m (Franz M., ) s
+(Syntax10i.Scn.Fnt) f (The Implementation of MacOberon) s
+(Syntax10.Scn.Fnt) f (, Report 141, Departement Informatik, ETH Z\205rich, 1990.) s
+188 430 m (19.) s
+283 430 m (Pfister) s
+402 430 m (C.,) s
+464 430 m (Heeb) s
+569 430 m (B.,) s
+629 430 m (Templ) s
+748 430 m (J.,) s
+801 430 m (Syntax10i.Scn.Fnt) f (Oberon) s
+941 430 m (Technical) s
+1114 430 m (Notes) s
+(Syntax10.Scn.Fnt) f (,) s
+1235 430 m (Report) s
+1361 430 m (156,) s
+1448 430 m (Departement) s
+1678 430 m (Informatik,) s
+1864 430 m (ETH) s
+1953 430 m (Z\205rich,) s
+283 381 m (1991.) s
+188 301 m (20.) s
+283 301 m (Crelier R., ) s
+(Syntax10i.Scn.Fnt) f (OP2: A Portable Oberon Compiler) s
+(Syntax10.Scn.Fnt) f (, Report 125, Departement Informatik, ETH Z\205rich, 1990.) s
+1 p
+%%Trailer         

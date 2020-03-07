@@ -1,0 +1,87 @@
+Cat (Computational Analysis Tools)
+Version 2.0
+
+Date:
+  14 December, 2000
+
+Author:
+  Alan Freed
+
+Platform:
+  Cat was written for Native Oberon (System 3) and requires version 2.3.7 or later.
+
+Objective: 
+  A library of base numeric types from which most common application types used in 
+  computational analyses can be rapidly assembled using System 3 as the underlying 
+  framework.  This library is to take full advantage of the enhancements to the 
+  Oberon programming language that are present in the Native Oberon compiler to 
+  help improve user productivity.
+
+Backward Compatibility:
+  Cat 2.0 is not backward compatible with prior Cat 1.x versions.  The reason for 
+  this is that Cat 2.0 takes full advantage of the enhancements in the Native 
+  compiler; whereas, prior versions did not.  For this reason, prior versions 
+  are no longer supported (at whatever level I'm capable of supporting:-).
+
+Base Types:
+  Cat 2.0 provides base types for integer, rational, real and complex numbers, 
+  their vectors, and their matrices.  All arithmatic operations are overloaded.  
+  There is only one integer type, one real type, etc.  The bit size of each 
+  number type is hidden, providing a stable interface that is easily extended 
+  when 64-bit, 128-bit and higher-bit CPU's become available without influencing 
+  existing code that is built upon Cat.
+
+  Also provided is a base type for persistent Cat objects (i.e., Cat.Object) that 
+  you can extend to create your own computational data structures, whatever 
+  they may be.  Several generic data structures are provided: stacks and queues, 
+  which are not persistent, and lists and trees, which are persistent.  Cat and 
+  Gadget objects are distinct, i.e., Cat.Object does not extend Gadgets.Object.
+  
+  An address book is included as an example of how Cat and Gadget objects 
+  can coexist.  Open it by executing:  Desktops.OpenDoc AddressBook.Panel
+
+Installation:
+  Compress.ExtractAll Cat20.Arc ~
+  Compress.ExtractAll Addresses.Arc ~  (It is bound into Cat20.Arc.)
+
+Compile the Cat subsystem:
+  Builder.Compile \s 
+    CatInt.Mod CatIntVec.Mod CatIntMtx.Mod 
+      CatIntNbrs.Mod CatIntMath.Mod 
+    CatRat.Mod CatRatVec.Mod CatRatMtx.Mod 
+      CatRatNbrs.Mod CatRatMath.Mod
+    CatReLow.Mod CatRe.Mod CatReVec.Mod CatReMtx.Mod 
+      CatReSeries.Mod CatReMath.Mod CatReNbrs.Mod 
+    CatCplx.Mod CatCplxVec.Mod CatCplxMtx.Mod 
+      CatCplxSeries.Mod CatCplxMath.Mod 
+    CatOut.Mod Cat.Mod 
+    CatQueues.Mod CatStacks.Mod 
+      CatEntries.Mod CatLists.Mod CatTrees.Mod 
+    Addresses.Mod ~
+
+Documentation:
+  Each Cat module is self documenting, and can be viewed via: 
+  Watson.ShowDef ^
+    CatInt.Mod CatIntVec.Mod CatIntMtx.Mod 
+      CatIntNbrs.Mod CatIntMath.Mod 
+    CatRat.Mod CatRatVec.Mod CatRatMtx.Mod 
+      CatRatNbrs.Mod CatRatMath.Mod
+    CatReLow.Mod CatRe.Mod CatReVec.Mod CatReMtx.Mod 
+      CatReSeries.Mod CatReMath.Mod CatReNbrs.Mod 
+    CatCplx.Mod CatCplxVec.Mod CatCplxMtx.Mod 
+      CatCplxSeries.Mod CatCplxMath.Mod 
+    CatOut.Mod Cat.Mod 
+    CatQueues.Mod CatStacks.Mod 
+      CatEntries.Mod CatLists.Mod CatTrees.Mod 
+    Addresses.Mod
+
+Future Releases:
+  Removed from the prior versions of Cat are higher-level modules for doing 
+  things like calculus, optimization, solving differential equations, and the like. 
+  These will be re-released sometime in the future under the prefix Ex.  Cat is 
+  intended to be a minimal library of modules necessary for doing computational 
+  analysis.  Ex will contain extended features that many users will not need.
+
+License:
+  Cat is released under the GNU Public License for Libraries. 
+  See: Desktops.OpenDoc "file://CatGNU.html" (WebNavDocs.NewDoc) ~

@@ -1,0 +1,22 @@
+Name
+----
+Statistics.Mod
+
+Desc
+----
+Show constant, data and code size for all the object files in the file system.
+Also makes a small distribution summary.
+
+Author
+------
+Patrik Reali
+e-mail: reali@inf.ethz.ch
+www:    http://www.cs.inf.ethz.ch/~reali
+
+Directory
+---------
+/pub/System3/Sources/Native/
+
+Notes
+-----
+Statistics.Do to start.

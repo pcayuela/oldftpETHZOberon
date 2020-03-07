@@ -1,0 +1,5 @@
+A corrected version of the Oberon Report is available at:
+  http://www.oberon.ethz.ch/oreport.html
+
+Pieter Muller
+11.11.99

@@ -1,0 +1,29 @@
+Windows Oberon TeX Distribution (Work in progress)
+
+TeX was ported to Oberon by Edward Muller <edward@mosaic.co.za>.
+http://www.cs.sun.ac.za/projects/oberon/TeX/
+
+All the files of the tetex TeX distribution were copied to Oberon Arc 
+files by Alan Freed <alfreed@ohio.net>.
+
+To try out TeX, you need a Windows Oberon Release 2.3 (6.4.1999) installation with
+about 80Mb free disk space.  A smaller distribution will be made 
+available later.
+
+1. Download Win32.TeXBetaApr9.Arc and Win32.TeXDistribution.Tool into 
+your Windows Oberon system (use binary mode!).
+
+For example:
+  FTPTool.Open ftp.inf.ethz.ch ~
+  FTPTool.ChangeDir "/pub/Oberon/System3/Contrib/TeX/"
+  FTPTool.GetFiles Win32.TeXBetaApr9.Arc Win32.TeXDistribution.Tool ~
+  FTPTool.Close
+
+2. Compress.ExtractAll Win32.TeXBetaApr9.Arc ~
+
+3. Use Win32.TeXDistribution.Tool to FTP the rest of TeX.  If you 
+do not have network access in Windows Oberon, use Windows
+to ftp the files and use the System.CopyFiles command to copy the files.
+
+-- Pieter Muller <muller@inf.ethz.ch>
+(modified for Windows Oberon by Emil Zeller <zeller@inf.ethz.ch>)

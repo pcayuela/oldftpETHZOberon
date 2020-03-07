@@ -1,0 +1,8 @@
+From:	fld@informatik.uni-bremen.de
+Subject:	Oberon SSH
+Date:	Tue, 18 Jun 2002 21:48:11 +0200 (MEST)
+
+Imer noch unfertig aber mit ein paar kleinen Verbesserungen.
+Der Modul AES.Mod sollte jetzt lesbar sein.
+
+-- Guenter

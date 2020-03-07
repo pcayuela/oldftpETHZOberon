@@ -1,0 +1,16 @@
+Short:    Additional Fonts for Oberon System V4
+Author:   degner@pallas.amp.uni-hannover.de (Stefan Ludwig, Claudio Nieder, Ralf Degner)
+Uploader: degner@pallas.amp.uni-hannover.de (Ralf Degner)
+Type:     dev/obero
+
+Oberon-Fonts.lha contains Times screen fonts and the Pr3 300dpi
+printer fonts for the Oberon System V4 for Amiga V1.2 and up.
+Extract this archive into the same directory where you extracted Oberon.lha.
+
+If you did not install the Pr3 fonts O4A will use normal PS fonts
+for printing.
+
+Please read Oberon.readme !
+
+
+			claudio / stefan / ralf   11-Apr-96

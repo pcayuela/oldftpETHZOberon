@@ -1,0 +1,4 @@
+OberonCD.Dsk is an experimental bootable CD image of a full Oberon
+installation.  When burnt on a CD using Nero's "bootable CD" option,
+the resulting CD can be booted directly on systems that support it.
+Other CD writer software might work also, but some do not.

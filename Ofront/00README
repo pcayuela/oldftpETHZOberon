@@ -1,0 +1,205 @@
+
+OFRONT EVALUATION SHOP
+======================
+
+Welcome to Ofront (tm), the industry's leading Oberon-2 to C translator!
+
+The Ofront evaluation shop provides
++  the Oberon System 3 library and the Internet browser "s p i r i t" as a 
+   prototypical client of the Oberon System 3 library.
++  Ofront command line versions for a variety of Unix platforms
++  an integrated Ofront version for Windows 3.1/95/NT
++  the Oberon V4 system with integrated Ofront and the Oberon V4 library for 
+   Unix platforms
+
+The Ofront evaluation shop contains Ofront implementations, that may be used 
+to create demo programs. A demo program is a program that identifies itself
+as a demo program when started from a Unix shell.
+In addition, the Ofront evaluation shop shows that Ofront can be used to 
+realize non-trivial applications written entirely in the programming language 
+Oberon-2 for a variety of Unix platforms. As examples, the ETH Oberon systems
+V4 and System 3 have been selected. They include a windowing system, 
+extensible text and graphics editors together with a number of extensions, an 
+integrated Ofront version (V4 only) and many auxiliary tools.
+    The Oberon V4 system is provided as a shared library named "libOberonV4.x" 
+(if possible) and a dynamically linked executable named "oberon". A statically 
+linked command-line version named "ofront" and a static archive of the 
+OberonV4 module library are included as well. The Oberon V4 environment 
+features an integrated Ofront version and a symbol file browser.
+    Oberon System 3 Release 2.0 (Spirit of Oberon) is provided as a shared
+library named libOberonS3 and a dynamically linked executable named 
+"spirit". The latter accepts an optional document name as the first command
+line parameter and opens that document in the user track. 
+Since documents in Oberon System 3 are specified in the form 
+of world-wide-web URLs (unique resource locators), this may be 
+used as a starting point for browsing the internet!
+
+
+
+Before evaluating Ofront please note the following statements:
+
+
+COPYRIGHT (c) Software Templ, 1995
+
+Permission to use, copy, modify and distribute this software and its 
+documentation for evaluation purposes is hereby granted without fee, provided 
+that the above copyright notice appear in all copies and that both that 
+copyright notice and this permission notice appear in supporting 
+documentation, and that the name of Ofront and Software Templ not be used in 
+advertising or publicity pertaining to distribution of the software without 
+specific, written prior permission. Software Templ makes no representations 
+about the suitability of this software for any purpose. It is provided "as is" 
+without express or implied warranty.
+
+SOFTWARE TEMPL DISCLAIMS ALL WARRANTIES WITH REGARD TO THIS SOFTWARE, 
+INCLUDING ALL IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS. IN NO EVENT 
+SHALL SOFTWARE TEMPL BE LIABLE FOR ANY SPECIAL, INDIRECT OR CONSEQUENTIAL 
+DAMAGES OR ANY DAMAGES WHATSOEVER RESULTING FROM LOSS OF USE, DATA OR PROFITS, 
+WHETHER IN AN ACTION OF CONTRACT, NEGLIGENCE OR OTHER TORTIOUS ACTION, ARISING 
+OUT OF OR IN CONNECTION WITH THE USE OR PERFORMANCE OF THIS SOFTWARE.
+
+
+
+INSTALLATION
+
+(a) installation of the "Spirit of Oberon" Internet browser and operating 
+    environment (Release XXX) for a particular platform (YYY):
+
+	download and unpack the files 
+		spirit-XXX-share.tar
+		spirit-XXX-YYY.tar
+
+	Additional fonts may be installed by downloading and unpacking the file 
+		fonts.tar
+
+	A manual page for the command "spirit" may be found in file 
+		man1.tar
+
+
+(b) installation of both the command-line and integrated version of
+    Ofront (Release XXX) for a particular platform (YYY):
+
+	download and unpack the files 
+		ofront-XXX-share.tar
+		ofront-XXX-YYY.tar
+
+	Additional fonts may be installed by downloading and unpacking the file 
+		fonts.tar
+
+    Section 1 manual pages for the commands ofront, oberon, showdef
+    and ocat may be found in file 
+		man1.tar
+
+
+
+CONTENTS
+    Files with extension .Z must be transfered as binary files and
+    uncompressed with the Unix "uncompress" command.
+    Files with extension .gz must be transfered as binary files and
+    uncompressed with the gnu unzip utility "gunzip".
+    Files with extension .exe must be transfered as binary files and
+    are self extracting.
+    You may look at the contents of an archive xxx with the command
+    "tar tf xxx.tar".
+
+
+OfrontUser.A4.ps
+OfrontUser.US.ps
+    the Ofront user guide as ready-to-print postscript files for both
+    A4 and US-letter paper size.
+
+man1
+    section 1 manual pages to be put in a man1 directory for commands ofront,
+    oberon, spirit, showdef and ocat.
+
+fonts
+    Oberon raster fonts as Oberon font files and in the X-windows .bdf format. 
+    Include this directory in the OBERON environment variable if you want to 
+    use multiple fonts in one of the Oberon systems.
+    Announce this directory to the X-server by means of an "xset +fp 
+    directory" command. Note that some X-servers need to further process
+    the .bdf files to a machine dependent format.
+
+V4
+    Oberon V4 data files that are independent of any particular platform. 
+    Include this directory in the OBERON path if you want to run the 
+    integrated version of Ofront by means of the command "oberon".
+
+System3
+    contains Oberon System 3 data files that are independent of any particular
+    version. Include this directory in the OBERON path if you want to run 
+    Oberon System 3 by means of the command "spirit". The particular version of
+    Oberon System 3 is Release 2.0 with most of the Spirit of Oberon extensions.
+
+version
+    the generic name "version" stands for one of the following versions of 
+    Ofront:
+        aix    for IBM AIX (RS/6000)
+        hpux    for HP-UX (PA-RISC)
+        irix5    for SGI IRIX5 (MIPS)
+        linux	for Linux (i386)
+        sunos4    for SunOS 4.x (SPARC)
+        sunos5    for SunOS 5.x (SPARC)
+        ultrix    for DEC Ultrix (MIPS)
+    the "version" directory contains an evaluation version of Ofront for a 
+    particular platform.
+
+ofwin.exe
+    an evaluation version of Ofront for Windows 3.1 and Windows for Workgroups.
+    To install Ofront for Windows, execute the command "ofwin targetdir",
+    where targetdir means the directory in wich Ofront is to be installed.
+    You may also copy ofwin.exe into the target directory and execute it 
+    without a parameter.
+    Ofront for Windows may also be used as a subsystem of Oberon/F for
+    Windows 3.1, WfWG, NT or 95. It may currently not be installed as a
+    stand-alone program under Windows'95 or NT. For installing the
+    Ofront subsystem, please refere to the help text in 
+    Ofront\System\Rsrc\Ofront.odc.
+    Note that Ofront for Windows does not come with an extensive set of library
+    modules. Nevertheless, it may be useful for demonstrating the integrated
+    development environment.
+
+version/bin
+    the commands ofront, showdef, ocat, oberon, and spirit for a particular platform.
+    You may want to include this directory in the PATH environment variable.
+
+version/lib
+    the library libOberonV4 and/or libOberonS3 in static and/or dynamic form
+    for a particular platform.
+
+version/V4
+    the symbol and header files for a particular platform.
+    Include this directory in the OBERON environment variable and instruct
+    the C compiler to use this directory to look for header files.
+
+version/System3
+    the symbol and header files of the Oberon System 3 library for a 
+    particular platform.
+    Include this directory in the OBERON environment variable and instruct
+    the C compiler to use this directory to look for header files.
+
+version/ob4
+    shell script that shows how to start the integrated version. ob4 uses
+    path names relative to the environment variable OFRONT_HOME
+
+version/ocl
+    shell script that can be used to translate, compile and link a single
+    Oberon module to a shared object library, which can be loaded at run time.
+    This script is only provided for those platforms that support run-time 
+    linking.
+
+version/spirit.csh
+    shell script that shows how to start Oberon System 3 on a particular
+    platform. spirit.csh uses path names relative to the environment 
+    variable OFRONT_HOME.
+
+
+
+mailorder
+	a form that may be used to order Ofront via e-mail.
+
+
+CONTACT
+    internet: jt@swe.uni-linz.ac.at (Dr. Josef Templ)
+    fon/fax: (++AUSTRIA) 732 / 778954
+

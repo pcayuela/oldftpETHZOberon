@@ -1,0 +1,37 @@
+From:	Edward Muller <edward@mosaicsoftware.com>
+Subject:	TeX
+Date:	Mon, 22 Nov 1999 22:36:16 +0200
+To:	"'muller@inf.ethz.ch'" <muller@inf.ethz.ch>
+
+[ text/plain ] [ TEX.ARC ] [ DVI.ARC ] 
+
+Content-Type: text/plain;
+	charset="iso-8859-1"
+
+Hi Pieter
+
+Sorry ek het so lank gevat om hierby uit kom, maar
+nou ja ;>
+
+Hier's die laaste weergawe van die TeX en DVI code
+wat ek het.  Ek het ongelukkig nie tyd gehad om weer
+up to speed te kom met die code nie, maar hier's wat
+ek kan onthou:
+1.  Dit compile nie ;)
+2.  Daar moet nog van die TeXGlobals.get??? en TeXGlobals.put???
+    procedures geimplement word.
+3.  Enige operations op die halfword, etc. data structures moet
+    nog convert word om die get??? en put??? procedures te
+    gebruik.  Dit behoort nie te moeilik te wees om agter te
+    kom hoe dit gedoen moet word nie... die procedures is
+    redelik eenvoudig.
+4.  Die metode waarop ek die convertion doen na die kleiner
+    memory structures is baie oneffektief, maar dit gaan defnitief
+    die huge memory requirement bietjie afbring.
+
+Laat weet maar as daar enige vra of iets is... ek sal probeer
+om te antwoord van wat ek nog kan onthou :)
+
+Cheers
+Edward
+

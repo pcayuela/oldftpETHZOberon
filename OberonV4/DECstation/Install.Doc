@@ -1,0 +1,155 @@
+
+DECoberon (TM) 4.2
+
+Copyright 1991-94, ETH Zuerich
+
+Permission to use, copy, modify and distribute this software
+and its documentation for any purpose is hereby granted
+without fee, provided that the above copyright notice appear
+in all copies and that both that copyright notice and this
+permission notice appear in supporting documentation, and
+that the name of ETH not be used in advertising or publicity
+pertaining to distribution of the software without specific,
+written prior permission.  ETH makes no representations about
+the suitability of this software for any purpose.  It is provided
+"as is" without express or implied warranty.
+
+ETH DISCLAIMS ALL WARRANTIES WITH REGARD TO THIS
+SOFTWARE, INCLUDING ALL IMPLIED WARRANTIES OF
+MERCHANTABILITY AND FITNESS.  IN NO EVENT SHALL ETH
+BE LIABLE FOR ANY SPECIAL, INDIRECT OR CONSEQUENTIAL
+DAMAGES OR ANY DAMAGES WHATSOEVER RESULTING FROM
+LOSS OF USE, DATA OR PROFITS, WHETHER IN AN ACTION OF
+CONTRACT, NEGLIGENCE OR OTHER TORTIOUS ACTION, ARISING
+OUT OF OR IN  CONNECTION WITH THE USE OR PERFORMANCE
+OF THIS SOFTWARE.
+
+Syntax Font
+Copyright 1968 Linotype AG
+
+Syntax is a registered trademark of Linotype AG.
+The Syntax font is owned and used by permission of Linotype AG.
+
+RASTER DATA DESCRIBING SEVERAL  TYPEFACES  OF THE SYNTAX FONT
+FAMILY IS SUPPLIED WITH THIS RELEASE OF OBERON AND MAY BE USED
+ONLY IN CONJUNCTION WITH THE OBERON SOFTWARE.  ANY OTHER USE OF
+THE SYNTAX FONT REQUIRES A LICENSE FROM LINOTYPE AG.
+
+PostScript versions of the fonts in the Syntax family are
+available from Linotype, Inc. and its subsidiaries.
+-----------------------------------------------------------------
+
+DECoberon (TM) is an implementation of Oberon (TM) for Digital
+Equipment Corporation DECstation. Both the programming language
+Oberon-2 and the Oberon System have been implemented.
+For a complete description of the Language and of the System,
+one should read the following books:
+
+N. Wirth and M. Reiser: Programming in Oberon. Steps beyond Pascal
+and Modula_2. Addison Wesley, 1992, ISBN 0-201-56543-9.
+(Tutorial for the Oberon programming language and concise language
+reference.)
+
+M. Reiser: The Oberon System. User Guide and Programmer's Manual.
+Addison Wesley, 1991, ISBN 0-201-54422-9.
+(User manual for the programming environment and reference for the
+standard module library.)
+
+N. Wirth and J. Gutknecht: Project Oberon. The Design of an Operating
+System and Compiler.
+Addison Wesley, 1992, ISBN 0-201-54428-8.
+(Program listings with explanations for the whole Oberon system,
+including the compiler for NS32000.)
+
+H. Moessenboeck: Object-Oriented Programming in Oberon-2
+Springer-Verlag, 1993, ISBN 0-387-56411-X.
+(Principles and applications of object_oriented programming with
+examples in Oberon_2.)
+
+For a description of the Oberon-2 language:
+Hanspeter Moessenboeck,
+Differences between Oberon and Oberon-2,
+The Programming Language Oberon-2,
+Report  160, Departement Informatik, ETH Zurich.
+Also present as on-line documentation in this Oberon release.
+
+We propose to discuss Oberon related topics within the
+comp.lang.oberon newsgroup. 
+
+Files on neptune.inf.ethz.ch:Oberon/DECstation
+----------------------------------------------
+DECoberon.4.2.tar.Z
+        compressed tar-file containing DECoberon.
+        You may use the Unix commands "uncompress" and "tar"
+        to unpack all the files.
+        The file oberon is the executable (chmod +x oberon).
+
+Oberon.Fonts.tar.Z
+       compressed file containing the Oberon fonts
+
+DECoberon.Guide.ps.Z
+       compressed postscript file containing the DECoberon User's
+       Guide
+
+Fixups
+       directory containing improved file versions
+
+Installation:
+-------------
+Copy all the files into a directory. This directory may be used
+as public directory by several Oberon users. The preferred one
+is /usr/local/Oberon. It should be made readonly.
+The default setting of the environment variable OBERON, which
+is the search path for existing files, is '. /usr/local/Oberon'.
+It may be changed if needed.
+Each user can set a symbolic link to oberon in his working directory:
+ln -s /usr/local/Oberon/oberon oberon
+or add an entry in his environment variable PATH.
+
+To improve the character drawing speed, the Oberon fonts
+should be installed as X fonts. See InstallXFonts.Tool for
+the font installation.
+
+Starting Oberon:
+-------------------
+Oberon may be started with the command "oberon".
+Oberon runs on top of X Windows and Ultrix in a X window
+as a normal X application.
+
+Usage: oberon [-h heapsizeinMB] [-x module command] [ -b bootfile]
+              [-f fontmapfile] [-d displayname] [-g geometry] [-c]
+
+Key mapping:
+F1: mark viewer (SETUP)
+F2: Escape
+F3: BREAK
+F4: init colors
+Select, Ctrl-J: line feed
+Ctrl-L: redraw screen
+
+Diaeresis, grave, acute, and circumflex characters can be typed
+using the usual compose sequence or an international keyboard.
+A third way of composing them is to type the letter and the diacritic
+in any order and then press the function key F5 (or the key Do)
+in order to combine the two symbols into a diacritical character.
+Valid diacritics are: { ' ` " ^ , ~ }
+
+Execute System.Quit to leave DECoberon.
+
+If an Oberon program loops forever, it can be stopped
+by pressing Ctrl-C in the terminal window in which DECoberon
+was started. A trap viewer will then appear in the Oberon window.
+To abort DECoberon, press Ctrl-\ in the same terminal window.
+
+For further information or bug reports, please contact
+
+  The Secretary
+  Institut fuer Computersysteme
+  ETH Zentrum
+  CH-8092 Zurich
+  Switzerland
+
+  Tel: (+41-1) 632 7311
+  Fax: (+41-1) 261 5389
+  e-mail: oberon@inf.ethz.ch
+  (crelier@inf.ethz.ch for bug reports)

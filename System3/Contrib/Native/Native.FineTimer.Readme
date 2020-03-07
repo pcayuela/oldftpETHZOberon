@@ -1,0 +1,5 @@
+The FineTimer module gives access to the Pentium fine-grained timer under
+Native Oberon.  This timer can be used for very accurate time measurement.
+
+-- Pieter Muller <muller@inf.ethz.ch>
+

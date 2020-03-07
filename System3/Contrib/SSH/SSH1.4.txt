@@ -1,0 +1,18 @@
+New in 1.4:
+
+- Module BigNumbers got further improved (faster) by 
+   using Montgomery multplications in procedure ModExp.
+
+- New IDEA cipher. The previous version (takern from the old
+   module Crypt.Mod) worked also well but the encryption was 
+   incompatible with the external world IDEA ciphers. 
+   Paricularly unpleasant as IDEA was developed at ETH!
+   
+- New cipher CAST. Not really needed for SSH but CAST is
+   the main cipher in recent PGP implementaions.
+   
+- Module cryptRSA has been finished. 
+
+- Support for RSA hostkeys added in module SSHKeys.
+
+- fixed a bug in procedure deriveKey in module SSHTransport.

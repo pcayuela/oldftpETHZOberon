@@ -1,0 +1,62 @@
+ 
+Selected Examples and Exercises from
+
+_________________________________________________________
+PROGRAMMING IN OBERON, STEPS BEYOND PASCAL AND MODULA
+by M.Reiser and N. Wirth,
+ACM Press and Addison-Weseley Publishing Company, 1992
+ISBN 0-201-56543-9
+_________________________________________________________
+
+
+Please acknowledge receipt (REISER@IBM.COM).
+You will be informed of future updates.
+
+TABLE OF CONTENTS:
+
+RandomNumbers.Mod  {Random Number Generator, Chapter 2}
+Varia.Mod          {Various examples from Chapters 5, 6 and 8}
+In.Mod             {Stream-oriented input, Chapter 7}
+Out.Mod            {Stream-oriented output, Chapter 7}
+XYplane.Mod        {Graphical screen output, Chapter 7}
+
+{Iterated function system, Chapter 6-7}
+IFS1.Mod
+IFS1.Tool {Tool text with suitable paramters}
+
+{Dynamic data structures, Chapter 9}
+Lists.Mod     UseLists.Mod  UseLists.Tool
+AW.Trees.Mod  UseTrees.Mod  UseTrees.Tool
+
+{Simulation package, Chapter 10}
+Calendar.Mod              {Simulation calendar}
+Paths.Mod  Sequences.Mod  {Computation of statistics}
+Model1.Mod                {A single queue model}
+
+{Graphics editor, Chapter 12}
+Shapes.Modo  {Draws geometrical objects }
+
+{Version 1: simple keyboard control}
+Graphs1.Mod                   {Base module}
+Rects1.Mod  FilledRects1.Mod  {specific shapes}
+Draft1.Mod  Draft1.Tool       {command module and tool}
+
+{Version 2: Mouse support}
+Graphs2.Mod                   {Base module}
+Rects2.Mod  FilledRects2.Mod  {specific shapes}
+Draft2.Mod  Draft2.Tool       {command module and tool}
+
+{Version 2: Mouse support and file I/O}
+Graphs3.Mod              {Base module}
+Rects3.Mod               {specific shapes}
+Draft3.Mod  Draft3.Tool  {command module and tool}
+
+
+{Object-oriented simulation package, Chapter 13}
+Qs.Mod        {generic queues module}
+Sim.Mod       {Object-oriented simulation calendar}
+Stations.Mod  {First-come, first-served station}
+Model2.Mod    {A single queue model}
+
+Copyright M.Reiser, June 20, 1992.
+

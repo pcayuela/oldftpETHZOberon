@@ -1,0 +1,32 @@
+  This directory maintained by W.Skulski skulski@nsrl.rochester.edu
+     ftp://nuchem.nsrl.rochester.edu/pub/Oberon/Linux.aout  
+
+  Here you can find a tared archive of my whole Linux Oberon a.out 
+  environment. This is a full copy of my current working environment, 
+  with all little add-ons that accumulated over time. Some things appear 
+  twice in this archive, but never mind. 
+
+  Includes Linux V4 0.9 from ETH with sources (downloaded from Linz server), 
+  plus ETH System 3 v.1.5, plus Xfonts. This environment is amazingly stable 
+  and useful. Note: Univ. Linz now distributes the Linz variant of V4 for Linux 
+  in ELF format. See Guy Laden's homepage for details on Linz ELF environment. 
+
+  How to install: unpack the whole archive in /usr/local. That's all. You can 
+  then start either V4 or System 3 with scripts provided here. Put them 
+  in your working Oberon dir and type either StartV4 or StartS3. 
+  You can also use my V4System.Tool, but beware: do NOT start System 3 
+  from the directory where this System.Tool is, or the S3 will not start. 
+
+  cd /usr/local                      # do it in /usr/local (have to be root)
+  tar xzf ETHLinuxOberon.tgz         # extract all files
+  cd ETHOberon                       # /usr/local/ETHOberon will be created
+  chmod a-w *                        # make it read-only
+
+  You may wish to copy Configuration.Mod to your working Oberon directory 
+  and compile it there. It does a few nice startup things under the V4.
+
+  I want to thank former ETH developers for their effort. Their environment 
+  has proven itself in my daily work. I still use it most often, even though 
+  I am now slowly migrating to the Linz ELF environment.
+
+  Wojtek

@@ -1,0 +1,1597 @@
+%!PS-Adobe- minimal conforming
+%%Creator: Oberon
+%%DocumentFonts: Helvetica Helvetica-Bold Helvetica-Oblique Courier Times Times-Bold Times-Oblique
+% 
+% J. Templ, 1990, 1991, 1992
+% m  moveto  x y -> -
+% s  String  s -> -
+% d  dieresis  ch -> -
+% l  Line  x y w h -> -
+% x  XLine  x y dx dy -> -
+% c  scaled Circle  x y a b -> -
+% b  shaded box  x y w h col -> -
+% i  pattern image  x y w h mode  -> -
+% p  Page  n -> -
+% f  font mapping  fnt -> -
+% z Bezier cubic section  x1 y1 x2 y2 x3 y3 x0 y0 -> -
+% k char  x y w h dx -> -
+
+/bdef {bind def} bind def
+
+/m {moveto} bdef
+
+/s {show} bdef
+
+/d  % obsolete
+  { /s2 exch def
+        /ch0 s2 0 1 getinterval def
+        /ch1 s2 1 1 getinterval def
+    currentpoint /y0 exch def /x0 exch def
+    ch0 show
+    currentpoint /y1 exch def /x1 exch def
+    ch1 stringwidth /wy exch def /wx exch def
+    x1 x0 add wx sub 2 div y0 moveto
+    ch0 (Z) le {0 wx 2 div rmoveto} if
+    ch1 show
+    x1 y1 moveto
+  } bdef
+
+/l
+  { /ph exch def
+    /pw exch def
+    newpath
+    moveto
+    pw 0 rlineto
+    0 ph rlineto
+    pw neg 0 rlineto
+    closepath
+    0 setgray
+    fill
+  } bdef
+
+/x
+  { /dy exch def
+    /dx exch def
+    newpath
+    moveto
+    dx dy rlineto
+    0 setlinewidth
+    stroke
+  } bdef
+
+/c
+  { /pb exch def
+    /pa exch def
+    newpath
+    gsave
+    translate
+    1 pb pa div scale
+    0 0 pa 0 360 arc
+    0 setlinewidth
+    stroke
+    grestore
+  } bdef
+
+/shade
+  { gsave
+    col 0 eq {1 setgray} if
+    col 1 eq {0.99 setgray} if
+    col 2 eq {0.9 setgray} if
+    col 3 eq {0.65 setgray} if
+    col 4 eq {0.35 setgray} if
+    col 5 eq {0 setgray} if
+    fill
+    grestore
+  } bdef
+
+/texture
+  { gsave
+    clip
+    newpath
+    col 6 eq
+      { px 20 idiv 20 mul py ph add 20 idiv 20 mul moveto
+        /maxwh pw ph max 20 add def
+        maxwh 10 idiv 1 add
+          { maxwh maxwh rlineto
+            maxwh neg dup 20 sub rmoveto
+          } repeat
+      } if
+    col 7 eq
+      { px 20 idiv 20 mul py 20 idiv 20 mul moveto
+        /maxwh pw ph max 20 add def
+        maxwh 10 idiv 1 add
+          { maxwh neg maxwh rlineto
+            maxwh 20 add maxwh neg rmoveto
+          } repeat
+      } if
+    col 8 eq
+      { px 15 idiv 15 mul py 15 idiv 15 mul moveto
+        /ph ph 25 add def
+        pw 15 idiv 1 add
+          { 0 ph rlineto
+            15 ph neg rmoveto
+          } repeat
+     } if
+    col 9 eq
+      { px 15 idiv 15 mul py 15 idiv 15 mul moveto
+        /pw pw 15 add def
+        ph 15 idiv 1 add
+         { pw 0 rlineto
+            pw neg 15 rmoveto
+          } repeat
+     } if
+    1 setlinewidth
+    stroke
+    grestore
+  } bdef
+
+/b
+  { /col exch def
+    /ph exch def
+    /pw exch def
+    /py exch def
+    /px exch def
+    newpath
+    px py moveto
+    pw 0 rlineto
+    0 ph rlineto
+    pw neg 0 rlineto
+    closepath
+    col 6 lt {shade} {texture} ifelse
+  } bdef
+
+/i % pattern image follows procedure i immediately
+  { /mode exch def
+    /ph exch def
+    /pw exch def
+    /py exch def
+    /px exch def
+    /picstr 256 string def
+    /nofbytes pw 7 add 8 idiv ph mul def
+    gsave
+    px py translate
+    pw mode 1 add mul ph mode 1 add mul scale
+    pw ph 1 [pw 0 0 ph 0 0]
+      {nofbytes 256 ge
+        { currentfile picstr readhexstring pop
+          /nofbytes nofbytes 256 sub def }
+        { /picstr nofbytes string def
+          currentfile picstr readhexstring pop
+          /nofbytes 0 def
+        } ifelse
+      } image
+    grestore
+  } bdef
+
+/k % char image follows procedure k immediately
+  { /pdx exch def
+    /ph exch def
+    /pw exch def
+    /py exch def
+    /px exch def
+    /picstr 256 string def
+    /nofbytes pw 7 add 8 idiv ph mul def
+    gsave
+        currentpoint translate
+    px py translate
+    pw ph scale
+    pw ph true [pw 0 0 ph 0 0]
+      { nofbytes 256 ge
+        { currentfile picstr readhexstring pop
+          /nofbytes nofbytes 256 sub def }
+        { /picstr nofbytes string def
+          currentfile picstr readhexstring pop
+          /nofbytes 0 def
+        } ifelse
+      } imagemask
+    grestore
+    pdx 0 rmoveto
+  } bdef
+
+
+/OberonEncoding
+  [ 128 /Adieresis
+    129 /Odieresis
+    130 /Udieresis
+    131 /adieresis
+    132 /odieresis
+    133 /udieresis
+    134 /acircumflex
+    135 /ecircumflex
+    136 /icircumflex
+    137 /ocircumflex
+    138 /ucircumflex
+    139 /agrave
+    140 /egrave
+    141 /igrave
+    142 /ograve
+    143 /ugrave
+    144 /eacute
+    145 /edieresis
+    146 /idieresis
+    147 /ccedilla
+    148 /aacute
+    149 /ntilde
+  ] def
+
+% font reencoding taken from P. Vollenweider, PostScript, Hanser Verlag 1988
+% encoding vector is /OberonEncoding
+% newfontdict basefontdict recode -
+
+/recode
+  { findfont /basefontdict exch def
+    /OberonFont basefontdict maxlength dict def
+    basefontdict
+      { exch dup /FID ne
+        { dup /Encoding eq
+          { exch dup length array copy OberonFont 3 1 roll put }
+          { exch OberonFont 3 1 roll put }
+          ifelse
+        }
+        { pop pop }
+        ifelse
+      } forall
+    OberonEncoding aload pop
+    OberonEncoding length 2 idiv {OberonFont /Encoding get 3 1 roll put} repeat
+    dup OberonFont exch /FontName exch put
+    OberonFont definefont pop
+  } bdef
+
+% font setup.  Recode the basic fonts first
+
+  /ObHelv /Helvetica recode
+  /ObHelvBold /Helvetica-Bold recode
+  /ObHelvOblique /Helvetica-Oblique recode
+  /ObCourier /Courier recode
+  /ObTimes /Times-Roman recode
+  /ObTimesBold /Times-Bold recode
+  /ObTimesItalic /Times-Italic recode
+
+% now define the scaled versions
+
+  /Syntax8.Scn.Fnt   /ObHelv findfont 30 scalefont def
+  /Syntax8i.Scn.Fnt  /ObHelvOblique findfont 30 scalefont def
+  /Syntax8b.Scn.Fnt  /ObHelvBold findfont 30 scalefont def
+  /Syntax8m.Scn.Fnt  /ObHelvBold findfont 30 scalefont def
+  /Syntax9m.Scn.Fnt  /ObHelvBold findfont 33 scalefont def
+  /Syntax10.Scn.Fnt  /ObHelv findfont 37 scalefont def
+  /Syntax10i.Scn.Fnt /ObHelvOblique  findfont 37 scalefont def
+  /Syntax10b.Scn.Fnt /ObHelvBold findfont 37 scalefont def
+  /Syntax10m.Scn.Fnt /ObHelvBold findfont 37 scalefont def
+  /Syntax10w.Scn.Fnt /ObHelv findfont 37 scalefont def
+  /Syntax12.Scn.Fnt /ObHelv findfont 44 scalefont def
+  /Syntax12i.Scn.Fnt /ObHelvOblique findfont 44 scalefont def
+  /Syntax12b.Scn.Fnt /ObHelvBold findfont 44 scalefont def
+  /Syntax12m.Scn.Fnt /ObHelvBold findfont 44 scalefont def
+  /Syntax14.Scn.Fnt /ObHelv findfont 50 scalefont def
+  /Syntax14i.Scn.Fnt /ObHelvOblique findfont 50 scalefont def
+  /Syntax14b.Scn.Fnt /ObHelvBold findfont 50 scalefont def
+  /Syntax14m.Scn.Fnt /ObHelvBold findfont 50 scalefont def
+  /Syntax16.Scn.Fnt /ObHelv findfont 59 scalefont def
+  /Syntax16i.Scn.Fnt /ObHelvOblique findfont 59 scalefont def
+  /Syntax16b.Scn.Fnt /ObHelvBold findfont 59 scalefont def
+  /Syntax16m.Scn.Fnt /ObHelvBold findfont 59 scalefont def
+  /Syntax20.Scn.Fnt /ObHelv findfont 74 scalefont def
+  /Syntax20i.Scn.Fnt /ObHelvOblique findfont 74 scalefont def
+  /Syntax20b.Scn.Fnt /ObHelvBold findfont 74 scalefont def
+  /Syntax20m.Scn.Fnt /ObHelvBold findfont 74 scalefont def
+  /Syntax24.Scn.Fnt /ObHelv findfont 88 scalefont def
+  /Syntax24i.Scn.Fnt /ObHelvOblique findfont 88 scalefont def
+  /Syntax24b.Scn.Fnt /ObHelvBold findfont 88 scalefont def
+  /Syntax24m.Scn.Fnt  /ObHelvBold findfont 88 scalefont def
+
+  /Gacha10l /ObCourier findfont 30 scalefont def
+
+  /Courier8.Scn.Fnt /ObCourier findfont 30 scalefont def
+  /Courier10.Scn.Fnt /ObCourier findfont 37 scalefont def
+  /Courier12.Scn.Fnt  /ObCourier findfont 44 scalefont def
+
+  /Times8.Scn.Fnt  /ObTimes findfont 32 scalefont def
+  /Times8i.Scn.Fnt /ObTimesItalic  findfont 32 scalefont def
+  /Times8b.Scn.Fnt /ObTimesBold findfont 32 scalefont def
+  /Times10.Scn.Fnt  /ObTimes findfont 40 scalefont def
+  /Times10i.Scn.Fnt /ObTimesItalic  findfont 40 scalefont def
+  /Times10b.Scn.Fnt /ObTimesBold findfont 40 scalefont def
+  /Times12.Scn.Fnt /ObTimes findfont 48 scalefont def
+  /Times12i.Scn.Fnt /ObTimesItalic findfont 48 scalefont def
+  /Times12b.Scn.Fnt /ObTimesBold findfont 48 scalefont def
+  /Times14.Scn.Fnt /ObTimes findfont 56 scalefont def
+  /Times14i.Scn.Fnt /ObTimesItalic findfont 56 scalefont def
+  /Times14b.Scn.Fnt /ObTimesBold findfont 56 scalefont def
+  /Times16.Scn.Fnt /ObTimes findfont 64 scalefont def
+  /Times16i.Scn.Fnt /ObTimesItalic findfont 64 scalefont def
+  /Times16b.Scn.Fnt /ObTimesBold findfont 64 scalefont def
+  /Times20.Scn.Fnt /ObTimes findfont 80 scalefont def
+  /Times20i.Scn.Fnt /ObTimesItalic findfont 80 scalefont def
+  /Times20b.Scn.Fnt /ObTimesBold findfont 80 scalefont def
+  /Times24.Scn.Fnt /ObTimes findfont 96 scalefont def
+  /Times24i.Scn.Fnt /ObTimesItalic findfont 96 scalefont def
+  /Times24b.Scn.Fnt /ObTimesBold findfont 96 scalefont def
+
+
+/f {
+   cvn currentdict exch get setfont
+   } bdef
+
+/z % Bezier cubic section
+  { newpath moveto curveto 0 setlinewidth stroke } bdef
+
+/p % show page
+  { /#copies exch def
+    showpage
+    restore save
+  } bdef
+
+%A4 format
+.23 .23 scale
+100 50 translate
+%US-letter format
+%.23 .22 scale
+%150 50 translate
+
+(Syntax10.Scn.Fnt) f
+save
+%%EndProlog
+%%Page: 0 1
+2104 3307 m (Syntax10.Scn.Fnt) f (0) s
+177 3307 m (Oberon2.Differences.Text   \(20 Jul 93\)) s
+633 3208 m (Syntax14b.Scn.Fnt) f (Differences between Oberon and Oberon\2612) s
+947 3128 m (Syntax10.Scn.Fnt) f (H. M\204ssenb\204ck, N. Wirth) s
+811 3088 m (Institut f\205r Computersysteme, ETH Z\205rich) s
+177 2888 m (Oberon\2612) s
+355 2888 m (is) s
+392 2888 m (a) s
+424 2888 m (true) s
+499 2888 m (extension) s
+669 2888 m (of) s
+711 2888 m (Oberon) s
+847 2888 m ([1].) s
+909 2888 m (This) s
+990 2888 m (paper) s
+1097 2888 m (summarizes) s
+1307 2888 m (the) s
+1370 2888 m (extensions) s
+1558 2888 m (and) s
+1631 2888 m (tries) s
+1710 2888 m (to) s
+1751 2888 m (shed) s
+1842 2888 m (some) s
+1943 2888 m (light) s
+2021 2888 m (on) s
+2073 2888 m (the) s
+177 2848 m (motivations) s
+376 2848 m (behind) s
+501 2848 m (them.) s
+606 2848 m (By) s
+661 2848 m (that) s
+734 2848 m (we) s
+793 2848 m (hope) s
+888 2848 m (to) s
+930 2848 m (make) s
+1032 2848 m (it) s
+1061 2848 m (easier) s
+1173 2848 m (for) s
+1227 2848 m (the) s
+1290 2848 m (reader) s
+1409 2848 m (to) s
+1451 2848 m (classify) s
+1581 2848 m (Oberon\2612.) s
+1769 2848 m (For) s
+1836 2848 m (details) s
+1954 2848 m (the) s
+2017 2848 m (reader) s
+177 2808 m (is referred to the language report.) s
+224 2768 m (One) s
+318 2768 m (important) s
+496 2768 m (goal) s
+590 2768 m (for) s
+656 2768 m (Oberon\2612) s
+846 2768 m (was) s
+935 2768 m (to) s
+989 2768 m (make) s
+1103 2768 m (object\261oriented) s
+1381 2768 m (programming) s
+1624 2768 m (easier) s
+1748 2768 m (without) s
+1888 2768 m (sacrificing) s
+2073 2768 m (the) s
+177 2728 m (conceptual) s
+368 2728 m (simplicity) s
+527 2728 m (of) s
+569 2728 m (Oberon.) s
+715 2728 m (After) s
+804 2728 m (three) s
+900 2728 m (years) s
+1001 2728 m (of) s
+1043 2728 m (using) s
+1143 2728 m (Oberon) s
+1279 2728 m (and) s
+1353 2728 m (its) s
+1399 2728 m (experimental) s
+1622 2728 m (offspring) s
+1774 2728 m (Object) s
+1891 2728 m (Oberon) s
+2026 2728 m ([2]) s
+2077 2728 m (we) s
+177 2688 m (merged our experiences into a single refined version of Oberon.) s
+224 2648 m (The) s
+302 2648 m (new) s
+384 2648 m (features) s
+531 2648 m (of) s
+575 2648 m (Oberon\2612) s
+755 2648 m (are) s
+822 2648 m (type\261bound) s
+1031 2648 m (procedures,) s
+1240 2648 m (read\261only) s
+1417 2648 m (export) s
+1533 2648 m (of) s
+1577 2648 m (variables) s
+1738 2648 m (and) s
+1814 2648 m (record) s
+1932 2648 m (fields,) s
+2041 2648 m (open) s
+177 2608 m (arrays) s
+292 2608 m (as) s
+344 2608 m (pointer) s
+471 2608 m (base) s
+565 2608 m (types,) s
+676 2608 m (and) s
+752 2608 m (a) s
+786 2608 m (with) s
+865 2608 m (statement) s
+1040 2608 m (with) s
+1118 2608 m (variants.) s
+1269 2608 m (The) s
+1346 2608 m (for) s
+1401 2608 m (statement) s
+1576 2608 m (is) s
+1614 2608 m (reintroduced) s
+1833 2608 m (after) s
+1919 2608 m (having) s
+2041 2608 m (been) s
+177 2568 m (eliminated in the step from Modula\2612 to Oberon.) s
+224 2528 m (Oberon\2612) s
+403 2528 m (is) s
+441 2528 m (the) s
+505 2528 m (result) s
+607 2528 m (of) s
+650 2528 m (many) s
+753 2528 m (discussions) s
+955 2528 m (among) s
+1082 2528 m (all) s
+1131 2528 m (members) s
+1298 2528 m (of) s
+1341 2528 m (the) s
+1405 2528 m (Institute) s
+1546 2528 m (for) s
+1601 2528 m (Computer) s
+1777 2528 m (Systems) s
+1930 2528 m (at) s
+1972 2528 m (ETH.) s
+2068 2528 m (It) s
+2099 2528 m (is) s
+177 2488 m (particularly influenced by the ideas of J\205rg Gutknecht and Josef Templ.) s
+177 2368 m (Syntax10b.Scn.Fnt) f (Type\261bound procedures) s
+177 2288 m (Syntax10.Scn.Fnt) f (Procedures) s
+388 2288 m (can) s
+469 2288 m (be) s
+532 2288 m (bound) s
+658 2288 m (to) s
+710 2288 m (a) s
+752 2288 m (record) s
+878 2288 m (\(or) s
+944 2288 m (a) s
+986 2288 m (pointer\)) s
+1133 2288 m (type.) s
+1234 2288 m (They) s
+1338 2288 m (are) s
+1413 2288 m (equivalent) s
+1604 2288 m (to) s
+1656 2288 m (methods) s
+1820 2288 m (in) s
+1870 2288 m (object\261oriented) s
+177 2248 m (terminology.) s
+391 2248 m (The) s
+468 2248 m (binding) s
+601 2248 m (is) s
+639 2248 m (expressed) s
+822 2248 m (by) s
+873 2248 m (a) s
+906 2248 m (separate) s
+1063 2248 m (parameter) s
+1245 2248 m (\(the) s
+1321 2248 m (operand) s
+1471 2248 m (to) s
+1514 2248 m (which) s
+1621 2248 m (the) s
+1685 2248 m (procedure) s
+1865 2248 m (is) s
+1903 2248 m (applicable,) s
+2092 2248 m (or) s
+177 2208 m (the "receiver" as it is called in object\261oriented terminology\).) s
+224 2128 m (TYPE) s
+271 2088 m (Figure = POINTER TO FigureDesc;) s
+271 2048 m (FigureDesc = RECORD) s
+318 2008 m (x, y, w, h: INTEGER) s
+271 1968 m (END;) s
+224 1888 m (PROCEDURE \(f: Figure\) Draw; BEGIN ...  END Draw;) s
+224 1848 m (PROCEDURE \(f: Figure\) Move \(dx, dy: INTEGER\); BEGIN ...  END Move;) s
+177 1768 m (Syntax10i.Scn.Fnt) f (Draw) s
+280 1768 m (Syntax10.Scn.Fnt) f (and) s
+359 1768 m (Syntax10i.Scn.Fnt) f (Move) s
+466 1768 m (Syntax10.Scn.Fnt) f (are) s
+536 1768 m (bound) s
+657 1768 m (to) s
+703 1768 m (Syntax10i.Scn.Fnt) f (Figure) s
+824 1768 m (Syntax10.Scn.Fnt) f (which) s
+934 1768 m (means) s
+1061 1768 m (that) s
+1138 1768 m (they) s
+1223 1768 m (are) s
+1292 1768 m (operations) s
+1481 1768 m (applicable) s
+1664 1768 m (to) s
+1710 1768 m (Syntax10i.Scn.Fnt) f (Figure) s
+1831 1768 m (Syntax10.Scn.Fnt) f (objects.) s
+1973 1768 m (They) s
+2071 1768 m (are) s
+177 1728 m (considered) s
+373 1728 m (local) s
+463 1728 m (to) s
+508 1728 m (Syntax10i.Scn.Fnt) f (FigureDesc) s
+712 1728 m (Syntax10.Scn.Fnt) f (and) s
+789 1728 m (can) s
+863 1728 m (be) s
+919 1728 m (referenced) s
+1111 1728 m (like) s
+1180 1728 m (record) s
+1299 1728 m (fields,) s
+1409 1728 m (e.g.) s
+1485 1728 m (Syntax10i.Scn.Fnt) f (f.Move\(10,) s
+1674 1728 m (10) s
+(Syntax10.Scn.Fnt) f (\)) s
+1741 1728 m (if) s
+1772 1728 m (Syntax10i.Scn.Fnt) f (f) s
+1795 1728 m (Syntax10.Scn.Fnt) f (is) s
+1834 1728 m (a) s
+1868 1728 m (variable) s
+2011 1728 m (of) s
+2055 1728 m (type) s
+177 1688 m (Syntax10i.Scn.Fnt) f (Figure) s
+(Syntax10.Scn.Fnt) f (.) s
+224 1648 m (Any) s
+299 1648 m (procedure) s
+478 1648 m (bound) s
+594 1648 m (to) s
+636 1648 m (a) s
+668 1648 m (type) s
+749 1648 m (Syntax10i.Scn.Fnt) f (T) s
+783 1648 m (Syntax10.Scn.Fnt) f (is) s
+820 1648 m (implicitly) s
+969 1648 m (also) s
+1048 1648 m (bound) s
+1164 1648 m (to) s
+1206 1648 m (all) s
+1254 1648 m (extensions) s
+1442 1648 m (of) s
+1484 1648 m (Syntax10i.Scn.Fnt) f (T) s
+(Syntax10.Scn.Fnt) f (.) s
+1527 1648 m (It) s
+1557 1648 m (can) s
+1627 1648 m (be) s
+1679 1648 m (redefined) s
+1845 1648 m (\(overridden\)) s
+2055 1648 m (by) s
+2104 1648 m (a) s
+177 1608 m (procedure) s
+356 1608 m (with) s
+433 1608 m (the) s
+496 1608 m (same) s
+598 1608 m (name) s
+703 1608 m (and) s
+777 1608 m (the) s
+840 1608 m (same) s
+942 1608 m (formal) s
+1056 1608 m (parameter) s
+1237 1608 m (list) s
+1292 1608 m (which) s
+1398 1608 m (is) s
+1435 1608 m (explicitly) s
+1584 1608 m (bound) s
+1700 1608 m (to) s
+1742 1608 m (an) s
+1794 1608 m (extension) s
+1963 1608 m (of) s
+2004 1608 m (Syntax10i.Scn.Fnt) f (T) s
+(Syntax10.Scn.Fnt) f (,) s
+2047 1608 m (such) s
+177 1568 m (as in) s
+224 1488 m (TYPE) s
+271 1448 m (Circle = POINTER TO CircleDesc;) s
+271 1408 m (CircleDesc = RECORD \(FigureDesc\)) s
+318 1368 m (radius: INTEGER) s
+271 1328 m (END;) s
+224 1248 m (PROCEDURE \(c: Circle\) Move \(dx, dy: INTEGER\);) s
+224 1208 m (BEGIN) s
+224 1168 m (END Move;) s
+177 1088 m (Syntax10i.Scn.Fnt) f (Circle) s
+290 1088 m (Syntax10.Scn.Fnt) f (is) s
+335 1088 m (an) s
+396 1088 m (extension) s
+574 1088 m (of) s
+624 1088 m (Syntax10i.Scn.Fnt) f (Figure) s
+(Syntax10.Scn.Fnt) f (.) s
+759 1088 m (A) s
+803 1088 m (procedure) s
+990 1088 m (Syntax10i.Scn.Fnt) f (Move) s
+1100 1088 m (Syntax10.Scn.Fnt) f (is) s
+1145 1088 m (explicitly) s
+1302 1088 m (bound) s
+1426 1088 m (to) s
+1476 1088 m (Syntax10i.Scn.Fnt) f (Circle) s
+1588 1088 m (Syntax10.Scn.Fnt) f (and) s
+1669 1088 m (redefines) s
+1840 1088 m (the) s
+1910 1088 m (Syntax10i.Scn.Fnt) f (Move) s
+2019 1088 m (Syntax10.Scn.Fnt) f (that) s
+2099 1088 m (is) s
+177 1048 m ("inherited") s
+360 1048 m (from) s
+448 1048 m (Syntax10i.Scn.Fnt) f (Figure) s
+(Syntax10.Scn.Fnt) f (.) s
+578 1048 m (Let) s
+644 1048 m (Syntax10i.Scn.Fnt) f (f) s
+668 1048 m (Syntax10.Scn.Fnt) f (be) s
+724 1048 m (a) s
+759 1048 m (variable) s
+903 1048 m (of) s
+948 1048 m (type) s
+1032 1048 m (Syntax10i.Scn.Fnt) f (Figure) s
+1152 1048 m (Syntax10.Scn.Fnt) f (and) s
+1229 1048 m (Syntax10i.Scn.Fnt) f (c) s
+1261 1048 m (Syntax10.Scn.Fnt) f (a) s
+1296 1048 m (variable) s
+1440 1048 m (of) s
+1485 1048 m (type) s
+1568 1048 m (Syntax10i.Scn.Fnt) f (Circle) s
+(Syntax10.Scn.Fnt) f (;) s
+1685 1048 m (then) s
+1771 1048 m (the) s
+1836 1048 m (assignment) s
+2039 1048 m (Syntax10i.Scn.Fnt) f (f) s
+2062 1048 m (:=) s
+2107 1048 m (c) s
+177 1008 m (Syntax10.Scn.Fnt) f (makes the dynamic type of ) s
+(Syntax10i.Scn.Fnt) f (f) s
+(Syntax10.Scn.Fnt) f ( \(its run time type\) be ) s
+(Syntax10i.Scn.Fnt) f (Circle) s
+(Syntax10.Scn.Fnt) f ( instead of ) s
+(Syntax10i.Scn.Fnt) f (Figure) s
+(Syntax10.Scn.Fnt) f (. In the call) s
+224 928 m (f.Move\(10, 10\)) s
+177 848 m (the) s
+244 848 m (variable) s
+389 848 m (Syntax10i.Scn.Fnt) f (f) s
+414 848 m (Syntax10.Scn.Fnt) f (serves) s
+537 848 m (two) s
+610 848 m (purposes:) s
+788 848 m (First) s
+874 848 m (it) s
+907 848 m (is) s
+948 848 m (passed) s
+1082 848 m (as) s
+1135 848 m (the) s
+1201 848 m (receiver) s
+1346 848 m (parameter) s
+1530 848 m (to) s
+1575 848 m (the) s
+1641 848 m (procedure) s
+1823 848 m (Syntax10i.Scn.Fnt) f (Move) s
+(Syntax10.Scn.Fnt) f (.) s
+1938 848 m (Second,) s
+2089 848 m (its) s
+177 808 m (dynamic) s
+330 808 m (type) s
+415 808 m (determines) s
+614 808 m (which) s
+724 808 m (variant) s
+850 808 m (of) s
+895 808 m (Syntax10i.Scn.Fnt) f (Move) s
+1000 808 m (Syntax10.Scn.Fnt) f (is) s
+1040 808 m (called.) s
+1161 808 m (Since) s
+1268 808 m (after) s
+1356 808 m (the) s
+1422 808 m (assignment) s
+1626 808 m (Syntax10i.Scn.Fnt) f (f) s
+1650 808 m (:=) s
+1696 808 m (c) s
+1728 808 m (Syntax10.Scn.Fnt) f (the) s
+1794 808 m (dynamic) s
+1946 808 m (type) s
+2030 808 m (of) s
+2075 808 m (Syntax10i.Scn.Fnt) f (f) s
+2099 808 m (Syntax10.Scn.Fnt) f (is) s
+177 768 m (Syntax10i.Scn.Fnt) f (Circle) s
+(Syntax10.Scn.Fnt) f (,) s
+295 768 m (the) s
+361 768 m (Syntax10i.Scn.Fnt) f (Move) s
+466 768 m (Syntax10.Scn.Fnt) f (that) s
+542 768 m (is) s
+582 768 m (bound) s
+701 768 m (to) s
+746 768 m (Syntax10i.Scn.Fnt) f (Circle) s
+854 768 m (Syntax10.Scn.Fnt) f (is) s
+894 768 m (called) s
+1005 768 m (and) s
+1082 768 m (not) s
+1148 768 m (the) s
+1214 768 m (one) s
+1291 768 m (that) s
+1367 768 m (is) s
+1407 768 m (bound) s
+1526 768 m (to) s
+1571 768 m (Syntax10i.Scn.Fnt) f (Figure) s
+(Syntax10.Scn.Fnt) f (.) s
+1701 768 m (This) s
+1785 768 m (mechanism) s
+1989 768 m (is) s
+2028 768 m (called) s
+177 728 m (dynamic binding, since the dynamic type of the receiver is used to bind the procedure name to the actual procedure.) s
+224 688 m (Within) s
+338 688 m (a) s
+370 688 m (redefining) s
+545 688 m (procedure) s
+724 688 m (the) s
+787 688 m (redefined) s
+954 688 m (procedure) s
+1132 688 m (can) s
+1202 688 m (be) s
+1254 688 m (invoked) s
+1392 688 m (by) s
+1441 688 m (calling) s
+1556 688 m (it) s
+1584 688 m (with) s
+1660 688 m (the) s
+1722 688 m (suffix) s
+1817 688 m (^,) s
+1854 688 m (e.g.) s
+1926 688 m (Syntax10i.Scn.Fnt) f (f.Move^) s
+2064 688 m (\(dx,) s
+177 648 m (dy\)) s
+(Syntax10.Scn.Fnt) f (.) s
+177 568 m (Syntax10i.Scn.Fnt) f (Motivation) s
+(Syntax10.Scn.Fnt) f (.) s
+370 568 m (We) s
+440 568 m (refrained) s
+601 568 m (from) s
+689 568 m (introducing) s
+884 568 m (the) s
+949 568 m (concept) s
+1092 568 m (of) s
+1136 568 m (a) s
+1170 568 m (class) s
+1266 568 m (but) s
+1331 568 m (rather) s
+1441 568 m (replaced) s
+1597 568 m (it) s
+1628 568 m (by) s
+1680 568 m (the) s
+1745 568 m (well\261known) s
+1951 568 m (concept) s
+2094 568 m (of) s
+177 528 m (records. Classes are simply record types with procedures bound to them.) s
+224 488 m (We) s
+303 488 m (also) s
+394 488 m (refrained) s
+564 488 m (from) s
+661 488 m (duplicating) s
+862 488 m (the) s
+937 488 m (headers) s
+1094 488 m (of) s
+1147 488 m (bound) s
+1274 488 m (procedures) s
+1482 488 m (in) s
+1533 488 m (the) s
+1607 488 m (record) s
+1734 488 m (as) s
+1795 488 m (it) s
+1835 488 m (is) s
+1883 488 m (done) s
+1989 488 m (in) s
+2040 488 m (other) s
+177 448 m (object\261oriented) s
+448 448 m (languages) s
+637 448 m (like) s
+707 448 m (C++) s
+793 448 m (or) s
+841 448 m (Object) s
+963 448 m (Pascal.) s
+1099 448 m (This) s
+1184 448 m (keeps) s
+1298 448 m (record) s
+1418 448 m (declarations) s
+1633 448 m (short) s
+1730 448 m (and) s
+1808 448 m (avoids) s
+1930 448 m (redundancy) s
+177 408 m (\(changes) s
+342 408 m (to) s
+385 408 m (a) s
+418 408 m (header) s
+547 408 m (would) s
+657 408 m (have) s
+750 408 m (to) s
+793 408 m (be) s
+847 408 m (made) s
+953 408 m (at) s
+995 408 m (two) s
+1064 408 m (places) s
+1182 408 m (in) s
+1222 408 m (the) s
+1285 408 m (program) s
+1435 408 m (and) s
+1509 408 m (the) s
+1572 408 m (compiler) s
+1723 408 m (would) s
+1832 408 m (have) s
+1924 408 m (to) s
+1966 408 m (check) s
+2073 408 m (the) s
+177 368 m (equality) s
+317 368 m (of) s
+360 368 m (the) s
+424 368 m (headers\).) s
+593 368 m (If) s
+625 368 m (the) s
+689 368 m (programmer) s
+904 368 m (wants) s
+1013 368 m (to) s
+1055 368 m (see) s
+1126 368 m (the) s
+1189 368 m (record) s
+1305 368 m (together) s
+1453 368 m (with) s
+1530 368 m (all) s
+1578 368 m (procedures) s
+1775 368 m (bound) s
+1891 368 m (to) s
+1933 368 m (it) s
+1962 368 m (he) s
+2015 368 m (uses) s
+2104 368 m (a) s
+177 328 m (tool \(a browser\) to obtain the information on screen or on paper.) s
+224 288 m (The) s
+301 288 m (procedures) s
+499 288 m (bound) s
+616 288 m (to) s
+659 288 m (a) s
+692 288 m (type) s
+774 288 m (may) s
+856 288 m (be) s
+910 288 m (declared) s
+1065 288 m (in) s
+1105 288 m (any) s
+1176 288 m (order.) s
+1284 288 m (They) s
+1378 288 m (can) s
+1449 288 m (even) s
+1541 288 m (be) s
+1594 288 m (mixed) s
+1704 288 m (with) s
+1781 288 m (procedures) s
+1978 288 m (bound) s
+2094 288 m (to) s
+177 248 m (a) s
+211 248 m (different) s
+358 248 m (type.) s
+451 248 m (In) s
+495 248 m (Object) s
+615 248 m (Oberon,) s
+763 248 m (where) s
+878 248 m (all) s
+928 248 m (methods) s
+1084 248 m (have) s
+1178 248 m (to) s
+1222 248 m (be) s
+1277 248 m (declared) s
+1433 248 m (within) s
+1541 248 m (their) s
+1626 248 m (class) s
+1721 248 m (declaration,) s
+1925 248 m (it) s
+1955 248 m (turned) s
+2073 248 m (out) s
+177 208 m (that) s
+256 208 m (indirect) s
+392 208 m (recursion) s
+561 208 m (between) s
+720 208 m (methods) s
+880 208 m (of) s
+928 208 m (different) s
+1078 208 m (classes) s
+1216 208 m (make) s
+1323 208 m (awkward) s
+1486 208 m (forward) s
+1626 208 m (declarations) s
+1842 208 m (of) s
+1889 208 m (whole) s
+2003 208 m (classes) s
+1 p
+%%Page: 0 2 
+2104 3307 m (Syntax10.Scn.Fnt) f (1) s
+177 3307 m (Oberon2.Differences.Text   \(20 Jul 93\)) s
+177 3217 m (necessary.) s
+224 3177 m (In) s
+272 3177 m (languages) s
+462 3177 m (like) s
+534 3177 m (Object) s
+658 3177 m (Pascal) s
+786 3177 m (or) s
+836 3177 m (C++,) s
+934 3177 m (instance) s
+1089 3177 m (variables) s
+1254 3177 m (of) s
+1301 3177 m (the) s
+1369 3177 m (receiver) s
+1516 3177 m (object) s
+1631 3177 m (Syntax10i.Scn.Fnt) f (self) s
+1704 3177 m (Syntax10.Scn.Fnt) f (can) s
+1780 3177 m (be) s
+1838 3177 m (accessed) s
+2010 3177 m (with) s
+2092 3177 m (or) s
+177 3137 m (without) s
+308 3137 m (qualification) s
+517 3137 m (\(i.e.) s
+591 3137 m (one) s
+667 3137 m (can) s
+739 3137 m (write) s
+829 3137 m (either) s
+934 3137 m (Syntax10i.Scn.Fnt) f (x) s
+964 3137 m (Syntax10.Scn.Fnt) f (or) s
+1009 3137 m (Syntax10i.Scn.Fnt) f (self.x) s
+(Syntax10.Scn.Fnt) f (\).) s
+1128 3137 m (In) s
+1171 3137 m (these) s
+1274 3137 m (languages) s
+1459 3137 m (it) s
+1489 3137 m (is) s
+1527 3137 m (sometimes) s
+1718 3137 m (difficult) s
+1844 3137 m (to) s
+1887 3137 m (see) s
+1959 3137 m (whether) s
+2104 3137 m (a) s
+177 3097 m (name) s
+288 3097 m (is) s
+331 3097 m (an) s
+390 3097 m (ordinary) s
+541 3097 m (variable) s
+688 3097 m (or) s
+738 3097 m (an) s
+797 3097 m (instance) s
+952 3097 m (variable.) s
+1109 3097 m (It) s
+1146 3097 m (is) s
+1189 3097 m (even) s
+1287 3097 m (more) s
+1389 3097 m (confusing) s
+1565 3097 m (if) s
+1600 3097 m (the) s
+1669 3097 m (name) s
+1780 3097 m (denotes) s
+1929 3097 m (an) s
+1987 3097 m (instance) s
+177 3057 m (variable) s
+320 3057 m (that) s
+395 3057 m (is) s
+434 3057 m (inherited) s
+590 3057 m (from) s
+677 3057 m (a) s
+711 3057 m (base) s
+805 3057 m (class.) s
+911 3057 m (We) s
+980 3057 m (therefore) s
+1142 3057 m (decided) s
+1286 3057 m (that) s
+1361 3057 m (instance) s
+1512 3057 m (variables) s
+1673 3057 m (must) s
+1766 3057 m (always) s
+1891 3057 m (be) s
+1945 3057 m (qualified) s
+2096 3057 m (in) s
+177 3017 m (Oberon\2612.) s
+379 3017 m (This) s
+474 3017 m (avoids) s
+606 3017 m (having) s
+741 3017 m (a) s
+787 3017 m (choice) s
+919 3017 m (between) s
+1086 3017 m (two) s
+1169 3017 m (semantically) s
+1397 3017 m (equivalent) s
+1592 3017 m (constructs,) s
+1794 3017 m (which) s
+1913 3017 m (we) s
+1985 3017 m (consider) s
+177 2977 m (undesirable in programming languages.) s
+224 2937 m (In) s
+267 2937 m (Oberon\2612,) s
+456 2937 m (the) s
+520 2937 m (receiver) s
+663 2937 m (is) s
+701 2937 m (an) s
+755 2937 m (explicit) s
+879 2937 m (parameter,) s
+1071 2937 m (so) s
+1122 2937 m (the) s
+1186 2937 m (programmer) s
+1401 2937 m (can) s
+1473 2937 m (choose) s
+1605 2937 m (a) s
+1638 2937 m (meaningful) s
+1832 2937 m (name) s
+1937 2937 m (for) s
+1991 2937 m (it,) s
+2030 2937 m (which) s
+177 2897 m (is) s
+214 2897 m (usually) s
+340 2897 m (more) s
+436 2897 m (expressive) s
+623 2897 m (than) s
+707 2897 m (the) s
+769 2897 m (predeclared) s
+976 2897 m (name) s
+1080 2897 m (self) s
+1147 2897 m (that) s
+1219 2897 m (is) s
+1255 2897 m (used) s
+1346 2897 m (in) s
+1385 2897 m (other) s
+1480 2897 m (object\261oriented) s
+1745 2897 m (languages.) s
+1938 2897 m (The) s
+2013 2897 m (explicit) s
+177 2857 m (declaration) s
+369 2857 m (of) s
+410 2857 m (the) s
+472 2857 m (receiver) s
+613 2857 m (makes) s
+732 2857 m (clear) s
+822 2857 m (that) s
+894 2857 m (the) s
+956 2857 m (object) s
+1065 2857 m (to) s
+1106 2857 m (which) s
+1211 2857 m (an) s
+1263 2857 m (operation) s
+1429 2857 m (is) s
+1465 2857 m (applied) s
+1596 2857 m (is) s
+1632 2857 m (passed) s
+1762 2857 m (as) s
+1811 2857 m (a) s
+1842 2857 m (parameter) s
+2022 2857 m (to) s
+2063 2857 m (that) s
+177 2817 m (operation.) s
+354 2817 m (This) s
+435 2817 m (is) s
+472 2817 m (usually) s
+598 2817 m (not) s
+661 2817 m (expressed) s
+843 2817 m (in) s
+883 2817 m (other) s
+979 2817 m (object\261oriented) s
+1245 2817 m (languages.) s
+1439 2817 m (It) s
+1470 2817 m (is) s
+1507 2817 m (in) s
+1547 2817 m (the) s
+1609 2817 m (spirit) s
+1696 2817 m (of) s
+1737 2817 m (Oberon) s
+1872 2817 m (to) s
+1913 2817 m (avoid) s
+2012 2817 m (hidden) s
+177 2777 m (mechanisms.) s
+224 2737 m (In) s
+268 2737 m (Object) s
+388 2737 m (Oberon) s
+525 2737 m (methods) s
+680 2737 m (have) s
+773 2737 m (the) s
+837 2737 m (same) s
+940 2737 m (syntax) s
+1058 2737 m (as) s
+1109 2737 m (ordinary) s
+1255 2737 m (procedures.) s
+1463 2737 m (In) s
+1506 2737 m (large) s
+1601 2737 m (classes) s
+1735 2737 m (where) s
+1849 2737 m (the) s
+1913 2737 m (class) s
+2008 2737 m (header) s
+177 2697 m (is) s
+219 2697 m (not) s
+287 2697 m (visible) s
+405 2697 m (near) s
+496 2697 m (the) s
+564 2697 m (method) s
+705 2697 m (header) s
+838 2697 m (it) s
+872 2697 m (is) s
+914 2697 m (impossible) s
+1105 2697 m (to) s
+1152 2697 m (see) s
+1228 2697 m (whether) s
+1376 2697 m (the) s
+1443 2697 m (procedure) s
+1626 2697 m (is) s
+1667 2697 m (an) s
+1724 2697 m (ordinary) s
+1873 2697 m (procedure) s
+2056 2697 m (or) s
+2104 2697 m (a) s
+177 2657 m (method,) s
+332 2657 m (and) s
+415 2657 m (to) s
+466 2657 m (which) s
+581 2657 m (class) s
+684 2657 m (the) s
+756 2657 m (method) s
+901 2657 m (belongs.) s
+1062 2657 m (In) s
+1113 2657 m (Oberon\2612,) s
+1310 2657 m (the) s
+1381 2657 m (type) s
+1470 2657 m (of) s
+1520 2657 m (the) s
+1591 2657 m (receiver) s
+1741 2657 m (parameter) s
+1930 2657 m (of) s
+1980 2657 m (a) s
+2020 2657 m (bound) s
+177 2617 m (procedure denotes the type to which the procedure is bound, so no confusion can arise.) s
+177 2497 m (Syntax10b.Scn.Fnt) f (Read\261only export) s
+177 2417 m (Syntax10.Scn.Fnt) f (While) s
+281 2417 m (in) s
+321 2417 m (Oberon) s
+457 2417 m (all) s
+505 2417 m (exported) s
+661 2417 m (variables) s
+820 2417 m (and) s
+894 2417 m (record) s
+1010 2417 m (fields) s
+1107 2417 m (can) s
+1178 2417 m (be) s
+1231 2417 m (modified) s
+1383 2417 m (by) s
+1433 2417 m (a) s
+1465 2417 m (client) s
+1562 2417 m (module,) s
+1706 2417 m (it) s
+1735 2417 m (is) s
+1772 2417 m (possible) s
+1919 2417 m (in) s
+1958 2417 m (Oberon\2612) s
+177 2377 m (to) s
+227 2377 m (restrict) s
+355 2377 m (the) s
+426 2377 m (use) s
+505 2377 m (of) s
+555 2377 m (an) s
+616 2377 m (exported) s
+780 2377 m (variable) s
+928 2377 m (or) s
+979 2377 m (record) s
+1102 2377 m (field) s
+1188 2377 m (to) s
+1237 2377 m (read\261only) s
+1419 2377 m (access.) s
+1561 2377 m (This) s
+1649 2377 m (is) s
+1693 2377 m (expressed) s
+1882 2377 m (by) s
+1939 2377 m (marking) s
+2089 2377 m (its) s
+177 2337 m (declaration with a "\261" instead of a "*". The "\261" suggests the restricted use of such a variable.) s
+224 2257 m (TYPE) s
+271 2217 m (Rec* = RECORD) s
+318 2177 m (f0*: INTEGER;) s
+318 2137 m (f1\261: INTEGER;) s
+318 2097 m (f2: INTEGER) s
+271 2057 m (END;) s
+224 1977 m (VAR) s
+271 1937 m (a*: INTEGER;) s
+271 1897 m (b\261: Rec;) s
+271 1857 m (c: INTEGER;) s
+177 1777 m (Client) s
+289 1777 m (modules) s
+447 1777 m (can) s
+524 1777 m (read) s
+616 1777 m (the) s
+685 1777 m (variables) s
+850 1777 m (Syntax10i.Scn.Fnt) f (a) s
+888 1777 m (Syntax10.Scn.Fnt) f (and) s
+968 1777 m (Syntax10i.Scn.Fnt) f (b) s
+1006 1777 m (Syntax10.Scn.Fnt) f (as) s
+1062 1777 m (well) s
+1143 1777 m (as) s
+1199 1777 m (the) s
+1268 1777 m (fields) s
+1371 1777 m (Syntax10i.Scn.Fnt) f (f0) s
+1419 1777 m (Syntax10.Scn.Fnt) f (and) s
+1499 1777 m (Syntax10i.Scn.Fnt) f (f1) s
+(Syntax10.Scn.Fnt) f (,) s
+1557 1777 m (since) s
+1660 1777 m (these) s
+1767 1777 m (objects) s
+1900 1777 m (are) s
+1970 1777 m (exported.) s
+177 1737 m (However,) s
+347 1737 m (they) s
+430 1737 m (can) s
+503 1737 m (modify) s
+625 1737 m (only) s
+706 1737 m (Syntax10i.Scn.Fnt) f (a) s
+740 1737 m (Syntax10.Scn.Fnt) f (and) s
+816 1737 m (Syntax10i.Scn.Fnt) f (f0) s
+(Syntax10.Scn.Fnt) f (;) s
+870 1737 m (the) s
+935 1737 m (value) s
+1037 1737 m (of) s
+1081 1737 m (Syntax10i.Scn.Fnt) f (b) s
+1115 1737 m (Syntax10.Scn.Fnt) f (and) s
+1191 1737 m (Syntax10i.Scn.Fnt) f (f1) s
+1235 1737 m (Syntax10.Scn.Fnt) f (can) s
+1308 1737 m (be) s
+1363 1737 m (read) s
+1451 1737 m (but) s
+1516 1737 m (not) s
+1580 1737 m (modified.) s
+1743 1737 m (Only) s
+1831 1737 m (the) s
+1895 1737 m (module) s
+2030 1737 m (which) s
+177 1697 m (exports) s
+314 1697 m (these) s
+421 1697 m (objects) s
+554 1697 m (can) s
+630 1697 m (modify) s
+755 1697 m (their) s
+843 1697 m (values.) s
+976 1697 m (\(Even) s
+1089 1697 m (if) s
+1123 1697 m (clients) s
+1243 1697 m (declare) s
+1381 1697 m (a) s
+1418 1697 m (private) s
+1545 1697 m (variable) s
+1691 1697 m (of) s
+1738 1697 m (type) s
+1824 1697 m (Syntax10i.Scn.Fnt) f (Rec) s
+(Syntax10.Scn.Fnt) f (,) s
+1916 1697 m (its) s
+1968 1697 m (field) s
+2052 1697 m (Syntax10i.Scn.Fnt) f (f1) s
+2099 1697 m (Syntax10.Scn.Fnt) f (is) s
+177 1657 m (read\261only.\) Since ) s
+(Syntax10i.Scn.Fnt) f (b) s
+(Syntax10.Scn.Fnt) f ( is read\261only, its components are read\261only, too.) s
+224 1617 m (The) s
+301 1617 m (motivation) s
+482 1617 m (behind) s
+607 1617 m (read\261only) s
+783 1617 m (export) s
+898 1617 m (is) s
+935 1617 m (to) s
+977 1617 m (allow) s
+1073 1617 m (a) s
+1105 1617 m (finer) s
+1188 1617 m (grain) s
+1282 1617 m (of) s
+1324 1617 m (information) s
+1519 1617 m (hiding.) s
+1640 1617 m (Information) s
+1837 1617 m (hiding) s
+1948 1617 m (serves) s
+2067 1617 m (two) s
+177 1577 m (purposes:) s
+353 1577 m (First,) s
+447 1577 m (it) s
+478 1577 m (helps) s
+580 1577 m (to) s
+624 1577 m (keep) s
+718 1577 m (off) s
+772 1577 m (unnecessary) s
+995 1577 m (details) s
+1115 1577 m (from) s
+1202 1577 m (clients.) s
+1329 1577 m (Second,) s
+1479 1577 m (it) s
+1510 1577 m (allows) s
+1626 1577 m (establishing) s
+1835 1577 m (the) s
+1900 1577 m (assertion) s
+2063 1577 m (that) s
+177 1537 m (the) s
+246 1537 m (values) s
+370 1537 m (of) s
+418 1537 m (hidden) s
+548 1537 m (variables) s
+713 1537 m (are) s
+784 1537 m (only) s
+869 1537 m (modified) s
+1027 1537 m (by) s
+1083 1537 m (access) s
+1213 1537 m (procedures) s
+1415 1537 m (of) s
+1462 1537 m (the) s
+1530 1537 m (module) s
+1669 1537 m (itself,) s
+1770 1537 m (which) s
+1881 1537 m (is) s
+1923 1537 m (important) s
+2094 1537 m (to) s
+177 1497 m (guarantee invariants. Read\261only export supports the second goal.) s
+177 1377 m (Syntax10b.Scn.Fnt) f (Open arrays) s
+177 1297 m (Syntax10.Scn.Fnt) f (Both) s
+265 1297 m (in) s
+305 1297 m (Modula\2612) s
+481 1297 m (and) s
+555 1297 m (in) s
+595 1297 m (Oberon) s
+731 1297 m (it) s
+760 1297 m (is) s
+797 1297 m (possible) s
+943 1297 m (to) s
+984 1297 m (have) s
+1075 1297 m (open) s
+1169 1297 m (arrays) s
+1281 1297 m (as) s
+1330 1297 m (parameters.) s
+1538 1297 m (The) s
+1613 1297 m (length) s
+1725 1297 m (of) s
+1766 1297 m (such) s
+1854 1297 m (an) s
+1906 1297 m (array) s
+2000 1297 m (is) s
+2036 1297 m (given) s
+177 1257 m (by) s
+228 1257 m (the) s
+292 1257 m (length) s
+406 1257 m (of) s
+449 1257 m (the) s
+513 1257 m (actual) s
+624 1257 m (parameter.) s
+828 1257 m (In) s
+871 1257 m (Oberon\2612) s
+1050 1257 m (open) s
+1146 1257 m (arrays) s
+1260 1257 m (may) s
+1342 1257 m (not) s
+1406 1257 m (only) s
+1485 1257 m (be) s
+1538 1257 m (declared) s
+1692 1257 m (as) s
+1742 1257 m (formal) s
+1856 1257 m (parameter) s
+2037 1257 m (types) s
+177 1217 m (but) s
+243 1217 m (also) s
+325 1217 m (as) s
+378 1217 m (pointer) s
+506 1217 m (base) s
+600 1217 m (types.) s
+711 1217 m (In) s
+755 1217 m (this) s
+825 1217 m (case,) s
+926 1217 m (the) s
+991 1217 m (predeclared) s
+1201 1217 m (procedure) s
+1382 1217 m (NEW) s
+1482 1217 m (is) s
+1521 1217 m (used) s
+1615 1217 m (to) s
+1659 1217 m (allocate) s
+1800 1217 m (the) s
+1865 1217 m (open) s
+1962 1217 m (array) s
+2059 1217 m (with) s
+177 1177 m (arbitrary length.) s
+224 1097 m (VAR v: POINTER TO ARRAY OF INTEGER;) s
+224 1057 m (... NEW \(v, 100\)) s
+177 977 m (The array ) s
+(Syntax10i.Scn.Fnt) f (v^) s
+(Syntax10.Scn.Fnt) f ( is allocated at run time with a length of 100 elements accessed as ) s
+(Syntax10i.Scn.Fnt) f (v[0]) s
+(Syntax10.Scn.Fnt) f ( to ) s
+(Syntax10i.Scn.Fnt) f (v[99]) s
+(Syntax10.Scn.Fnt) f (.) s
+177 857 m (Syntax10b.Scn.Fnt) f (With statements) s
+177 777 m (Syntax10.Scn.Fnt) f (In Oberon, a with statement is a regional type guard of the form) s
+224 697 m (WITH v: T DO S END) s
+177 617 m (If) s
+208 617 m (the) s
+271 617 m (variable) s
+412 617 m (Syntax10i.Scn.Fnt) f (v) s
+441 617 m (Syntax10.Scn.Fnt) f (is) s
+478 617 m (of) s
+520 617 m (dynamic) s
+669 617 m (type) s
+750 617 m (Syntax10i.Scn.Fnt) f (T) s
+(Syntax10.Scn.Fnt) f (,) s
+794 617 m (then) s
+878 617 m (the) s
+941 617 m (statement) s
+1115 617 m (sequence) s
+1288 617 m (Syntax10i.Scn.Fnt) f (S) s
+1324 617 m (Syntax10.Scn.Fnt) f (is) s
+1361 617 m (executed) s
+1523 617 m (where) s
+1635 617 m (a) s
+1666 617 m (type) s
+1746 617 m (guard) s
+1852 617 m (Syntax10i.Scn.Fnt) f (v\(T\)) s
+1927 617 m (Syntax10.Scn.Fnt) f (is) s
+1963 617 m (applied) s
+2094 617 m (to) s
+177 577 m (every) s
+280 577 m (occurrence) s
+476 577 m (of) s
+520 577 m (Syntax10i.Scn.Fnt) f (v) s
+(Syntax10.Scn.Fnt) f (,) s
+561 577 m (i.e.) s
+623 577 m (Syntax10i.Scn.Fnt) f (v) s
+654 577 m (Syntax10.Scn.Fnt) f (is) s
+693 577 m (regarded) s
+856 577 m (as) s
+908 577 m (if) s
+939 577 m (it) s
+970 577 m (had) s
+1046 577 m (the) s
+1111 577 m (static) s
+1209 577 m (type) s
+1292 577 m (Syntax10i.Scn.Fnt) f (T) s
+(Syntax10.Scn.Fnt) f (.) s
+1338 577 m (If) s
+1371 577 m (the) s
+1436 577 m (dynamic) s
+1587 577 m (type) s
+1670 577 m (of) s
+1714 577 m (Syntax10i.Scn.Fnt) f (v) s
+1745 577 m (Syntax10.Scn.Fnt) f (is) s
+1784 577 m (not) s
+1849 577 m (Syntax10i.Scn.Fnt) f (T) s
+1884 577 m (Syntax10.Scn.Fnt) f (the) s
+1948 577 m (program) s
+2099 577 m (is) s
+177 537 m (aborted. In Oberon\2612, the with statement can be written with variants, e.g:) s
+224 457 m (WITH v : T0 DO S0) s
+224 417 m (|  v : T1 DO S1) s
+224 377 m (ELSE S2) s
+224 337 m (END) s
+177 217 m (If) s
+209 217 m (the) s
+273 217 m (dynamic) s
+423 217 m (type) s
+505 217 m (of) s
+548 217 m (Syntax10i.Scn.Fnt) f (v) s
+578 217 m (Syntax10.Scn.Fnt) f (is) s
+616 217 m (Syntax10i.Scn.Fnt) f (T0) s
+(Syntax10.Scn.Fnt) f (,) s
+682 217 m (then) s
+767 217 m (Syntax10i.Scn.Fnt) f (S0) s
+825 217 m (Syntax10.Scn.Fnt) f (is) s
+863 217 m (executed) s
+1026 217 m (and) s
+1100 217 m (Syntax10i.Scn.Fnt) f (v) s
+1129 217 m (Syntax10.Scn.Fnt) f (is) s
+1166 217 m (regarded) s
+1327 217 m (as) s
+1377 217 m (if) s
+1406 217 m (it) s
+1435 217 m (had) s
+1509 217 m (the) s
+1572 217 m (static) s
+1668 217 m (type) s
+1749 217 m (Syntax10i.Scn.Fnt) f (T0) s
+(Syntax10.Scn.Fnt) f (;) s
+1814 217 m (if) s
+1843 217 m (the) s
+1906 217 m (dynamic) s
+2055 217 m (type) s
+1 p
+%%Page: 0 3 
+2104 3307 m (Syntax10.Scn.Fnt) f (2) s
+177 3307 m (Oberon2.Differences.Text   \(20 Jul 93\)) s
+177 3217 m (of) s
+219 3217 m (Syntax10i.Scn.Fnt) f (v) s
+248 3217 m (Syntax10.Scn.Fnt) f (is) s
+285 3217 m (Syntax10i.Scn.Fnt) f (T1) s
+(Syntax10.Scn.Fnt) f (,) s
+350 3217 m (then) s
+434 3217 m (Syntax10i.Scn.Fnt) f (S1) s
+491 3217 m (Syntax10.Scn.Fnt) f (is) s
+528 3217 m (executed) s
+690 3217 m (and) s
+764 3217 m (Syntax10i.Scn.Fnt) f (v) s
+793 3217 m (Syntax10.Scn.Fnt) f (is) s
+830 3217 m (regarded) s
+990 3217 m (as) s
+1039 3217 m (if) s
+1067 3217 m (it) s
+1095 3217 m (had) s
+1168 3217 m (the) s
+1230 3217 m (static) s
+1325 3217 m (type) s
+1405 3217 m (Syntax10i.Scn.Fnt) f (T1) s
+(Syntax10.Scn.Fnt) f (;) s
+1469 3217 m (else) s
+1547 3217 m (Syntax10i.Scn.Fnt) f (S2) s
+1603 3217 m (Syntax10.Scn.Fnt) f (is) s
+1639 3217 m (executed.) s
+1810 3217 m (If) s
+1840 3217 m (no) s
+1892 3217 m (variant) s
+2013 3217 m (can) s
+2083 3217 m (be) s
+177 3177 m (executed and if an else clause is missing the program is aborted.) s
+177 3057 m (Syntax10b.Scn.Fnt) f (For statements) s
+177 2977 m (Syntax10.Scn.Fnt) f (Although) s
+337 2977 m (for) s
+391 2977 m (statements) s
+583 2977 m (can) s
+654 2977 m (always) s
+778 2977 m (be) s
+831 2977 m (expressed) s
+1013 2977 m (by) s
+1063 2977 m (while) s
+1159 2977 m (statements,) s
+1361 2977 m (they) s
+1442 2977 m (are) s
+1507 2977 m (sometimes) s
+1697 2977 m (more) s
+1793 2977 m (convenient) s
+1984 2977 m (because) s
+177 2937 m (they) s
+268 2937 m (are) s
+343 2937 m (shorter) s
+479 2937 m (and) s
+563 2937 m (termination) s
+768 2937 m (is) s
+815 2937 m (inherent.) s
+981 2937 m (This) s
+1072 2937 m (is) s
+1118 2937 m (the) s
+1190 2937 m (case) s
+1288 2937 m (if) s
+1326 2937 m (the) s
+1398 2937 m (number) s
+1545 2937 m (of) s
+1596 2937 m (iterations) s
+1766 2937 m (is) s
+1812 2937 m (fixed) s
+1910 2937 m (like) s
+1985 2937 m (in) s
+2034 2937 m (many) s
+177 2897 m (applications dealing with arrays. The for statement is written as:) s
+224 2817 m (FOR i := a TO b BY step DO statements END) s
+177 2737 m (This statement is equivalent to the statement sequence) s
+224 2657 m (temp := b; i := a;) s
+224 2617 m (IF step > 0 THEN) s
+271 2577 m (WHILE i <= temp DO statements; i := i + step END) s
+224 2537 m (ELSE) s
+271 2497 m (WHILE i >= temp DO statements; i := i + step END) s
+224 2457 m (END) s
+177 2337 m (References) s
+177 2257 m ([1]  N.Wirth: The Programming Language Oberon. Software Practice & Experience, 18 \(1988\)) s
+177 2217 m ([2]  H.M\204ssenb\204ck, J. Templ: Object Oberon \261 A Modest Object\261Oriented Language.) s
+224 2177 m (  Structured Programming 10/4: 199\261207, 1989) s
+1 p
+%%Trailer         

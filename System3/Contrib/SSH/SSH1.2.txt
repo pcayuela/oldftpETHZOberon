@@ -1,0 +1,14 @@
+New since release 1.0:
+	- Server hostkey checking (ssh-dss) is implemented now.
+	- TCP/IP port forwarding.
+	- Some new functions in module BigNumbers.
+	- The use of ciphers and hashes can be configuresd by the user
+	   (SSHConfiguration.Text).
+	- New ciphers and hashes can easily be added without recompiling
+	   the SSH sources. Ciphers and hashes get loaded on demand.
+	- Suppoted ciphers:
+	      aes, blowfish, twofish, idea, 3des, des
+	- Supported hashes:
+	      hmac-sha1, hmac-sha1-96, hmac-md5,  hmac-md5-96
+	- For debugging the verbosity of SSH can be adjusted by the new
+	   command SSHUtils.SetDebug.

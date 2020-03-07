@@ -1,0 +1,9 @@
+From:	koend@NET4ALL.BE (Koen Desaeger)
+
+"Pet stands for "Programmers extentions for ET", ET being the advanced editor of
+the basic Oberon System 3. Some of Pet's features are :
+	- cursor navigation comparable to commercial editors,
+	- Auto-Uppercase of Oberon reserved & predefined identifiers as you type,
+	- Auto-Boldface of ASSERT, HALT , EXIT and RETURN keywords as you type,
+	- Smart Line Merge.
+Of course all the ET goodies remain available."

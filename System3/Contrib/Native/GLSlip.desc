@@ -1,0 +1,21 @@
+Name
+----
+GLSlip.Arc
+
+Desc
+----
+Modified sources for Native Oberon 2.2 to support COM3 & COM4 on my system
+
+Author
+------
+Gunter Liszewski
+e-mail: gunter@rain.prestel.co.uk
+
+Directory
+---------
+/pub/System3/Sources
+
+Notes
+-----
+See glslip.desc in GLSlip.Arc for installation instructions
+

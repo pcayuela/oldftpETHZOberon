@@ -1,0 +1,33 @@
+HP-Oberon 4.4 Installation instructions.
+----------------------------------------
+
+1. Create a directory for Oberon. For example /usr/local/Oberon.
+-> mkdir /usr/local/Oberon
+
+2. Copy the files Fonts.tar.gz, Kernel.tar.gz, System.tar.gz and
+   XFonts.tar.gz in the directory created in 1.
+-> cp Fonts.tar.gz Kernel.tar.gz System.tar.gz XFonts.tar.gz /usr/local/Oberon
+
+3. Decompress all *.tar.gz files
+-> gzip -d /usr/local/Oberon/*.tar.gz
+
+4. Change to the directory created in 1 and extract all files from
+   the *.tar files
+-> tar xf Fonts.tar; tar xf Kernel.tar; tar xf System.tar; tar xf XFonts.tar
+
+5. Set up the OBERON environment
+-> setenv OBERON .:/usr/local/Oberon/Kernel:/usr/local/Oberon/System:/usr/local/Oberon/Fonts
+
+6. Extend the X fontpath (optional)      
+-> xset +fp /usr/local/Oberon/XFonts
+
+7. Setup a symbolic link for Oberon (optional)
+-> ln -s /usr/local/Oberon/Kernel/oberon /usr/local/bin/oberon
+
+Remarks:
+--------
+
+- If you can not write in /usr/local, you can replace /usr/local/Oberon
+  by $HOME/Oberon.
+- If you can not setup the symbolic link, start Oberon by typing
+  /usr/local/Oberon/Kernel/oberon (or $HOME/Oberon/Kernel/oberon)

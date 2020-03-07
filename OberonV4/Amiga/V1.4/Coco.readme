@@ -1,0 +1,19 @@
+Short:    Compiler Generator for Oberon V4
+Author:   moessenboeck@ssw.uni-linz.ac.at (Prof. Dr. Hanspeter Moessenboeck)
+Uploader: degner@pallas.amp.uni-hannover.de (Ralf Degner)
+Type:     dev/obero
+
+CoCo.lha is an additional archive to use with "Oberon System V4
+for Amiga V1.4". You need the main archive Oberon.lha to run this.
+Extract this archive into the same directory where you extracted
+Oberon.lha .
+
+
+                                Ralf Degner   29-January-1997
+
+
+------------------------------------------------------------------------------
+
+Compiler generator Coco. Translates an attributed grammar (syntax-driven
+compiler specification) into a recursive descent parser and a scanner.
+For a detailed documentation read the PostScript file Coco.Report.ps

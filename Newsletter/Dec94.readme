@@ -1,0 +1,117 @@
+OBERON NEWS, December 1994
+
+The Institute for Computer Systems, ETH Zuerich, and the
+Oberon User Group of Switzerland, are happy to announce
+that the December issue of  "Oberon News" is now available
+in postscript form (~16 pages) by anonymous internet ftp from
+ftp.inf.ethz.ch:/pub/Oberon/Newsletter.
+
+Files:
+  postscript for A4 paper:           Dec94.A4.ps.Z
+  postscript for US Letter paper:    Dec94.USLetter.ps.Z
+  a screen snapshot:                 Dec94.Poster.ps.Z
+  in LaTeX 2e format:                Dec94.tex
+  in Oberon V4 text format:          Dec94.OberonV4.Text
+  
+The last page of the newsletter contains a (big) color
+screen snapshot --- this can be found in the Poster
+postscript file. A picture of Prof. Wirth giving
+the keynote speech at thr JMLC can be found in the
+file <Wirth.GIF> (provided by Peter Schulthess, Uni-Ulm).
+
+I would like to take the opportunity to thank everybody
+that contributed in one way or another to the newsletter.
+We are already accepting contributions for the next
+newsletter around the first quarter of next year. 
+
+A Merry Christmas and Happy Reading!
+
+Johannes L. Marais
+Institute for Computer Systems
+ETH Zuerich
+
+---
+TABLE OF CONTENTS:
+
+* The Joint Modular Languages Conference.
+  Peter Schulthess, Department of Distributed Systems, Ulm.
+
+* Oberon Day '94.
+  Erich Oswald, The Oberon User Group.
+
+* The Oberon Module Interchange (OMI).
+  Michael Franz, Institute for Computer Systems.
+
+* The Hybrid Project.
+  Pieter Muller, Johan de Villiers,
+  de Villiers de Wet, Jaco Geldenhuys,
+  University of Stellenbosch, South Africa.
+
+* PC-Oberon: A Progress Report.
+  F. Arickx, J. Broeckhove, T. Van den Eede, L. Vinck,
+  Onderzoeksgroep Toegepaste Informatica,
+  Universiteit Antwerpen (RUCA), Belgium.
+
+* Dynamic Online Documents in Oberon.
+  Ralph Sommerer, Institute for Computer Systems.
+
+* News around Oberon System 3 and Gadgets.
+  Johannes L. Marais, Institute for Computer Systems.
+
+* TCP/IP for MacOberon and PowerMac Oberon.
+  Daniel Scherer, TIK, ETH Zurich.
+  
+* DART-Oberon.
+  Libero Nigro, DEIS, Universita' della Calabria, Italy, 
+  Brian Kirk, Robinson Associates, UK.
+  
+* Logic Magicians' Oberon.
+  Taylor Hutt, Logic Magician, USA.
+  
+* Integrating Multimedia on the workstation Ceres-2.
+  Peter Ryser, Institute for Computer Systems.
+  
+* Oberon Tutorial.
+  Michael Franz, Institute for Computer Systems.
+  
+* Power Gadgets Available.
+  Andreas Wuertz, TIK, ETH.
+  
+* Action-Oberon.
+  Eric Hedman, Abo Akademi University, Finland.
+
+* ONTIME.
+  Karl Rege, Institute for Computer Systems.
+  
+* Oberon V4 for the PowerMacintosh.
+  H. Moessenboeck, Johannes Kepler University, Linz.
+  
+* Post Mortem Debugger for Oberon V4.
+  M. Hof, Johannes Kepler University, Linz.
+  
+* Oberon Dialogs: A Graphical User Interface for Oberon V4.
+  Markus Knasmueller, Johannes Kepler University, Linz.
+  
+* Oberon/F: Introducing a New Oberon System.
+  Cuno Pfister, Oberon microsystems.
+  
+* Call for Papers: Oberon Track at the
+  First Joint Annual GI-SI Conference 1995.
+
+* Statistics on a Voyage to Oberon.
+  G. Sawitzki, Universitaet Heidelberg.
+  
+* Recent Publications.
+
+* Accessing The Internet By E-Mail.
+  "Doctor Bob" Rankin.
+  
+* Oberon Source Code.
+  Stefan Ludwig, Institute for Computer Systems.
+  
+* Programmieren in Oberon --- Das neue Pascal.
+  Josef Templ.
+  
+* Miscellaneous Oberon Software
+  Johannes L. Marais, Institute for Computer Systems.
+  

@@ -1,0 +1,56 @@
+Short:    Oberon System V4 for Amiga V1.4
+Author:   degner@pallas.amp.uni-hannover.de (Stefan Ludwig, Claudio Nieder, Ralf Degner)
+Uploader: degner@pallas.amp.uni-hannover.de (Ralf Degner)
+Type:     dev/obero
+
+This is the V1.4 release of "Oberon System V4 for Amiga" (O4A) of ETH Zurich.
+
+"Oberon System V4 for Amiga" requires at least an MC68020 and a minimum of
+1.2MByte of free memory (2.5 MByte recommended). Floating point calculations
+(types REAL and LONGREAL) additionally require a FPU. This version requires
+WB2.0 or better. A screen mode requester will be available only with
+asl.library V38 and higher. "Oberon System V4 for Amiga" works best with
+16 colors (4 planes) and high resolutions (1024*768 or higher).
+The StartUp-Script will test your system and will report problems.
+
+NOTE: Oberon for Amiga doesn't work on XFH file systems.
+
+"Oberon System V4 for Amiga" is distributed as an lha archive. A directory
+will be created if you extract it. O4A is started using the Oberon icon.
+
+Additional archives:
+ Oberon-NonFPU.lha - to use O4A without FPU
+ Oberon-Src.lha    - the full source of O4A
+ Oberon-Fonts.lha  - additional screen and printer fonts
+ Dialogs.lha       - advanced GUI and very nice programming example
+ Expressions.lha   - mathematical expressions within text documents
+ Coco.lha          - Compiler generator
+
+NOTE: Don't store your private files into one of the subdirectories, but
+      rather use the top directory, or a separate one, which you can add
+      to the assign at the end of the Oberon StartUp-Script.
+
+When started for the first time, O4A will ask for the preferred
+screen mode and resolution (only with asl.library >=V38). This information
+will be stored in the environment variable Oberon4Amiga. The command
+System.ChangeMode can be used to change the value at a later time.
+After this you can choose to use O4A at a private screen or in a window at
+a public screen. A private screen is the normal way.
+
+Now you should read the file Release.Notes.Text, to find out what has changed
+since the last release, Oberon4Amiga.Guide.Text and Welcome.Text if you use
+the system for the first time. If you do not know how to open an Oberon text
+press the Help key to read the Welcome.Text.
+Please note the file ReferenceCard.ps. It is a nice piece of docu.
+
+System.Quit terminates the Oberon process. It is the normal way to leave
+"Oberon System V4 for Amiga".
+
+To get more information about "Amiga and Oberon" read the WWW page
+http://sun1.rrzn.uni-hannover.de/~nhbidegn/oa-e.html .
+
+Please mail any bugs encountered to degner@pallas.amp.uni-hannover.de, to
+which you can also direct questions.
+
+
+                        Ralf Degner   29-January-1997

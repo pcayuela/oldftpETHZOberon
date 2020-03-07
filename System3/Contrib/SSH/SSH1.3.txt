@@ -1,0 +1,32 @@
+New in release 1.3:
+
+- bug fixex.
+
+- The files SSHDSAHostskeys.Text and SSHRSAHostkeys.Text 
+got merged to SSHHostkeys.Text.
+
+- New module cryptPrimes.Mod for generating large safe prime 
+numbers.
+
+- Module cryptDSA is finished (includes signing now).
+
+- Improved performance.
+
+I've tuned the performace of multi pecision integers
+(cryptBigNumbers.Mod). The time for establishing a SSH-
+connection, which is mainlly determined by the computation 
+of '(a^p) mod m' in the Diffie Hellman key exchange, could be 
+reduced by a factor of nearly three but is still more than
+two times greater than with the original SSH.
+
+This was the first time I really missed unsigned integer types 
+in the Oberon language. In the old implementation of
+cryptBigNumbers multi precision integers had been represented 
+by 8 bit digits because of ease of coding (no overflow- and sign 
+problems when computing the values in LONGINT). In the
+new implementation the 'digits' are 32 bit. Unfortunateley
+a lot of the benefit of using larger digits gets lost by the 
+additional effort for treating the sign bit and overflow 
+conditions. With the availability of the Modula2 CARDINAL 
+type (and CARDINAL64) coding would have been much easier
+and (still more important) the code would have been faster.

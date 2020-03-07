@@ -1,0 +1,19 @@
+This directory offers a package for editing and displaying mathematical
+expressions within text documents and for interfacing mathematical software,
+i.e. for symbolic computing.
+
+This software is a research prototype. No warranties can be assumed.
+
+For more details see the README file in this directory.
+
+The software is made available in source. Compiled versions are no longer
+supported. Please compile the modules for your environment yourself. Some
+example documents are also made available, serving for documentation
+purposes. A more detailed describtion of the project, the concepts, and the
+implementation can be found in:
+
+    Wolfgang Weck,
+    On Document-Centered Mathematical Component Software
+    PhD. Thesis, Diss ETH 11817.
+
+Please send any questions or comments via e-mail to weck@inf.ethz.ch .

@@ -1,0 +1,50 @@
+                                                                15-Januar-1993
+
+
+              [1;33;4mAmiga Oberon 3.00 (limited Version)[m
+
+
+[1;33mPreface:[m
+
+  This is a freely distributable demo  version  of  a  powerful  compiler  for
+  Oberon-2. Oberon-2 is one of the most modern object-oriented languages. It's
+  the   latest   development  of  Prof.  Dr.  Niklaus  Wirth  and  Prof.   Dr.
+  Hanspeter Mössenböck of the ETH  Zürich.  This language  was  designed  with
+  the aim to increase the power of Modula-II and to  extend  it  with  object-
+  oriented facilities while reducing its complexity. To achieve this,  Oberon-
+  2 was extended with the concept of type- extension,  which  enables  object-
+  oriented programming comparable to Smalltalk or C++.
+
+
+[1;33mSpecial features of Amiga Oberon:[m
+
+  - parallel incremental garbage collector
+  - runtime source-level debugger
+  - BLink compatible object files
+  - fast compilation
+  - optimized code
+  - language extensions to access AmigaOS
+  - powerful editor
+  - much more...
+
+
+[1;33mUnpacking:[m
+
+  This demo version of the Amiga Oberon System exentd two disks.  These  disks
+  have been compressed to fit on one single disk. To unpack  the  disks,  just
+  double select the script file 'UnPack'. If you're still using  AmigaOS  1. 3
+  you'll have to enter
+
+    > cd DFx:Oberon3.0
+    > execute UnPack
+
+  to a shell window after putting this disks into drive DFx:.
+
+  A documentation of the programs and the files of the Amiga Oberon System  is
+  given within the file 'ReadMe' on the first unpacked disk.
+
+
+[1;33mHave much fun with Amiga Oberon-2 V3.0![m
+
+
+--- Fridtjof.

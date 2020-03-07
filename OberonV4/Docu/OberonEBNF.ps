@@ -1,0 +1,297 @@
+%!
+% header file for module Printer
+% J. Templ 27.4.90, 13.12.90
+%
+% m  moveto  x y -> -
+% s  String  s -> -
+% d  dieresis  ch -> -
+% l  Line  x y w h -> -
+% x  XLine  x y dx dy -> -
+% c  scaled Circle  x y a b -> -
+% b  shaded box  x y w h col -> -
+% i  pattern image  x y w h mode  -> -
+% p  Page  n -> -
+% f  font mapping  fnt -> -
+
+/m {moveto} def
+
+/s {show} def
+
+/d 
+  { /s2 exch def
+	/ch0 s2 0 1 getinterval def
+	/ch1 s2 1 1 getinterval def
+    currentpoint /y0 exch def /x0 exch def
+    ch0 show
+    currentpoint /y1 exch def /x1 exch def
+    ch1 stringwidth /wy exch def /wx exch def
+    x1 x0 add wx sub 2 div y0 moveto
+    ch0 (Z) le {0 wx 2 div rmoveto} if
+    ch1 show
+    x1 y1 moveto
+  } def
+
+/l
+  { /ph exch def
+    /pw exch def
+    newpath
+    moveto
+    pw 0 rlineto
+    0 ph rlineto
+    pw neg 0 rlineto
+    closepath
+    0 setgray
+    fill
+  } def
+
+/x
+  { /dy exch def
+    /dx exch def
+    newpath
+    moveto
+    dx dy rlineto
+    0 setlinewidth
+    stroke
+  } def
+
+/c
+  { /pb exch def
+    /pa exch def
+    newpath
+    gsave
+    translate
+    1 pb pa div scale
+    0 0 pa 0 360 arc
+    0 setlinewidth
+    stroke
+    grestore
+  } def
+
+/maxwh
+  { pw ph gt {/max pw def} {/max ph def} ifelse
+  } def
+
+/shade
+  { col 0 eq {1 setgray} if
+    col 1 eq {0.99 setgray} if
+    col 2 eq {0.9 setgray} if
+    col 3 eq {0.65 setgray} if
+    col 4 eq {0.35 setgray} if
+    col 5 eq {0 setgray} if
+    fill
+  } def
+
+/texture
+  { gsave
+    clip
+    newpath
+    col 6 eq
+      { px py ph add moveto
+        maxwh
+        max 10 idiv 1 add
+          { max max rlineto
+            max neg dup 20 sub rmoveto
+          } repeat
+      } if
+    col 7 eq
+      { px py moveto
+        maxwh
+        max 10 idiv 1 add
+          { max neg max rlineto
+            max 20 add max neg rmoveto
+          } repeat
+      } if
+    col 8 eq
+      { px py moveto
+        pw 15 idiv 1 add
+          { 0 ph rlineto
+            15 ph neg rmoveto
+          } repeat
+     } if
+    col 9 eq
+      { px py moveto
+        ph 15 idiv 1 add
+          { pw 0 rlineto
+            pw neg 15 rmoveto
+          } repeat
+     } if
+    0 setlinewidth
+    stroke
+    grestore
+  } def
+
+/b
+  { /col exch def
+    /ph exch def
+    /pw exch def
+    /py exch def
+    /px exch def
+    newpath
+    px py moveto
+    pw 0 rlineto
+    0 ph rlineto
+    pw neg 0 rlineto
+    closepath
+    col 6 lt {shade} {texture} ifelse
+  } def
+
+/i
+  { /mode exch def
+    /ph exch def
+    /pw exch def
+    /py exch def
+    /px exch def
+    /picstr 256 string def
+    /nofbytes pw 7 add 8 idiv ph mul def
+    gsave
+    px py translate
+    pw 2 mul ph 2 mul  scale
+    pw ph 1 [pw 0 0 ph 0 0]
+      {nofbytes 256 ge
+        { currentfile picstr readhexstring
+          /nofbytes nofbytes 256 sub def
+          pop
+        }
+        { /picstr nofbytes string def
+          currentfile picstr readhexstring
+          pop
+          /nofbytes 0 def
+        } ifelse
+      } image
+    grestore
+  } def
+
+/init
+  { .23 .23 scale
+    100 50 translate
+  } def
+
+/p
+  { /#copies exch def
+    showpage
+    init
+  } def
+
+/map
+  { ofnt eq {findfont exch scalefont setfont} {pop pop} ifelse
+  } def
+
+/f
+  { /ofnt exch def
+    /Helvetica findfont 41 scalefont setfont    % default font
+
+    37 /Helvetica (Syntax10.Scn.Fnt) map
+    34 /Helvetica-Oblique (Syntax10i.Scn.Fnt) map
+    37 /Helvetica-Bold (Syntax10b.Scn.Fnt) map
+    37 /Helvetica-Bold (Syntax10m.Scn.Fnt) map
+    37 /Helvetica (Syntax10w.Scn.Fnt) map
+
+    44 /Helvetica (Syntax12.Scn.Fnt) map
+    41 /Helvetica-Oblique (Syntax12i.Scn.Fnt) map
+    44 /Helvetica-Bold (Syntax12b.Scn.Fnt) map
+    44 /Helvetica-Bold (Syntax12m.Scn.Fnt) map
+
+    50 /Helvetica (Syntax14.Scn.Fnt) map
+    47 /Helvetica-Oblique (Syntax14i.Scn.Fnt) map
+    50 /Helvetica-Bold (Syntax14b.Scn.Fnt) map
+    50 /Helvetica-Bold (Syntax14m.Scn.Fnt) map
+
+    59 /Helvetica (Syntax16.Scn.Fnt) map
+    56 /Helvetica-Oblique (Syntax16i.Scn.Fnt) map
+    59 /Helvetica-Bold (Syntax16b.Scn.Fnt) map
+    59 /Helvetica-Bold (Syntax16m.Scn.Fnt) map
+
+    74 /Helvetica (Syntax20.Scn.Fnt) map
+    70 /Helvetica-Oblique (Syntax20i.Scn.Fnt) map
+    74 /Helvetica-Bold (Syntax20b.Scn.Fnt) map
+    74 /Helvetica-Bold (Syntax20m.Scn.Fnt) map
+
+    88 /Helvetica (Syntax24.Scn.Fnt) map
+    84 /Helvetica-Oblique (Syntax24i.Scn.Fnt) map
+    88 /Helvetica-Bold (Syntax24b.Scn.Fnt) map
+    88 /Helvetica-Bold (Syntax24m.Scn.Fnt) map
+
+    30 /Courier (Gacha10l) map
+    37 /Courier (Courier10.Scn.Fnt) map
+    37 /Courier-Bold (Courier10b.Scn.Fnt) map
+    30 /Courier (Courier8.Scn.Fnt) map
+
+  } def
+
+init
+% --- end of header
+160 3300 m (Syntax10.Scn.Fnt) f (Oberon.EBNF) s
+2100 3300 m ( 0) s
+160 3200 m (ident  =  letter {letter | digit}.) s
+160 3158 m (number  =  integer | real.) s
+160 3116 m (integer  =  digit {digit} | digit {hexDigit} "H".) s
+160 3074 m (real  =  digit {digit} "." {digit} [ScaleFactor].) s
+160 3032 m (ScaleFactor  =  \("E" | "D"\) ["+" | "-"] digit {digit}.) s
+160 2990 m (hexDigit  =  digit | "A" | "B" | "C" | "D" | "E" | "F".) s
+160 2948 m (digit  =  "0" | "1" | "2" | "3" | "4" | "5" | "6" | "7" | "8" | "9".) s
+160 2906 m (CharConstant = '"' character '"' | digit {hexDigit} "X".) s
+160 2864 m (string  =  '"' {character} '"' .) s
+160 2780 m (identdef = ident ["*"].) s
+160 2738 m (qualident = [ident "."] ident.) s
+160 2696 m (ConstantDeclaration  =  identdef "=" ConstExpression.) s
+160 2654 m (ConstExpression  =  expression.) s
+160 2612 m (TypeDeclaration  =  identdef "=" type.) s
+160 2570 m (type  =  qualident | ArrayType | RecordType | PointerType | ProcedureType.) s
+160 2528 m (ArrayType  =  ARRAY length {"," length} OF type.) s
+160 2486 m (length  =  ConstExpression.) s
+160 2444 m (RecordType  =  RECORD ["\(" BaseType "\)"] FieldListSequence END.) s
+160 2402 m (BaseType  =  qualident.) s
+160 2360 m (FieldListSequence  =  FieldList {";" FieldList}.) s
+160 2318 m (FieldList  =  [IdentList ":" type].) s
+160 2276 m (IdentList  =  identdef {"," identdef}.) s
+160 2234 m (PointerType  =  POINTER TO type.) s
+160 2192 m (ProcedureType = PROCEDURE [FormalParameters].) s
+160 2150 m (VariableDeclaration  =  IdentList ":" type.) s
+160 2066 m (designator  =  qualident {"." ident | "[" ExpList "]" | "\(" qualident "\)" | "^" }.) s
+160 2024 m (ExpList  =  expression {"," expression}.) s
+160 1982 m (expression  =  SimpleExpression [relation SimpleExpression].) s
+160 1940 m (relation  =  "=" | "#" | "<" | "<=" | ">" | ">=" | IN | IS.) s
+160 1898 m (SimpleExpression  =  ["+"|"-"] term {AddOperator term}.) s
+160 1856 m (AddOperator  =  "+" | "-" | OR .) s
+160 1814 m (term  =  factor {MulOperator factor}.) s
+160 1772 m (MulOperator  =  "*" | "/" | DIV | MOD | "&" .) s
+160 1730 m (factor  =  number | CharConstant | string | NIL | set |) s
+160 1688 m (  designator [ActualParameters] | "\(" expression "\)" | "~" factor.) s
+160 1646 m (set  =  "{" [element {"," element}] "}".) s
+160 1604 m (element  =  expression [".." expression].) s
+160 1562 m (ActualParameters  =  "\(" [ExpList] "\)" .) s
+160 1520 m (statement  =  [assignment | ProcedureCall |) s
+160 1478 m (  IfStatement | CaseStatement | WhileStatement | RepeatStatement |) s
+160 1436 m (  LoopStatement | WithStatement | EXIT | RETURN [expression] ].) s
+160 1394 m (assignment  =  designator ":=" expression.) s
+160 1352 m (ProcedureCall  =  designator [ActualParameters].) s
+160 1310 m (StatementSequence  =  statement {";" statement}.) s
+160 1268 m (IfStatement  =  IF expression THEN StatementSequence) s
+160 1226 m (  {ELSIF expression THEN StatementSequence}) s
+160 1184 m (  [ELSE StatementSequence] END.) s
+160 1142 m (CaseStatement  =  CASE expression OF case {"|" case}) s
+160 1100 m (  [ELSE StatementSequence] END.) s
+160 1058 m (case  =  [CaseLabelList ":" StatementSequence].) s
+160 1016 m (CaseLabelList  =  CaseLabels {"," CaseLabels}.) s
+160 974 m (CaseLabels  =  ConstExpression [".." ConstExpression].) s
+160 932 m (WhileStatement  =  WHILE expression DO StatementSequence END.) s
+160 890 m (RepeatStatement  =  REPEAT StatementSequence UNTIL expression.) s
+160 848 m (LoopStatement  =  LOOP StatementSequence END.) s
+160 806 m (WithStatement  =  WITH qualident ":" qualident DO StatementSequence END .) s
+160 722 m (ProcedureDeclaration  =  ProcedureHeading ";" ProcedureBody ident.) s
+160 680 m (ProcedureHeading  =  PROCEDURE ["*"] identdef [FormalParameters].) s
+160 638 m (ProcedureBody  =  DeclarationSequence [BEGIN StatementSequence] END.) s
+160 596 m (ForwardDeclaration  =  PROCEDURE "^" ident ["*"] [FormalParameters].) s
+160 554 m (DeclarationSequence  =  {CONST {ConstantDeclaration ";"} |) s
+160 512 m (    TYPE {TypeDeclaration ";"} | VAR {VariableDeclaration ";"}}) s
+160 470 m (    {ProcedureDeclaration ";" | ForwardDeclaration ";"}.) s
+160 428 m (FormalParameters  =  "\(" [FPSection {";" FPSection}] "\)" [":" qualident].) s
+160 386 m (FPSection  =  [VAR] ident {"," ident} ":" FormalType.) s
+160 344 m (FormalType  =  {ARRAY OF} \(qualident | ProcedureType\).) s
+160 302 m (ImportList  =  IMPORT import {"," import} ";" .) s
+160 260 m (import  =  ident [":=" ident].) s
+160 218 m (module  =  MODULE ident ";"  [ImportList] DeclarationSequence) s
+160 176 m (    [BEGIN StatementSequence] END ident "." .) s
+1 p
+160 3300 m (Oberon.EBNF) s
+2100 3300 m ( 1) s

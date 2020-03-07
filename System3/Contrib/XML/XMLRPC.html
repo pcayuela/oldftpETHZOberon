@@ -1,0 +1,56 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+<html>
+<head>
+<title>XMLRPC Implementation for Oberon </title>
+<meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1">
+</head>
+<body BGCOLOR="#FFFFFF">
+<a href="/index.html">Oberon</a> &gt; <a href="/software/index.html">Software</a> &gt; XMLRPC
+<h2>XMLRPC Implementation for Oberon</h2>
+[ <a href="#description">Description</a> | <a href="#install">Installation</a> | <a href="#log">Version log</a> ]
+<hr>
+<h2><a name="description">Description</a></h2>
+<a href="http://www.xmlrpc.org">XMLRPC</a> is a remote procedure call protocol that uses HTTP for transport and XML for encoding.  It is simpler to use 
+than SOAP.  This implementation works with the Aos (<a href="http://bluebottle.ethz.ch/">BlueBottle</a>) version of Oberon.  It has been tested with
+<a href="http://www.bluebottle.ethz.ch/WinAos/">WinAosOberon.</a>
+<p>
+Maintainer: <A HREF="mailto:jmdrake_98@yahoo.com">John Drake</A>
+<p>
+Requirements: Aos Oberon
+<hr>
+<h2><a name="install">Installation</a> and usage</h2>
+1. <a href="ftp://ftp.inf.ethz.ch/pub/ETHOberon/Contrib/XML/">Download the archives</a>.
+<p>
+2. Extract the files.
+<p>
+3. Compile the files XMLRPC.Mod and TestXMLRPC.Mod.  To see examples use the commands TestXMLRPC.Test1 and TestXMLRPC.Test2
+<p>
+XMLRPC currently exports 3 object types.  1) Client  2) Method  3) Parameters.  To use XMLRPC in your own code requires the following steps:
+<ol>
+<li>Create a client object passing it the URL of the XMLRPC server. &nbsp&nbsp<br><b>NEW(client, "http://server-url")</b></li><br>
+<li>Create a method object, passing it the method you wish to call.&nbsp&nbsp<br><b>NEW(method, "module.method")</b></li><br>
+<li>Create a parameter object.  Add each parameter to be passed.&nbsp&nbsp<br><b>NEW(params); params.AddInt(int1); params.AddInt(int2);</b></li><br>
+<li>Pass the parameter object to the method object.&nbsp&nbsp<br><b>method.SetParams(params);</b></li><br>
+<li>Call the client, passing the method object to it.  Results returned in a DynamString&nbsp&nbsp<br><b>resultstring := client.Call(method);</b></li><br>
+</ol>
+<p>
+Note: I'm releasing this package early in the hopes that others will join in the development.  There are some obvious improvements to
+make.
+<ul>
+<li>Being able to handle parameters other than just Int (i.e. passing structures)</li>
+<li>Parsing the resulting string into XML</li>
+<li>Implementing an XMLRPC server</li>
+</ul>
+<p>
+If you want to help, please <a href="jmdrake_98@yahoo.com">email</a> me.
+<hr>
+<h2><a name="log">Version log</a></h2>
+27 June 2003 - First public release<BR> 
+1 July 2003 - Minor change to client. Inceased efficiency
+<p>
+<address><small> 
+27 June 2003 - Copyright &copy; 2002 ETH Z&uuml;rich. All rights reserved.<br> 
+E-Mail: oberon-web at inf.ethz.ch<br> 
+Homepage: <a href="http://www.oberon.ethz.ch/">http://www.oberon.ethz.ch/</a> 
+</small></address></body>
+</html>

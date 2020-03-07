@@ -1,0 +1,12 @@
++-----------------------------------------------------------------------
+| This directory contains example modules of various books published in
+| the field of Oberon.
+|
+|   Compilerbau:    Compiler Construction
+|                   N. Wirth
+|   OOPinOberon:    Object Oriented Programming in Oberon-2
+|                   H. Moessenboeck
+|   PinOberon:      Programming in Oberon
+|                   N. Wirth & M. Reiser
+|   ProjectOberon:  Project Oberon
+|                   N. Wirth & J. Gutknecht

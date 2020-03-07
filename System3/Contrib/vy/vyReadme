@@ -1,0 +1,21 @@
+vyReadme (19. Jun. 2000/gs)
+
+Voyager is a system for data analysis and statistics. The Voyager home page is
+                  <http://www.statlab.uni-heidelberg.de/projects/voyager/>.
+
+Registered alpha testers can access Voyager sources from statlab, using their password and Crypt0 encryption for the Compress archives.
+These archives are password protected:
+   vya5.src.common.Arc
+      common source files         
+   vya5.src.S3.Arc
+      System 3 specific source files
+
+Selected Voyager modules are provided here "as is". Interfaces are still subject to change.
+These archives are public:
+   vyDoc.Arc
+      selected documentation files
+   vyDef.Arc
+			definition files and interface documentation, in HTML format
+   vyRandom.Arc
+      Random number generators
+

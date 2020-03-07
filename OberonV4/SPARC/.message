@@ -1,0 +1,8 @@
++--------------------------------------------------------------------------
+| SPARC-Oberon (TM)
+| 
+| This directory contains ETH-Oberon V4 for Sun SPARCstations and 
+| compatibles running SunOS 4.x. A version for SunOS 5.x (Solaris2.x) 
+| is available in subdirectory Solaris2. For Oberon System-3 change to 
+| directory /Oberon/System3/SPARC. Please read the installation 
+| guidelines in file "readme" carefully.

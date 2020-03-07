@@ -1,0 +1,305 @@
+The Unix versions of ETH Oberon are maintained by Guenter Feldmann
+at the University of Bremen in Germany <fld@Informatik.Uni-Bremen.DE>
+
+New in release 2.3.8a (update 2003-01-23):
+
+After upgrading my iBook from Mac OS X 10.? (Darwin 5.1) to
+Mac OS X 10.2 (Darwin 6.2) the Oberon system traps didn't 
+work any more. Apple has changed the kernel interface for 
+signal delivery. There is no compatibility for old binaries built in!
+Instead of opening a trap view Oberon freazes by recursively
+traping and has to be killed from the outside.
+
+I could not find an easy way to build an Oberon core which can 
+run on top of both Darwin releases. So I built a ppc.Dawin62 port.
+
+The old port 'ppc.Darwin' was renamed to ppc.Darwin51.
+The Darwin 5.1 port will not get updated in future Unix Oberon
+releases.
+
+New in release 2.3.8a:
+
+The following is new in this release:
+
+All ports:
+
+  -  This release is based on the NO alpha sources of 24.8.2002.
+
+  -  Input.Mod:
+      -  The input of German umlauts and other special characters has changed
+          from Ctrl-A, ...  to  Alt-A, ... .
+      -  X11 exposure events get handled now.
+
+  -  Displays.Mod, Display.Mod, Pictures.Mod:
+      fixed true color presentation on big endian X servers.
+
+  -  Pictures.Mod:
+      fixed an error which caused traps on systems with pseudocolor displays.
+
+  -  Oberon.Mod, NetSystem.Mod:
+      Procedure NetSystem.Available starts waiting Oberon tasks if no data is
+      available. This extension prevents blocking of applications using locally
+      forwarded TCP/IP ports (SSH tunnels).
+
+  -  The font used in the buttons of the menu bar and iconizers has been decoupled
+      from the default font. The default font can now be switched to a bigger font
+      without getting ugly looking menu bars. Both fonts can be selected independently
+      in Oberon.Text:
+            DefaultFont = Oberon10.Scn.Fnt
+            MenuFont = Oberon10.Scn.Fnt
+      (Fonts.Mod, System.Mod, BasicGadgets.Mod, Icons.Mod)
+
+  -  fixed a problem with the presentation of Courier fonts (Oberon XFonts)
+
+  -  Secure Shell client (OberonSSH 1.4) included.
+
+
+PowerPC ports (MacOS X, Linux PPC):
+
+  -  Kernel.Mod, Modules.Mod:
+      Kernel buffers have been removed.
+
+
+SPARC port:
+
+  -  Compiler backend:
+      SYSTEM.ROT( x, n ):  n may be an expression now.
+      The compiler specific versions of MD5.Mod and Crypt.Mod are no longer needed.
+
+New in release 2.3.8:
+
+-  This release is based on the Native Oberon sources of 21.6.2002.
+
+-  All five ports now share the compiler front-end with the Native Oberon 
+	compiler. The compiler specific modules in the source tree disappeared.
+
+-  The compilers of the PowerPC ports no longer have sets represented
+	in reversed bit order. This makes low-level code with mixed integer
+	and set operations and type coercions much more portable. The SSH 
+	modules which rely on the right bitorder and on the Active Oberon 
+	syntax work on the PowerPC ports also now.
+	
+	The support for OMI (Slim Binaries) has been removed.
+
+-  All compilers now do full stack initialization by default. You no longer
+	need to find missing-initialization errors when porting modules from
+	Native Oberon or  Windows Oberon to the Unix Oberon ports.
+
+-  The procedure Files.SetDate was finally imlemented.
+
+PowerPC ports only:
+	
+	The trap viewers got more readable.
+
+MacOS X port only:
+	
+	The trap viewers display the right values now, even if the varables got
+	allocted to registers.
+
+New in release 2.3.7d:
+	
+	- Desktops.Mod:  uses 'System' menu bar now for narrow windows.
+	
+	- FileDir.Mod:  bug in 'RelFileName' fixed.
+	
+	- TextGadgets:  the following missing new features have been added:
+		
+		- 'FrameW' and 'PrinterW' attributes.
+		- click twice to execute (Oberon.New).
+
+	- The default TextGadgets background can be switched to white.
+		(Oberon.Text:  Gadgets.WhiteTextBackground = Yes)
+	
+	- Pictures.Mod:  added limited support for true color. 
+		In the following procedures the color parameter has been changed fom INTEGER 
+		to Display.Color (LONGINT):
+			
+			Pictures.CopyPattern,
+			Pictures.Dot,
+			Pictures.ReplPattern.
+			
+	- PNG.Mod:  new module. 
+		Adds support for the popular 'portable network graphics' in text documents.
+
+New in release 2.3.7c:
+
+  I think that I could fix all bugs you reported and upgraded Unix 
+Oberon to release 2.3.7c. New bug reports and proposals for enhancements
+are welcome.
+
+  Again I did some cleanup in the sources and reduced the number of
+port specific modules. To port Unix Oberon to a new host system
+(eg. sparc Linux, x86 BSD) only three or four Modules (Glue, Unix, 
+(Kernel), NetBase) would have to be adapted now.
+
+New in release 2.3.7b:
+
+  Guenther Sawitzki has persuaded me to port Unix Oberon to the
+new MacOS X platform (Mach, BSD kernel). The port is finished now 
+and is the 5. member in the Unix Oberon collection. I promise, this 
+will be the last port. It tends to become real hard work.
+
+  The MacOS X/Darwin port shares the basic ingredients
+(compiler, loader, ...) with the Linux PPC port. The extension
+for threads is disabled until the POSX threads implementation
+for Darwin is completed. In the currrent state (Darwin 5.1)
+the per-thread signal handling is missing.
+
+  The other ports got only minor changes. Mostly code cleanup
+to reduce the number of port specific Modules.
+
+New in release 2.3.7a:
+
+- The systems are now based on the NO alpha souces of 11.10.2001.
+
+- New Gadgets behaviour with 2 button mouses.
+
+	  The new Gadgets behaviour for systems not having a 3 button mouse 
+	can be enabled by setting
+			MouseButtons = n
+	in the System section of Oberon.Text (n < 3 --> Oberon.New = TRUE).
+
+- Native keyboard support with XFree86 4.x.
+
+	  Starting with release 4.0 the XFree86 X servers got a neu input 
+	behavior for supporting native keyboard layouts. In the traditional 
+	X servers the AltGr key mappings were done by the servers themsels. 
+	With the new XFree86 X servers this task is left to the clients. 
+	  In the new Oberon release native keyboard layouts can be selected 
+	in the System section of Oberon.Text:
+		KeyboardLayout = "lang".
+
+	  Currently 3 languages are supported: "us", "de" and "de_CH".
+  
+	  New keyboard layouts can easily be added by edditing the file
+	KeyboardMaps.Text.
+
+- Unix signal 13 handling fixed.
+
+	  In the past some users of Linux Oberon have complained that they
+	could not teminate Oberon by using the close button of the KDE task 
+	bar. I then figured out that the KDE clients (in that stage of KDE) 
+	died by receiving signal 13 (broken pipe) and I decided to terminate 
+	Oberon on receiving signal 13 as well. 
+	  A very bad idea in the retrospect as now remote hosts to which Oberon
+	had been connected via Telnet or SSH could terminale Oberon by 
+	simply closing the connection. Fixed! Signale 13 forces a Trap again. 
+	Fortunately the close button in the KDE task bar can be used to teminate 
+	Oberon anyhow as the current KDE versions terminate their clients 
+	correctly.
+
+- SPARC port only:
+	
+	A compiler bug got fixed.
+
+New in release 2.3.7
+
+Linux PPC:
+
+    small upgrades to the compiler:
+    -  Sysflags [C] and [UNTRACED] added. [C] is for source compatibility anly
+        and has no effect.
+    -  Signature of procedure Compiler.Module is now compatible with the NO 
+        compiler.
+    
+    Latest test have shown that PowerPC port has problems on systems 
+    equipped with the old 601 processor (frequent bus error traps in 
+    Files.Readbytes). 602 processors have not been tested. On systems
+    with 604 or newer processors there are no problems.
+        
+Linux x86:
+
+    nothing special
+        
+        
+Solaris x86:
+
+    nothing special
+        
+        
+Solaris SPARC:
+
+    compiler upgrades and bug fixes:
+        -  shares the front end with the NO compiler (Oberon X extensions 
+            (dyn. arrays, complex funtion return values, operator overloading), 
+            new object syntax).
+        -  full HUGEINT support. Also done for traps (Exception.Mod) and in 
+            Decoder.Mod. The new modul OutH extends module Out for 
+            HUGEINTs.
+        -  error in method super call fixed.
+    
+    A nasty bug in System.Free which could crash the system got fixed.
+        
+        
+Common to all ports:
+
+    -  Module X11 is a pure interface to xlib now. All basic display functionality
+        got separated into the new module Displays.Mod. A first step in the 
+        direction "Finer grained integration ...".
+    
+    -  finer grained display locking. The display no longer gets locked for the
+        whole duration of a main loop command. The test and demo module
+        src/Unix/TestThreads.Mod mow runs very smoothly.
+        
+    -  signal blocking for threads corrected.
+    
+    -  Module Threads got a new boolean function 'Locked'.
+        
+    -  If the Oberon main loop doesn't poll the X input queue for a longer 
+        period of time (500 ns) the input queue gets polled by a separate thread 
+        in module Input now. This enables the user to interrupt a faulty command 
+        (endless loop) by typing ctrl C or the Break key. In all previous versions 
+        of the Unix ports this had to be done by sending the Unix signal SIGINT 
+        from the outside.
+        
+    -  Unix print command selection fixed (UnixPrinter.Mod).
+    
+    - Not new, just to remind: the x86 ports support exception handling
+       in the same way as in plugin Oberon. Some documentaion is contained
+       in the source of module Exceptions (src/x86/Unix/Exceptions.Mod).
+       
+  Installation hint: All Unix Oberon versions are designed for shared
+installation. You need only install them once on central file server.
+The client machines need only read permissions for the installed
+Oberon home (and the start script, eg /usr/local/bin/oberon).
+
+
+New in release 2.3.6g
+	- SPARC port bug fixes:
+		1) Loader: 
+			Oberon 2 methods (type bound procedures) didn't get initialized right 
+			in TD records.
+		2) Compiler: 
+			The generated code didn.t observe the SYSV ABI. The reserved registers 
+			g5..g7 are no longer used in Oberon code.
+			Code generation bug in OOPC.NewArray fixed.
+		3) Exception handling:
+			Trap viewers show dynamic and static type of pointer variables now.
+			'FindProc' didn't find the last procedure in module code. fixed.
+			
+	- Threads
+		1) The usage of threads no longer needs suid root privileges for
+			the boot loader.
+		2) The Interface of the threads module got no changes (same as in
+			the NT port) but the procedure SetPriority has no effect without
+			root privileges and GetPriority delivers 0 in this case.
+		3) In the Solaris ports the threads implementation is now based
+			on Sun threads. This was nessesary because the posix threads of
+			Solaris didnt't behave like posix threads of Linux (and posix standad).
+		4) If a thread traps while it has locked the display, the display mutex
+			gets unlocked now.
+		5) For testing and demonstration I included the module
+			src/Unic/TestThreads.Mod.
+			
+	- src/fld/TextGadgets0.Mod:
+		1) Interface changed to be compatible with NO/TextGadgets0.Mod agein.
+		2) corrected computation of 'F.ibgWidth' to avoid flicker at right border.
+		3) improved Scrollbar handling a little.
+
+	- Linux ports:
+		Older Linux Kernels are no loger supported. The new start script
+		checks for glibc version >= 2.1.2. The new check works on RedHat
+		and SuSE Linux. The check in the old startup script for LinuxPPC
+		failed on SuSE systems and selected the wrong bootloader.
+	
+	- The Unix ports version of TextDocs is no longer needed.

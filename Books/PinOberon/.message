@@ -1,0 +1,7 @@
++-------------------------------------------------------------
+| PinOberon.tar.gz contains selected examples from the book
+| "Programming in Oberon" by N. Wirth and M. Reiser as
+| Oberon text files. 
+|
+| Use gunzip and tar to extract the files from the compressed
+| archive.

@@ -1,0 +1,296 @@
+HP-Oberon (TM) 4.2
+
+Copyright 1991-94, ETH Zuerich
+
+Oberon and HP-Oberon are a trademarks of the Institut fuer  Computersysteme,
+ETH Zurich
+
+Permission  to use,  copy,  modify  and  distribute  this  software  and its
+documentation  for any purpose is hereby granted  without fee, provided that
+the above copyright notice appear in all copies and that both that copyright
+notice and this permission  notice appear in supporting  documentation,  and
+that the name of ETH not be used in advertising  or publicity  pertaining to
+distribution of the software  without  specific,  written prior  permission.
+ETH makes no representations  about the suitability of this software for any
+purpose.  It is provided "as is" without express or implied warranty.
+
+ETH DISCLAIMS ALL  WARRANTIES  WITH REGARD TO THIS  SOFTWARE,  INCLUDING ALL
+IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS.  IN NO EVENT SHALL ETH BE
+LIABLE FOR ANY  SPECIAL,  INDIRECT OR  CONSEQUENTIAL  DAMAGES OR ANY DAMAGES
+WHATSOEVER RESULTING FROM LOSS OF USE, DATA OR PROFITS, WHETHER IN AN ACTION
+OF  CONTRACT,  NEGLIGENCE  OR OTHER  TORTIOUS  ACTION,  ARISING OUT OF OR IN
+CONNECTION WITH THE USE OR PERFORMANCE OF THIS SOFTWARE.
+
+
+Syntax Font
+Copyright (C) 1968 Linotype AG
+
+Syntax is a registered trademark of Linotype AG.
+The Syntax font is owned and used by permission of Linotype AG.
+
+RASTER  DATA  DESCRIBING  SEVERAL  TYPEFACES  OF THE SYNTAX  FONT  FAMILY IS
+SUPPLIED  WITH THIS  RELEASE  OF OBERON AND MAY BE USED ONLY IN  CONJUNCTION
+WITH THE  OBERON  SOFTWARE.  ANY OTHER USE OF THE  SYNTAX  FONT  REQUIRES  A
+LICENSE FROM LINOTYPE AG.
+
+PostScript  versions of the fonts in the Syntax  family are  available  from
+Linotype, Inc.  and its subsidiaries.
+
+----------------------------------------------------------------------------
+
+HP-Oberon  (TM) is an  implementation  of Oberon (TM) for  Hewlett-  Packard
+Apollo Serie 700 workstations.  Both the programming  language  Oberon-2 and
+the Oberon System have been implemented.  For a complete  description of the
+Language and of the System, one should read the following books:
+
+N.  Wirth and M.  Reiser:  Programming  in Oberon.  Steps beyond  Pascal and
+Modula-2.
+Addison Wesley, 1992, ISBN 0-201-56543-9.
+(Tutorial  for  the  Oberon   programming   language  and  concise  language
+reference.)
+
+M.  Reiser:  The Oberon System.  User Guide and Programmer's Manual.
+Addison Wesley, 1991, ISBN 0-201-54422-9.
+(User manual for the programming  environment and reference for the standard
+module library.)
+
+N.  Wirth and J.  Gutknecht:  Project  Oberon.  The  Design of an  Operating
+System and Compiler.
+Addison Wesley, 1992, ISBN 0-201-54428-8
+(Program  listings with explanations for the whole Oberon system,  including
+the compiler for NS32000.)
+
+H. Moessenboeck: Object-Oriented Programming in Oberon-2
+Springer-Verlag, 1993, ISBN 0-387-56411-X.
+(Principles and applications of object-oriented programming with examples in
+Oberon-2.)
+
+For a description of the Oberon-2 language:
+Hanspeter Moessenboeck,
+Differences between Oberon and Oberon-2,
+The Programming Language Oberon-2,
+Report 160, Departement Informatik, ETH Zurich.
+Also present as on-line documentation in this Oberon release.
+
+For implementation specific informations:
+Jacques Supcik,
+HP-Oberon (TM), The Oberon  Implementation for  Hewlett-Packard  Apollo 9000
+Series 700.
+Report 212, Departement Informatik, ETH Zurich.
+
+We propose to discuss  Oberon  related  topics  within the  comp.lang.oberon
+newsgroup.
+
+Files:
+------
+
+HP-Oberon is available  either via  anonymous  ftp on  ftp.inf.ethz.ch  (IP:
+129.132.101.33) or on one 3 1/2 HD diskette.
+
+The Oberon package consists of these three files:
+
+HP-Oberon.4.*.updt.gz:  A  compressed  tar-file   containing  the  HP-Oberon
+			run-time  system, the Oberon  fonts, the X-fonts and
+			the  documentations.  You may use the HP-UX  command
+			/etc/update  to install these  filesets,  however if
+			you  cant't  use it,  you can  also  use  'tar'  for
+			installing the system.
+
+HP-Oberon.Guide.ps.gz   A  compressed   postscript   file   containing   the
+			HP-Oberon User's Guide.
+
+README			The file you are reading at present.
+
+Installation:
+-------------
+
+STEP 1: Copy the Oberon Package onto your disk
+
+   If you have internet access
+	
+      1.1 get the file from the ETH anonymous file server.
+          (ftp.inf.ethz.ch:/pub/Oberon/HP700)
+
+         % ftp ftp.inf.ethz.ch 		' ip = 129.132.101.33
+         
+         Name: ftp
+         Password: <send your complete e-mail address as password>
+	
+         ftp> bin			' binary file transfer 
+         ftp> prompt			' disable prompt
+	 ftp> cd /pub/Oberon/HP700 	' this is where HP-Oberon files are
+         ftp> mget HP-Oberon.*.updt.gz	' the HP-Oberon package
+         ftp> get README		' read this before installing Oberon
+         ftp> get HP-Oberon.Guide.ps.gz	' HP-Oberon Guide
+	
+   If you have Oberon on diskettes
+	
+      1.1 read the diskettes with the tar command.
+          % tar xvf /dev/<...>		' replace <...> by you floppy device
+          				  for example: rfloppy/c20Ad1s0
+	
+STEP 2: Prepare the package
+
+   2.1 Decompress the file
+      % gzip -d HP-Oberon.*.updt.gz
+      
+     (* 
+      *  If you have internet, you can get gzip from many ftp servers and
+      *  if  you  have  HP-Oberon on diskette, gzip binary is also on the
+      *  diskette
+      *)
+
+   2.2 move it to the /tmp directory
+      % mv HP-Oberon.*.updt /tmp
+	
+STEP 3: Install the package
+
+   If you have super-user privileges
+	
+      3.1 Becomes super-user
+         % su
+         #
+	
+      3.2 Create a directory for Oberon
+         # cd /usr/local
+         # mkdir Oberon
+	
+      3.3 Start the update programm
+         # /etc/update
+	
+      3.4 Choose Change Source or Destination ->
+         Then From Tape Device to Local System ...
+	
+         Source:  /tmp/HP-Oberon.4.*.updt
+         Destination Directory:  /usr/local/Oberon
+	
+         Press Done
+	
+         Your screen should look like:
+		
+ +----------------------------------------------------------------------+
+ | UPDATE                       Main Menu                               |
+ |                                                                      |
+ |    Highlight an item and then press "Return" or "Select Item".       |
+ |    To refresh the screen press CTRL-L.                               |
+ |                                                                      |
+ |                                                                      |
+ |    Source:  Tape Device            Destination:  Local System        |
+ |            /tmp/HP-Oberon.4.2.updt              /usr/local/Oberon    |
+ |                                                                      |
+ |                                                                      |
+ |             Change Source or Destination ->                          |
+ |                                                                      |
+ |             Select All Filesets on the Source Media ->               |
+ |             Select Only Filesets Currently on your System ->         |
+ |             Select/View Partitions and Filesets ...                  |
+ |                                                                      | 
+ |             How to Use Update                                        | 
+ |                                                                      |
+ +----------------------------------------------------------------------+
+	
+      3.5 Install the partition (see the man page of update for more
+          details)
+  
+   If you don't have super-user rights
+
+      3.1 Create a directory for Oberon in your home directory or any other
+          directory where you have the right to
+         % mkdir ~/Oberon
+
+      3.2 change to the Oberon directory
+         % cd ~/Oberon
+	
+      3.3  Extract the following filesets
+	
+         % tar xvf /tmp/HP-Oberon.*.updt OBERON-RUN
+         % rm -Rf OBERON-RUN system
+         % tar xvf /tmp/HP-Oberon.*.updt OBERON-S-FONTS
+         % rm -Rf OBERON-S-FONTS system
+         % tar xvf /tmp/HP-Oberon.*.updt OBERON-P-FONTS
+         % rm -Rf OBERON-P-FONTS system
+         % tar xvf /tmp/HP-Oberon.*.updt OBERON-M-FONTS
+         % rm -Rf OBERON-M-FONTS system      
+         	
+      3.5 If you need the Oberon documentation
+	
+         % tar xvf /tmp/HP-Oberon.*.updt OBERON-DOCU
+         % rm -Rf OBERON-DOCU system
+	
+      3.6 If you want faster fonts display
+	
+         % tar xvf /tmp/HP-Oberon.*.updt OBERON-X-FONTS
+         % rm -Rf OBERON-X-FONTS system
+         
+      3.7 Set the file and directory permissions if necessary
+      
+         % chmod ...
+	
+STEP 4: Remove the package file
+
+      % rm /tmp/Oberon.*.updt
+
+STEP 5: If you installed the X-Fonts
+   
+      Once the X-Fonts are installed you need to extend the X fontpath by
+      the new directory (I suppose that your X-Fonts are in the directory
+      /usr/local/Oberon/XFonts):
+      
+         % xset +fp /usr/local/Oberon/XFonts
+
+      This command can also be entered in the .login file of Oberon users:
+      
+         % xset -fp /usr/local/Oberon/XFonts
+         % xset +fp /usr/local/Oberon/XFonts
+
+      The first line avoids a repetition of the fontpath, if already present.
+
+STEP 6: Set up the environment
+   
+      The default setting of the environment  variable OBERON, which is
+      the search  path for  existing  files, is '.  /usr/local/Oberon'.
+      It may be changed if needed.
+
+
+Starting HP-Oberon:
+-------------------
+
+Oberon may be started  with the  command  "oberon".  Oberon  runs on top of X
+Windows and HP-UX in a X window as a normal X application.
+
+Usage:
+  oberon [-h heapsizeinMB] [-x module command] [ -b bootfile]
+         [-f fontmapfile] [-d displayname] [-g geometry] [-c]
+
+Key mapping:
+F1      : mark viewer (SETUP)
+F2      : ESC
+F3      : BREAK
+F4      : Init colors
+F5      : Diacritics combine key
+F6..F12	: Programmable function keysSelect: LF
+Ctrl-L  : redraw screen
+
+See   how   to   type   international   character,   in  the   oberon   file
+HP-Oberon.Guide.Text or print HP-Oberon.Guide.ps on a postscript printer.
+
+Execute System.Quit to leave HP-Oberon.
+
+If an Oberon program loops forever, it can be stopped by pressing  Ctrl-C in
+the terminal window in which HP-Oberon was started.  A trap viewer will then
+appear in the Oberon window.  To abort  HP-Oberon,  press Ctrl-\ in the same
+terminal window.
+
+For further information or bug reports, please contact
+
+  The Secretary
+  Institut fuer Computersysteme
+  ETH Zentrum
+  CH-8092 Zurich
+  Switzerland
+
+  Tel: (+41-1) 632 7311
+  Fax: (+41-1) 261 5389
+  e-mail: oberon@inf.ethz.ch
+  or      supcik@inf.ethz.ch  FOR BUG REPORTS ONLY !
+

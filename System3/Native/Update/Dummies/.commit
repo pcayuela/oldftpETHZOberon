@@ -1,0 +1,3 @@
+#!/bin/sh
+cp readme.txt OberonForDummies.zip ../../Dummies/zip/
+cp readme.txt OberonInstaller.exe BootVGA.Dsk BootVBE2.Dsk BootVBE3.Dsk Oberon.Dsk ../../Dummies/

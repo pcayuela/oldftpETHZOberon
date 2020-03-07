@@ -1,0 +1,52 @@
+<!doctype html public "-//w3c//dtd html 4.01 transitional//en" 
+  "http://www.w3.org/TR/html4/loose.dtd">
+<html>
+<head>
+   <meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1">
+   <meta name="Author" content="Peter Easthope">
+   <title>Multipart MIME archive builder / Peter Easthope / GulfNet-Galiano </title>
+</head>
+<body>
+<!-- <b><font size=+2>Oberon</font></b>
+<hr> -->
+<p><b>Multipart MIME archive builder</b><br>
+<hr><br>
+
+<p><b>Synopsis</b>
+
+<p>This page describes a small module which builds a multipart MIME 
+archive with a structure conforming to RFC 1341 available at 
+<a href="http://www.ietf.org/">http://www.ietf.org/</a>.
+
+<p>Encoding is by Base64.Encode which is distributed with PC Native 
+Oberon.  MimeArchive.Mod should work in any Oberon from the ETH. 
+
+<p>Didactic value: procedures are defined local to a procedure.
+
+<p>Error reports and complaints can be sent to me.
+
+<p><font size=-1><pre>      ... peter_easthope@gulfnet.pinc.com.</pre></font>
+
+<hr>
+
+<p><b>Installation and Use</b>
+<ol>
+  <li>Get the <a href="MimeArchive.Mod">source code</a>.</li>
+  <li>Decide what files you want included in the archive.  As a special 
+    case the archive may contain a single file.</li>
+  <li>Edit the file names assigned to constants in the source code.</li>
+  <li>Add or delete invocations of the WriteTextPart procedure in the 
+    body of the module in accordance with 2.</li>
+  <li>Compile.</li>
+  <li>Execute "MimeArchive.Build".</li>
+</ol>
+
+<hr>
+
+<p><b>Limitations</b>
+  <p>RFC 1341 specifies "quoted-printable" encoding in addition to base64.
+  Quoted-printable encoding is not currently available in Oberon.  If someone
+  writes a QuotedPrintable.Mod please contribute it.
+
+</body>
+</html>

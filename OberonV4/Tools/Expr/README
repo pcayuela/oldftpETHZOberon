@@ -1,0 +1,61 @@
+Expr is a package for editing and displaying mathematical expressions within
+text documents and for interfacing mathematical software, i.e. for symbolic
+computing.
+
+This software is a research prototype. No warranties can be assumed.
+
+This is the final version of Expr. Its programming interfaces and its data
+formats differ slightly from earlier versions.
+
+The software is made available in source. Compiled versions are no longer
+supported. Please compile the modules for your environment yourself. Some
+example documents are also made available, serving for documentation
+purposes.
+
+To our best knowledge, the software works fine on all V4 implementations
+supporting Oberon-2, with the following exceptions:
+  a) With some MacOberon implementations printing may not work properly (using
+the QuickDraw printing may hang the machine, using postscript printing may
+clip incorrectly).
+  b) Some versions of TextFrames still contain an error. This error leads to a
+trap whenever a focused icon is decomposed with a middle mouse click. After
+that trap the TextFrame usually cannot be used properly any more. Some
+versions of TextFrames exhibit this problem only if the icon in question is
+the last character in the text.
+
+The software is stored in coded text files which can be expanded by the
+AsciiCoder:
+  EXPR.TXT contains all the modules needed for the standard package. Compile
+them in the same order as they are encoded.
+  MAPLE.TXT contains some additional material, allowing to interface the Maple
+computer algebra system. To make use of this package, you need to have some
+basic communication facilities in your Oberon environment (Module TCP) and to
+have access to Maple on a Unix machine.
+  GREEKS.TXT contains bitmap font files of the GreekSyntax font. This may be
+used to display greek symbols. It is part of some Oberon implementations, but
+not all of them.
+
+Further, two document archives are provided. Get EXPRDOC.TXT in any case. It
+contains general and fundamental user information:
+
+  ExprUsage.Text       introductory user's guide (please read this first!)
+  Expressions.Tool     lists most important commands and documents
+  ExprPalette.Text     palette with some Extensions
+  ExprDemo.Text        some example expressions
+
+If you can use the link to Maple, get the MAPLEDOC.TXT archive also. It
+contains the following documents:
+
+  ExprMaple.Tool       commands used for maple interface
+  ExprMaple.Text       introductory user's guide to maple interface
+  MapleFormManip.Text  demonstration text for an interactive document
+  ExprEvalIcons.Text   another demonstration text for an interactive document
+
+A more detailed description of the entire project, the concepts, and the
+implementation can be found in:
+
+  Wolfgang Weck,
+  On Document-Centered Mathematical Component Software
+  PhD. Thesis, Diss ETH 11817.
+
+Please send any questions or comments via e-mail to Weck@inf.ethz.ch .

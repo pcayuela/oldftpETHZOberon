@@ -1,0 +1,458 @@
+UPDATE NOTES (2.9.2)
+--------------------
+
+System.Directory 
+	looks in all directories listed in the OBERON environment variable now.
+
+PopupElems
+	updated to newest release.
+
+Mailer
+	looks for the menu text in three files now:
+		Mailer.MailboxMenu.Text
+		Mailer.ShowMenu.Text
+		Mailer.ReplyMenu.Text
+
+Minor improvements in various modules.
+
+
+UPDATE NOTES (2.9.1)
+--------------------
+
+Minor improvements in various modules.
+
+
+UPDATE NOTES (2.9)
+------------------
+
+Installation (Solaris1)
+	the X11 version is default now, i.e. there is a subdirectory pixrect
+	instead of a subdirectory X11.
+
+Compiler
+	code size limit lifted from 32 to 64 KB.
+
+System.ShowModules
+	sorts modules topologically now. Module loader is more
+	robust in exceptional cases.
+
+Out
+	always writes into System.Log now.
+
+Printer, Oberon.Header.ps
+	selective font and character downloading results in smaller print files
+	and makes rastered printer font downloading practical (thanks to Jaques 
+	Supcik).
+	Printer.UseColor introduced
+
+XYplane, RandomNumbers, IFS
+	added to distribution according to "Programming in Oberon".
+
+
+UPDATE NOTES (2.8)
+------------------
+
+oberon
+	option -f has been changed to a more general font mapping.
+
+V4
+  Release 2.8 of SPARC_Oberon introduces Oberon V4. The most important
+  change is the upgrade of the standard text editor to the former Write editor.
+  All text files are still valid.
+  (see also OberonV4.Text)
+
+Oberon
+  Tasks have got an additional field "time" which defines the preferred wakeup 
+  time of the task. The system guarantees that the task will not be activated 
+  before "time". Due to this improvement, network traffic could be
+  significantly reduced when using Oberon on remote machines via an X-server. 
+  Module NetTraffic is not necessary any more.
+  Procedure ShowMenu has been removed.
+  First parameter of Call is now a value parameter.
+
+Texts
+  Procedure Close introduced. Close writes a text to the named file and 
+  generates a backup of the old text file by appending ".Bak" to the file name.
+  Procedures Load and Store take a rider as parameter now. The text file tag
+  is no longer written within Store.
+  Procedure ElemPos returns the text position of the given element.
+
+TextFrames
+  see OberonV4.Text
+
+System
+  command ClearLog introduced to clear the Oberon log text.
+
+Configuration
+  new module which defines the startup viewer layout (c.f. Configuration.Mod).
+
+Write
+  the Write package has been merged with the standard text editor Edit and
+  is now called called Edit. In your programs simply remove WriteFrames or
+  WritePrinter by TextFrames and TextPrinter.
+
+WriteKeys
+  this facility has been partially replaced by FKeys.
+
+FKeys
+  module FKeys provides a possibility to program function keys.
+
+Edit
+  merged with the former Write editor.
+  new comands Replace, ReplaceAll, InsertParc, Parcs, Set, Get like in Write.
+  ChangeBackgroundColor changes the background color of the marked frame.
+  Command Open looks at a file Edit.Menu.Text as standard menu.
+
+Printer
+  origin (0, 0) of printer space is now at the lower left corner of the paper.
+
+MenuElems
+  added to distribution (c.f. Elem.Guide.Text).
+
+EdiT
+  many of the EdiT editor extensions have become superflous. The remaining
+  features serve as an example for writing editor extensions.
+
+Input
+  TimeUnit exported as a variable.
+
+AsciiCoder
+  added to distribution (c.f. AsciiCoder.Tool).
+
+Kepler
+  Text captions have been introduced (c.f. Kepler.Text).
+
+Leda
+  the Leda package has been removed from the distribution.
+
+NetTraffic
+  removed from distribution.
+
+
+
+UPDATE NOTES (2.7)
+------------------
+
+partX11.tar
+  expands into directory ./X11 now to avoid accidental overriding of
+  pixrect specific files.
+
+OBERON
+  is a colon separated list of directory names now.
+  Spaces as separators are no longer supported.
+
+-h heapSize
+  the heapSize option specifies the heap size in bytes.
+
+*.Sym
+  Symbol file format has been changed. Please recompile all modules.
+  SYSTEM.Sym has been added to distribution.
+
+Backup
+  Backup tool (including modules Diskette and Backup) added to distribution.
+
+Caret
+  Edit and Write both use Display.hook as caret pattern now.
+
+Files1
+  merged into module Files. Files1 has been removed.
+  The binary data format remained unchanged, i.e.
+    little endian byte ordering
+    ORD({0}) = 1, false = 0, true =1
+    IEEE real format,
+    null terminated strings,
+    compact-integer (>= 1 byte) (ReadNum and WriteNum)
+
+Display1
+  Clipped version of Display procedures moved from Display1 to
+  Display by appending suffix "C" to the procedure name.
+  Display1.NewPattern has been moved to Display with one important change:
+  image[0] is reserved for the system!
+  Ceres specific procedures (SetCursor, DefCC, DefCP, DrawCX, FadeCX)
+  have been removed.
+
+Display.hook
+  changed to former Write caret pattern.
+
+Shell.Open host [":" userid]
+  accepts optional userid now.
+
+Out
+  opens a text viewer automatically when loaded.
+
+Edit.ChangeOffset
+  new command Edit.ChangeOffset introduced.
+
+EdiT.Show
+  new command EdiT.Show introduced (opens EdiT viewer,
+  sets caret, supports methods in trap viewers)
+
+EdiT.Grep
+  new command EdiT.Grep introduced. Grep searches for
+  a given string (or name) in a list of Oberon text files.
+
+System.Execute
+  sets stdin to /dev/null to terminate interactiv commands.
+
+NEW, SYSTEM.NEW
+  are interrupt safe now.
+
+Texts.Scan
+  improved scanning of floating point values.
+
+TextFrames
+  clip the caret on the frame's border.
+
+Compiler
+  new warning introduced for usage of dynamically allocated arrays
+  containing pointers (SPARC-Oberon currently ignores those pointers
+  during garbage collection).
+
+Kernel
+  InstallSweep for extending the sweep phase of the garbage collector 
+  introduced.
+  Additional parameter "markStack" introduced for GC.
+  (Note: don't use module Kernel unless you know exactly
+  what you are doing. Module Kernel is not intended to be portable accross
+  different Oberon implementations.)
+
+
+
+UPDATE NOTES (2.6)
+------------------
+
+ENVIRONMENT
+  SPARC-Oberon now mimics the search strategy of ld and ld.so for linking
+  shared objects at runtime. This provides a more convenient and
+  standardized way to set up the environment (LD_LIBRARY_PATH).
+  Previous conventions like the files "libpixrect.name", and "libX11.name"
+  are no longer supported.
+
+Kernel.dlopen
+  does not need a full path name any more (unlike libdl_dlopen)
+  but implements the search strategy of ld.so for shared object linking.
+  The only simplification to ld.so is that the minor version number is ignored.
+  Example: handle := Kernel.dlopen("libpixrect.so.2", 1);
+
+Compiler
+  gives precise error positions now.
+  New standard procedure ASSERT introduced
+    ASSERT(cond, n) means
+      IF ~cond THEN HALT(n) END
+    n is assumed to be 0 if ommited.
+    option "a" disables assertion checks.
+  New option "f" introduced for finding selected position in trap viewer.
+
+Analyzer
+  static program analyzer added to distribution.
+  (c.f.  Analyzer.Tool)
+
+MathL.exp
+  precision improved
+
+Exception handling
+  Real and LongReal values displayed with more positions in trap viewer.
+  PC and FP removed from trap viewer.
+
+EdiT.StoreAscii
+  does not change mode bits if file exists.
+
+Write
+  supports backward scrolling by mouse right clicks in the scroll bar.
+
+Modules
+  unloading of incompletly loaded modules (e.g. by traps in module bodies) 
+  improved.
+
+Display
+  global variable ColLeft set to zero for color screens.
+
+Printer
+  maps Syntax "-" and "_" characters to Helvetica Ndash and Hyphen.
+
+KNOWN PROBLEMS
+  constructs like "POINTER TO ARRAY OF POINTER TO ..." are treated by the
+  garbage collector like "POINTER TO ARRAY OF BYTE". This restriction is 
+  currently not checked by the compiler.
+
+
+UPDATE NOTES (2.5)
+------------------
+
+environment
+  following Unix conventions, ":" is now accepted as path separator in
+  the OBERON environment variable.
+  Option -f introduced for specifying the Oberon default font.
+  If this option is not specified, Syntax10.Scn.Fnt is used.
+  Example: oberon -f Syntax12.Scn.Fnt
+
+Compiler
+  generates code to initialize pointer variables.
+  option p disables this feature.
+  warnings introduced for usage of unsafe language features
+  
+Storage management
+  garbage collection protected against interrupt signal (Ctrl-C)
+
+Kernel
+  interface of dlsym changed and malloc and free introduced
+  (this should only affect system level programmers).
+  As a side effect, the key of module Types has been changed, too.
+
+Out
+  auxiliary module "Out" has been renamed to "Console".
+
+InOut
+  module InOut has been split into two modules In and Out according to
+  "Programming in Oberon".
+
+Printer
+  PostScript output is now in "Adobe minimal conformant" format, which is 
+  useful for some utility programs (e.g. pageview) that work on postscript 
+texts.
+
+Fonts
+  GreekSyntax fonts included (useful for mathematical texts).
+
+Display1
+  has been introduced as an alternative to module Display if clipping is 
+  required.
+  This requires recompilation of all module sthat import module Display1.
+  for more documentation: Edit.Open Display1.Def ~
+
+GraphicOps
+  this module is now replaced by Display1.
+
+Files1
+  procedures Read and Write for handling compact numbers have been renamed
+  to ReadNum and WriteNum resp.
+  This requires recompilation of all modules that import module Files1.
+
+Kepler
+  some upward compatible extensions and some changes
+  (most notably, copying of objects has been changed).
+  See file Kepler.Text for more information.
+
+
+UPDATE NOTES (2.4)
+------------------
+
+Oberon Language
+  character constants and strings of length 1 made compatible.
+
+Mailer 
+  Mailer.Post included
+  Mailer.Append included
+  Mailer.Mailbox accepts file parameter now
+  Mailer.Delete deletes multiple mails now
+
+System.ShowCommands
+  shows commands in separate viewer in the form "Module.Procedure"
+
+floating point arithmetic
+  zero divide and overflow generate traps now
+
+System.State ^
+  accepts selection now
+
+Printer
+  variables PageWidth, PageHeight introduced
+
+Draw tool package
+  updated
+
+Oberon
+  "User: ARRAY 12 OF CHAR" now
+  Modules using Oberon.User or Oberon.Password must be recompiled!
+
+EdiT
+  backward scrolling included: Mouse left + Mouse middle interclick inverts 
+Mouse left
+
+Fonts
+  germandbls (decimal code 171) included in Syntax fonts except 16pt and 
+  medium bold fonts.
+  may be entered by Ctrl-s e.g. in Write or Leda documents.
+
+
+UPDATE NOTES (2.2)
+------------------
+
+Compiler
+  Oberon-2 language extensions included.
+  Oberon-2 is fully upward compatible with Oberon.
+  Additional constructs have been added as described in ETH Report # 160
+  (Hanspeter Moessenboeck, Differences between Oberon and Oberon-2).
+  Most notably, type bound procedures (also known as methods) have been
+  introduced to enrich the repertory of OO-techniques available in Oberon
+  (execute the Oberon command "Write.Open Oberon2.Differences.Text" for
+  more documentation).
+
+
+The Oberon system:
+  SPARC-Oberon now requires SunOS 4.1, in particular, it uses the two libraries
+  libc.so and libpixrect.so.
+
+Kernel
+  Interface to dynamic link libraries provided by module Kernel. Kernel.dlopen 
+  and Kernel.dlsym return libraries and entry addresses like the corresponding
+  C routines dlopen and dlsym. The only difference is that (for reasons
+  of convenience) Kernel.dlsym passes its result as VAR parameter rather
+  that as function return value.
+  Kernel.libc may be used as a handle to the C-library linked at runtime to the
+  oberon process.
+
+Texts
+  Some extensions of module Texts have been included (fully compatible with 
+  version 1.2).
+
+Backup strategy
+  Backup file names are generated by appending ".Bak" to the original file
+  name instead of replacing an existing extension.
+
+The option character
+  used in various commands has been changed from "/" to "\"
+  to avoid the syntax collision with "/" as path name separator.
+  "/" is accepted now by Texts.Scan as a name component.
+
+Several tools added (Leda, Write, RX, Draw, Kepler)
+  Leda is an extensible Oberon document editor. The available Oberon 
+  documentation
+  is included in Leda format (*.Doc files). Note that currently Leda needs 
+  read and write access to open a document.
+  Write is an extensible text editor that allows box-shaped objects to flow in 
+  the text.
+  The RX tool may be used for regular expression search and replace in Oberon 
+  texts.
+  Draw is the standard Oberon line drawing system.
+  Kepler is another more experimental graphics editor.
+
+Files1
+  Support for portable, persistent data.
+  The external data format is as follows:
+    little endian byte ordering
+    ORD({0}) = 1, false = 0, true =1
+    IEEE real format, null terminated strings,
+    compact-integer 1 to 5 bytes (Read and Write)
+
+Printer
+  module interface consolidated.
+
+Types
+  Module Types added. It provides some meta type
+  information to deal e.g. with persistent objects.
+
+InOut
+  Module InOut has been added for text output and non modal parameter input.
+
+Display1
+  contains various additional display procedures.
+  Most importantly a more flexible form of ReplPattern
+  that allows arbitrary pattern alignment.
+
+Display.NewPattern  replaced by Display1.NewPattern
+
+------
+
+We propose to discuss Oberon related questions in comp.lang.oberon on usenet.
+Any problems or comments may als

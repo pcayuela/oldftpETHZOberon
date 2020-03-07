@@ -1,0 +1,8 @@
+The Oberon System as well as the Oberon-2 language is also available on the
+PowerMacintosh. The compiler generates PowerPC code and the system runs in
+native mode.
+
+Oberon for the PowerMacintosh can be obtained via anonymous ftp from the
+University of Linz:
+  oberon.ssw.uni-linz.ac.at
+  /pub/Oberon/PowerMac

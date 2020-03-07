@@ -1,0 +1,66 @@
+From: fld@Informatik.Uni-Bremen.DE
+Date: Tue, 18 Dec 2001 15:39:25 +0100 (MET)
+Subject: OberonSSH
+
+Hi Pieter
+
+
+  The first release (0.1) of OberonSSH is finisched. It has bee tested on the 
+Unix
+Oberon ports for SPARC and x86 and is now ready for testing on real (native) 
+Oberon systems. OberonSSH supports only the SSH2 protocol and has no 
+compatibility built in for SSH1! It has been tested with the following software
+versions on the server machines:
+
+	OpenSSH-3.0.2	success
+	SSH-3.0.1			success
+	SSH-2.2.0			fail (different mac computation, reason unknown)
+	
+  The following Algorythms are supported (in order of preference):
+	Key Exchange:
+		diffie-hellman-group-exchange-sha1,
+		diffie-hellman-group1-sha1.
+	Server Hostkey checking:
+		ssh-dss.	(protocol only, empty implementation!)
+	Ciphers:
+		aes128-cbc,aes192-cbc,aes256-cbc,
+		blowfish-cbc,	(128 bit key)
+		twofish128-cbc,twofish192-cbc,
+		twofish-cbc.	(256 bit key)
+	Macs:
+		hmac-sha1
+	Compression:
+		none.
+		
+  The most obvious shortcomming is the missing server host key cheching.
+An appropriate warning is given in the Oberon.log when connecting.
+This makes connections inseure against so called active 'man in the middle'
+attacks. In most local environments this will be acceptable. Retrofitting is
+prepared by a call of the (currently empty) procedure SSHTranport.checkSHK.
+The protocol specification is violated by the missing but prescribed cipher
+3DES and the missing implementation of key reexchange. (Zlib) compression
+is specified by the protocol but not demanded. Compression would be desirable
+for slow connections.
+
+  The Ciphers and Hmacs are implemented as objects in the new Oberon 
+syntax. The reasons behind that decision have been 1) I wonted to learn how
+to use the new syntax and 2) I wished to test the SPARC backend in this area.
+Unfortunately this prevents these modules from being used on the PowerPC 
+ports (Mac and LinuxPPC). Forgive me, please.
+
+  I hope the service modules are general enough disigned for beeing a good 
+base for an OberonSSL implementation which would make the other Oberon
+network services (Mail, Hyperdocs, ...) more useable in modern environments.
+
+  The current version I send you is not the final first release. It is just for
+testing in another environment and to gain some feedback for improovements.
+
+  The SSH.Tool can be used to compile the needed modules and to perform
+tests on various components. If you want to open the connections as 
+hyper documents	"ssh://user@host"  insert the following lines into the
+LinkSchemes and DocumentServices sections of Oberon.Text"
+		ssh = SSHGadgets.NewLinkScheme
+		ssh = SSHGadgets.NewDoc
+
+- -- Guenter
+
